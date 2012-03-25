@@ -3,4 +3,5 @@
 .settings
 .settings/*
 *.class
+bin/*
 
