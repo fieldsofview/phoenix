@@ -4,3 +4,9 @@
 .settings/*
 *.class
 bin/*
+/nbproject/private/
+/nbproject
+build.xml
+manifest.mf
+/lib/*
+/lib
