@@ -1,8 +1,6 @@
 package Communication;
 
 import Agents.AgentController;
-import Agents.PeopleCTA;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -40,7 +38,7 @@ public class Message implements Serializable {
     public Timestamp timestamp;
 
     /**
-     * Constructior creates an empty message object with current system time as
+     * Constructor creates an empty message object with current system time as
      * time stamp. NOTE: The time stamp is the current system time on which
      * the CTA is running.
      */

@@ -1,12 +1,8 @@
 package Communication;
 
-import Agents.PeopleCTA;
-
-import com.rabbitmq.client.AMQP.*;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.ConnectionParameters;
 import com.rabbitmq.client.QueueingConsumer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,12 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import System.TrafficLightCTA;
 
 /**
- * A static class to manage send and receive from the queue.
- * It extends thread so that receive can be done in a loop. This class handles
- * the rabbitMQ message queue for the given CTA
+ * A static class to manage send and receive from the queue. It extends thread
+ * so that receive can be done in a loop. This class handles the rabbitMQ
+ * message queue for the given CTA
  */
 public class QueueManager extends Thread implements Serializable {
 
@@ -42,9 +37,9 @@ public class QueueManager extends Thread implements Serializable {
      */
     private QueueUser queueUser = null;
     /**
-     * A hash map of the list of rabbitMQ channels corresponding the hostname
-     * Each hostname is a host running CTA and these channels are used to
-     * send messages to them. This map represents a directory / address map
+     * A hash map of the list of rabbitMQ channels corresponding the host name
+     * Each host name is a host running CTA and these channels are used to send
+     * messages to them. This map represents a directory / address map
      */
     private HashMap<String, Channel> hostChannelMap = null;
     /**
@@ -54,6 +49,7 @@ public class QueueManager extends Thread implements Serializable {
 
     /**
      * Create a new queue manager given the QueueParameters
+     *
      * @param queueParameters the QueueParameters for the queue manager
      * @see QueueManager
      * @see QueueParameters
@@ -64,6 +60,7 @@ public class QueueManager extends Thread implements Serializable {
 
     /**
      * Get an instance of the QueueManager
+     *
      * @param queueParameters the parameters for the QueueManager
      * @param queueUser the QueueUser for the QueueManager
      * @return returns an instance of QueueManager
@@ -78,8 +75,8 @@ public class QueueManager extends Thread implements Serializable {
     }
 
     /**
-     * The run method addes a listener which listens to received messages in a
-     * seperate theread
+     * The run method adds a listener which listens to received messages in a
+     * separate thread
      */
     @Override
     public void run() {
@@ -87,10 +84,11 @@ public class QueueManager extends Thread implements Serializable {
     }
 
     /**
-     * This method creates a connection to the rabbitMQ server on each of the given
-     * hosts and opens channels for communication. These channels are used for
-     * communication between between the given CTA andimport System.TrafficLightCTA;
- the rest of the CTAs.
+     * This method creates a connection to the rabbitMQ server on each of the
+     * given hosts and opens channels for communication. These channels are used
+     * for communication between between the given CTA and import
+     * System.TrafficLightCTA; the rest of the CTAs.
+     *
      * @throws Exception
      */
     private void createConnectionAndChannel() throws Exception {
@@ -107,17 +105,17 @@ public class QueueManager extends Thread implements Serializable {
         for (int i = 0; i < hosts.size(); i++) {
             String host = hosts.get(i);
             QueueParameters hostQueueParameters = hostQueueParamMap.get(host);
-            ConnectionParameters params = new ConnectionParameters();
-            params.setUsername(hostQueueParameters.username);
-            params.setPassword(hostQueueParameters.password);
-            params.setVirtualHost(hostQueueParameters.virtualHost);
-            params.setRequestedHeartbeat(0);
-            ConnectionFactory factory = new ConnectionFactory(params);
-            Connection conn = null;
-            conn = factory.newConnection(host);
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.setHost(host);
+            factory.setPort(13000);
+            factory.setUsername(hostQueueParameters.username);
+            factory.setPassword(hostQueueParameters.password);
+            factory.setVirtualHost(hostQueueParameters.virtualHost);
+            factory.setRequestedHeartbeat(0);
+            Connection conn = factory.newConnection();
             Channel channel = conn.createChannel();
             channel.exchangeDeclare(hostQueueParameters.exchange, "direct");
-            channel.queueDeclare(hostQueueParameters.queueName);
+            channel.queueDeclare(hostQueueParameters.queueName, false, false, true, null);
             channel.queueBind(hostQueueParameters.queueName, hostQueueParameters.exchange, hostQueueParameters.routingKey);
 
             hostChannelMap.put(host, channel);
@@ -130,6 +128,7 @@ public class QueueManager extends Thread implements Serializable {
     /**
      * This method is called during CTA shutdown for stopping the messaging and
      * running cleanup on the message queues and channels
+     *
      * @throws IOException
      */
     public void exitMessaging() throws IOException {
@@ -147,6 +146,7 @@ public class QueueManager extends Thread implements Serializable {
      * This method adds a new queue listener given the queue parameters. The
      * listener waits for a message to arrive and calls the appropriate method
      * for processing, after it arrives
+     *
      * @param queueParameters the QueueParameters for listening
      * @see QueueParameters
      */
@@ -159,20 +159,17 @@ public class QueueManager extends Thread implements Serializable {
 
             System.Log.logger.info("started listening to input queue");
 
-            ConnectionParameters params = new ConnectionParameters();
-            params.setUsername(queueParameters.username);
-            params.setPassword(queueParameters.password);
-            params.setVirtualHost(queueParameters.virtualHost);
-            params.setRequestedHeartbeat(0);
-            ConnectionFactory factory = new ConnectionFactory(params);
-            Connection conn = null;
-
-
-
-            conn = factory.newConnection(GlobalData.Constants.localHost);
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.setHost(GlobalData.Constants.localHost);
+            factory.setPort(13000);
+            factory.setUsername(queueParameters.username);
+            factory.setPassword(queueParameters.password);
+            factory.setVirtualHost(queueParameters.virtualHost);
+            factory.setRequestedHeartbeat(0);
+            Connection conn = factory.newConnection();
             Channel channel = conn.createChannel();
             channel.exchangeDeclare(queueParameters.exchange, "direct");
-            channel.queueDeclare(queueParameters.queueName);
+            channel.queueDeclare(queueParameters.queueName, false, false, true, null);
             channel.queueBind(queueParameters.queueName, queueParameters.exchange, queueParameters.routingKey);
 
             //byte[] messageBodyBytes = "Hello, worldoooo!".getBytes();
@@ -230,9 +227,10 @@ public class QueueManager extends Thread implements Serializable {
     }
 
     /**
-     * This method is called when a message has to be sent form one CTA to another.
-     * The method makes use of the already open channels between the CTAs to
-     * send its messages.
+     * This method is called when a message has to be sent form one CTA to
+     * another. The method makes use of the already open channels between the
+     * CTAs to send its messages.
+     *
      * @param host the destination host name
      * @param message the message that has to be sent
      * @return true if the message was successfully sent
@@ -275,6 +273,7 @@ public class QueueManager extends Thread implements Serializable {
 
     /**
      * This method checks if two QueueManager objects are same
+     *
      * @param obj an object of QueueManager type
      * @return true if the objects are equal
      */
@@ -295,6 +294,7 @@ public class QueueManager extends Thread implements Serializable {
 
     /**
      * Returns the hash code of the QueueManager object
+     *
      * @return the hash code of the QueueManager object
      */
     @Override
@@ -306,15 +306,16 @@ public class QueueManager extends Thread implements Serializable {
 
     /**
      * This is a Debug Main method used to ping different servers
+     *
      * @param args UNSUED
      */
-    public static void main(String[] args) {
-        QueueParameters queueParameters = new QueueParameters("queue1", "guest", "guest", "/", "77", "exchangeName", "routingkey");
-        ACNetwork.hostQueueMap.put("192.168.0.124", queueParameters);
-
-        PeopleCTA peopleCTA = new PeopleCTA();
-
-        QueueManager qm = QueueManager.getInstance(queueParameters, peopleCTA);
-        //qm.send("192.168.0.124", "192.168.0.124 - gud morng");
-    }  
+//    public static void main(String[] args) {
+//        QueueParameters queueParameters = new QueueParameters("queue1", "guest", "guest", "/", "77", "exchangeName", "routingkey");
+//        ACNetwork.hostQueueMap.put("192.168.0.124", queueParameters);
+//
+//        PeopleCTA peopleCTA = new PeopleCTA();
+//
+//        QueueManager qm = QueueManager.getInstance(queueParameters, peopleCTA);
+//        //qm.send("192.168.0.124", "192.168.0.124 - gud morng");
+//    }
 }

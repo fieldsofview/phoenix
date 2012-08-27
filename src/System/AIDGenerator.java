@@ -2,9 +2,8 @@ package System;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-
 /**
- * Assigns Unique Agent identifiers 
+ * Assigns Unique Agent identifiers
  */
 public class AIDGenerator {
 
@@ -12,8 +11,10 @@ public class AIDGenerator {
     private static ConcurrentHashMap<String, Integer> currentAID = new ConcurrentHashMap<String, Integer>();
 
     /**
-     * This function must be called in order to generate unique ids for all agents
-     * @return true if initialization possible, false if already initialized
+     * This function must be called in order to generate unique IDs for all
+     * agents
+     *
+     * @return true if initialisation possible, false if already initialised
      */
     public static boolean initializeAIDGen() {
         if (notInitialized) {
@@ -30,7 +31,7 @@ public class AIDGenerator {
     }
 
     /**
-     * 
+     *
      * @param type
      * @return
      */

@@ -10,18 +10,18 @@ import Communication.ACNetwork;
 import Communication.QueueParameters;
 
 /**
- * This class loads the configurations. The data for individual agents,
- * the configuration for the area of interest, the various facilities in
- * the area of interest.
+ * This class loads the configurations. The data for individual agents, the
+ * configuration for the area of interest, the various facilities in the area of
+ * interest.
  */
-
 //TODO : Set up Logger everywhere
 public class Boot {
 
     /**
-     * Load the configurations of lcoation of interest.
+     * Load the configurations of location of interest.
+     *
      * @param name file name
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      * @throws IOException
      * @throws NumberFormatException
      */
@@ -66,8 +66,9 @@ public class Boot {
     }
 
     /**
-     * Loads the configurations for the machine. Each machine runs a care taker agent.
-     * A care taker agent handles communication and agent behaviour.
+     * Loads the configurations for the machine. Each machine runs a care taker
+     * agent. A care taker agent handles communication and agent behaviour.
+     *
      * @param name File name containing the care taker agent configuration.
      * @throws IOException
      * @throws FileNotFoundException
@@ -105,8 +106,9 @@ public class Boot {
     }
 
     /**
-     * Loads the configurations for the hospital facilities that are present in the
-     * area of interest.
+     * Loads the configurations for the hospital facilities that are present in
+     * the area of interest.
+     *
      * @param name filename for the hospital configuration.
      * @throws IOException
      * @throws NumberFormatException
@@ -145,8 +147,9 @@ public class Boot {
     }
 
     /**
-     * Loads the configurations for the disasters that are present in the
-     * area of interest.
+     * Loads the configurations for the disasters that are present in the area
+     * of interest.
+     *
      * @param name filename for the disaster configuration.
      * @throws IOException
      * @throws NumberFormatException
@@ -181,6 +184,7 @@ public class Boot {
 
     /**
      * Load the civilian vehicle configurations
+     *
      * @param name file name
      * @throws FileNotFoundException
      * @throws IOException
@@ -201,6 +205,7 @@ public class Boot {
 
     /**
      * Load the emergency vehicle configurations
+     *
      * @param name file name
      * @throws FileNotFoundException
      * @throws IOException
