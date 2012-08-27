@@ -1,3 +1,5 @@
+/** Create and maintain RabbitMQ Queues
+*/
 package Communication;
 
 import com.rabbitmq.client.Channel;
