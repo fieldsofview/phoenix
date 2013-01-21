@@ -1,7 +1,6 @@
 package Agents.Behaviour;
 
 import java.util.ArrayList;
-
 import Agents.Attributes.AgentAttributes;
 
 /**
@@ -11,10 +10,13 @@ import Agents.Attributes.AgentAttributes;
  */
 
 //TODO a scheduling mechanism may be defined for the entire list.
-
 public abstract class CompositeBehaviour implements Behaviour {
 
-    private final ArrayList<Behaviour> behaviours = new ArrayList<Behaviour>();
+    /**
+	 * Serialisation id for saving the object.
+	 */
+	private static final long serialVersionUID = 1L;
+	private final ArrayList<Behaviour> behaviours = new ArrayList<Behaviour>();
 
     /**
      * To add a new behaviour to the end of the list.

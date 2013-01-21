@@ -16,8 +16,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import System.Log;
+import org.apache.log4j.Level;
 
 /**
  * A static class to manage send and receive from the queue. It extends thread
@@ -27,6 +27,11 @@ import java.util.logging.Logger;
 public class QueueManager extends Thread implements Serializable {
 
     /**
+	 * 
+	 */
+	//TODO: Check how to implement serialisation in java now.
+	private static final long serialVersionUID = 999654678404420891L;
+	/**
      * The rabbitMQ queue manager object
      */
     private static QueueManager queueManager = null;
@@ -37,7 +42,7 @@ public class QueueManager extends Thread implements Serializable {
     /**
      * The rabbitMQ queue receiver object
      */
-    private QueueUser queueUser = null;
+    private MessageQueueProcessor queueUser = null;
     /**
      * A hash map of the list of rabbitMQ channels corresponding the host name
      * Each host name is a host running CTA and these channels are used to send
@@ -68,7 +73,7 @@ public class QueueManager extends Thread implements Serializable {
      * @return returns an instance of QueueManager
      * @see QueueManager
      */
-    public static QueueManager getInstance(QueueParameters queueParameters, QueueUser queueUser) {
+    public static QueueManager getInstance(QueueParameters queueParameters, MessageQueueProcessor queueUser) {
         if (queueManager == null) {
             queueManager = new QueueManager(queueParameters);
         }
@@ -95,12 +100,12 @@ public class QueueManager extends Thread implements Serializable {
      */
     private void createConnectionAndChannel() throws Exception {
 
-        System.Log.logger.info("Creating a connection and channel");
+        Log.logger.info("Creating a connection and channel");
 
-        List<String> hosts = ACNetwork.hosts;
-        Map<String, QueueParameters> hostQueueParamMap = ACNetwork.hostQueueMap;
+        List<String> hosts = ACNetwork.agentControllerhostList;
+        Map<String, QueueParameters> hostQueueParamMap = ACNetwork.hostMessageQueueLookup;
 
-        System.Log.logger.info("Size of hosts: " + hosts.size() + " and host queue map: " + hostQueueParamMap.size());
+        Log.logger.info("Size of hosts: " + hosts.size() + " and host queue map: " + hostQueueParamMap.size());
 
         hostChannelMap = new HashMap<String, Channel>();
 
@@ -123,8 +128,8 @@ public class QueueManager extends Thread implements Serializable {
             hostChannelMap.put(host, channel);
         }
         setupQueueListener = true;
-        System.Log.logger.info("Finished creating connection and channel");
-        System.Log.logger.info("Contents of Host Channel Map: " + hostChannelMap.toString());
+        Log.logger.info("Finished creating connection and channel");
+        Log.logger.info("Contents of Host Channel Map: " + hostChannelMap.toString());
     }
 
     /**
@@ -134,7 +139,7 @@ public class QueueManager extends Thread implements Serializable {
      * @throws IOException
      */
     public void exitMessaging() throws IOException {
-        List<String> hosts = ACNetwork.hosts;
+        List<String> hosts = ACNetwork.agentControllerhostList;
         for (int i = 0; i < hosts.size(); i++) {
             String host = hosts.get(i);
             Channel channel = hostChannelMap.get(host);
@@ -154,12 +159,12 @@ public class QueueManager extends Thread implements Serializable {
      */
     private void addQueueListener(QueueParameters queueParameters) {
 
-        System.Log.logger.info("Adding queue listener");
+        Log.logger.info("Adding queue listener");
 
         try {
             createConnectionAndChannel();
 
-            System.Log.logger.info("started listening to input queue");
+            Log.logger.info("started listening to input queue");
 
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost(GlobalData.Constants.localHost);
@@ -209,7 +214,7 @@ public class QueueManager extends Thread implements Serializable {
                 input.close();
 //                Utilities.Log.logger.info("QM: I am listening for messages in the while loop 9");
                 //System.out.println("Received Message" + message);
-                System.Log.logger.info("Received Message");
+                Log.logger.info("Received Message");
 
                 queueUser.processMessage.message = message;
                 queueUser.processMessage.run();
@@ -217,14 +222,14 @@ public class QueueManager extends Thread implements Serializable {
                 channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 //                Utilities.Log.logger.info("QM: I am listening for messages in the while loop 11");
             }
-            System.Log.logger.info("Finished Adding queue listener");
+            Log.logger.info("Finished Adding queue listener");
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(QueueManager.class.getName()).log(Level.SEVERE, null, ex);
+            Log.logger.info("" + QueueManager.class.getName() + Level.FATAL);
         } catch (IOException ex) {
-            Logger.getLogger(QueueManager.class.getName()).log(Level.SEVERE, null, ex);
+        	Log.logger.info("" + QueueManager.class.getName() + Level.FATAL);
         } catch (Exception ex) {
-            Logger.getLogger(QueueManager.class.getName()).log(Level.SEVERE, null, ex);
+        	Log.logger.info(QueueManager.class.getName() + Level.FATAL);
         }
     }
 
@@ -242,10 +247,10 @@ public class QueueManager extends Thread implements Serializable {
         //Utilities.Log.logger.info("RabbitMQ Send Method");
 
         while (setupQueueListener == false) {
-            System.Log.logger.info("Waiting to send");
+            Log.logger.info("Waiting to send");
         }
 
-        QueueParameters hostQueueParameters = ACNetwork.hostQueueMap.get(host);
+        QueueParameters hostQueueParameters = ACNetwork.hostMessageQueueLookup.get(host);
 
         ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
 
@@ -267,8 +272,8 @@ public class QueueManager extends Thread implements Serializable {
             return true;
 
         } catch (IOException ex) {
-            Logger.getLogger(QueueManager.class.getName()).log(Level.SEVERE, null, ex);
-            System.Log.logger.info("Error Sending Message" + ex.getMessage());
+            Log.logger.info(QueueManager.class.getName() + Level.FATAL);
+            Log.logger.info("Error Sending Message" + ex.getMessage());
             return false;
         }
     }

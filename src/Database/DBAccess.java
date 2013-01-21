@@ -5,19 +5,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+//TODO: Put the output to logs
 /**
  * Class to access database
  */
 public class DBAccess {
 
-    //DBLogin info
     private final String URL;
     private final String DBUsername;
     private final String DBPassword;
-    private final String IPAddress;
-    //Querying
+    private final String hostName;
     /**
-     * Statement must be set before querying the databse
+     * Statement must be set before querying the database
      */
     public String Query;
     /**
@@ -32,31 +31,27 @@ public class DBAccess {
 
     /**
      * Creates a new instance of DBAccess
-     * @param ipaddr IPaddress of the host
+     * @param host host name for the server
      * @param schema The database to be used
      * @param dbpwd Password for the user
-     * @param dbuname Username to connect to the database
+     * @param dbuname User name to connect to the database
      */
-    public DBAccess(String ipaddr, String schema, String dbuname, String dbpwd) {
-        //Set Values
-        IPAddress = ipaddr;
-        URL = "jdbc:postgresql://" + ipaddr + "/" + schema;
+    public DBAccess(String host, String schema, String dbuname, String dbpwd) {
+        hostName = host;
+        URL = "jdbc:postgresql://" + host + "/" + schema;
         DBUsername = dbuname;
         DBPassword = dbpwd;
         stmt = null;
         con = null;
-
+        
         LoadDriver();
-
         ConnectToDB();
-
     }
 
     /**
      * Load Class driver
      */
     private void LoadDriver() {
-
         try {
             Class.forName("org.postgresql.Driver").newInstance();
         } catch (Exception e) {
@@ -70,7 +65,6 @@ public class DBAccess {
      * Connect to the database
      */
     private void ConnectToDB() {
-
         try {
             con = java.sql.DriverManager.getConnection(
                     URL,
@@ -81,29 +75,23 @@ public class DBAccess {
             System.err.println("Problems connecting to " + URL);
             System.out.println("Check if PostgreSQL daemon is running... Restart server.");
             e.printStackTrace();
-
         }
-
     }
 
     /**
      *
-     * @return the resultset for the query
+     * @return the result set for the query
      */
     public ResultSet ExecQuery() {
         if (Query == null) {
             throw new NullPointerException("Query hasn't been initialized");
         }
         try {
-
             result_query = stmt.executeQuery(Query);
-            //CloseConnection();
             return result_query;
         } catch (SQLException ex) {
             ex.printStackTrace();
-
         }
-        //CloseConnection();
         return null;
     }
 
@@ -117,20 +105,17 @@ public class DBAccess {
         }
         try {
             result_update = stmt.executeUpdate(Update);
-            //CloseConnection();
             return result_update;
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        //CloseConnection();
         return null;
     }
-
+    
     /**
      * Close the connection to the DB
      */
     public void  CloseConnection() {
-        //close connection once done
         try {
             con.close();
         } catch (Exception e) {

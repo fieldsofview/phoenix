@@ -8,12 +8,17 @@ import java.io.Serializable;
  */
 public class QueueParameters implements Serializable {
 
+	//TODO: Check if serialisation is required. If not required remove serialisation.
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * The name of the queue for messaging.
      */
     public String queueName;
     /**
-     * The username required to access the rabbitMQ server
+     * The user name required to access the rabbitMQ server
      */
     public String username;
     /**
@@ -44,7 +49,7 @@ public class QueueParameters implements Serializable {
     }
 
     /**
-     * Constructor for the queue parameters Create a QueueParameter with the
+     * Constructor for the queue parameters Create a queue with the
      * given parameters.
      *
      * @param queueName the name of the queue

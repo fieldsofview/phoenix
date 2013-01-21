@@ -8,7 +8,11 @@ import java.util.HashMap;
  */
 abstract public class AgentAttributes implements Serializable {
 
-    private final HashMap<Object, Object> attributes;
+    /*
+	 * Current version for serialisation of the class. 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final HashMap<Object, Object> attributes;
 
     private AgentAttributes() {
         attributes = new HashMap<Object, Object>();

@@ -44,7 +44,7 @@ public class AIDGenerator {
                 AID = type + "." + num--;
                 //currentAID.remove(type);
                 currentAID.put(type, num);
-                System.Log.logger.info("AID Generated : " + AID);
+                Log.logger.info("AID Generated : " + AID);
                 return AID;
             }
 
