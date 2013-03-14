@@ -24,7 +24,7 @@ public class Log {
 	 * "config" directory.
 	 */
 	public static void ConfigureLogger() {
-		PropertyConfigurator.configure("src/System/logger.properties");
+		PropertyConfigurator.configure("config/logger.properties");
 		// TimeZone tz = TimeZone.getTimeZone("IST");
 	}
 }
