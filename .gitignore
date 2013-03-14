@@ -10,3 +10,4 @@ build.xml
 manifest.mf
 /lib/*
 /lib
+logs/*
