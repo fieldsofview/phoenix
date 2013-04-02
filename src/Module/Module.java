@@ -11,7 +11,7 @@ package Module;
  *interface. Custom methods for each module must be provided by the
  *module.
  */
-public interface module {
+public interface Module {
 	/**
 	 * This method will boot the module. It should check for other module
 	 * dependencies.
