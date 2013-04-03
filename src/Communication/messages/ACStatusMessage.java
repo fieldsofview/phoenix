@@ -13,7 +13,6 @@ public class ACStatusMessage extends Message {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	public int AC_STATUS;
 
 	/**
@@ -23,11 +22,11 @@ public class ACStatusMessage extends Message {
 	 */
 	// TODO: Check if different time zones will affect message time stamps
 	public ACStatusMessage() {
+		// TODO: Check if super version has to be called.
 		createMessage();
 	}
 
-	@Override
-	protected void createMessage() {
+	private void createMessage() {
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
 		this.timestamp = new Timestamp(now.getTime());

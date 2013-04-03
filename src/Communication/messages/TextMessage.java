@@ -1,6 +1,5 @@
 package Communication.messages;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,13 +8,8 @@ import java.util.Date;
  * This class represents text messages is exchanged. The message is capable of
  * sending one object and records the time-stamp, source and destination.
  */
-public class TextMessage extends Message implements Serializable {
+public class TextMessage extends Message {
 
-	/**
-	 * 
-	 */
-	// TODO: Check how to implement serialisation in java now.
-	private static final long serialVersionUID = 1L;
 	public int AC_STATUS;
 
 	/**
@@ -28,7 +22,6 @@ public class TextMessage extends Message implements Serializable {
 		createMessage();
 	}
 
-	@Override
 	protected void createMessage() {
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();

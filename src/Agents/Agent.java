@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import Agents.Attributes.AgentAttributes;
 import Agents.Behaviour.CompositeBehaviour;
+import java.util.UUID;
 
 /**
  * Abstract class which is extended to create a simulation. The class defines that
@@ -22,14 +23,14 @@ import Agents.Behaviour.CompositeBehaviour;
 abstract public class Agent extends Thread implements Serializable {
 
     /*
-	 * Current serialisation version ID. Please change this while modifying 
+	 * Current serialization version ID. Please change this while modifying 
 	 * agents.
 	 */
 	private static final long serialVersionUID = 1L;
 	/*
      * Unique Identifier for each agent
      */
-    private String AID;
+    private UUID AID;
     /*
      * The flag to indicate if the final objective for the agent is complete.
      * This flag determines the life span of an agent.
@@ -56,7 +57,7 @@ abstract public class Agent extends Thread implements Serializable {
      * returns the agent id
      * @return agent identifier.
      */
-    public String getAID() {
+    public UUID getAID() {
         return AID;
     }
 
