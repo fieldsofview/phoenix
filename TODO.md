@@ -4,7 +4,7 @@ Modules
 -------
 * Add globally available list of loaded modules
 
-Database Module
+database module
 ----------------
 * Remove DBAccess.java and port code into DatabaseModule.java
 
