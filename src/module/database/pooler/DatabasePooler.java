@@ -16,6 +16,8 @@ public interface DatabasePooler {
 	
         public void shutdown();
         
+        public void printStatistics();
+        
         @Override
 	public String toString();
 }

@@ -86,4 +86,11 @@ public class BoneCPPooler implements DatabasePooler {
         System.out.println("Shutting down BoneCP pooler.");
         bone.shutdown();
     }
+
+    @Override
+    public void printStatistics() {
+        System.out.println("Total created connections: "+bone.getTotalCreatedConnections());
+        System.out.println("Total free connections: "+bone.getTotalFree());
+        System.out.println("Total leased connections: "+bone.getTotalLeased());
+    }
 }
