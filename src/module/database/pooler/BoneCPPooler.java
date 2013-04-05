@@ -75,6 +75,7 @@ public class BoneCPPooler implements DatabasePooler {
 		return boneCPPooling;
 	}
 	
+        @Override
 	public String toString(){
 		return "Bone CP Pooler for Phoenix.";
 	}
