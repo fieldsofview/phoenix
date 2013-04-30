@@ -4,6 +4,9 @@ import globalData.Constants;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +19,6 @@ import communication.QueueParameters;
 import communication.messageProcessor.IMessageProcessor;
 import communication.messages.ACStatusMessage;
 import communication.queueManager.ACQueueManagement;
-
 
 /**
  * The Default Agent Controller. All types of Agent Controllers extend this
@@ -54,6 +56,57 @@ public abstract class AgentController implements IMessageProcessor {
 	 * simulation.
 	 */
 	public static Map<String, Integer> ACStatus;
+
+	/**
+	 * This generator is initialized by the implementing AgentController. This
+	 * instance will be used by the AgentContoller to generate all the agents
+	 * under it.
+	 */
+	private AIDGenerator agentIDGenerator;
+
+	/*
+	 * TODO: Modify this to include default values and initial settings for a
+	 * general AgentController
+	 */
+	// Default Constructor
+	public AgentController() {
+		this.agentIDGenerator = new AIDGenerator();
+		createListObjects();
+		currentTickNumber = 0;
+	}
+
+	/**
+	 * This function is called to create instances for the list of agents
+	 * variable and the current status list for all the AgentControllers.
+	 */
+	private void createListObjects() {
+		ACStatus = Collections.synchronizedMap(new HashMap<String, Integer>());
+		agents = Collections.synchronizedList(new ArrayList<Agent>());
+	}
+
+	/**
+	 * This is the first method called by a new AgentController. By default it
+	 * does a agent setup-up which creates various agents as defined in the
+	 * class. But it can be overridden to perform other tasks.
+	 */
+	protected void runAC() {
+		setUp();
+	}
+
+	/**
+	 * Create the different agents here. One can create a mix of agents if
+	 * required.
+	 */
+	protected abstract void setUp();
+
+	/**
+	 * Returns the Agent Controllers current instance of the ID Generator.
+	 * 
+	 * @return the agent ID generator for the AgentController.
+	 */
+	public AIDGenerator getAgentIDGenerator() {
+		return this.agentIDGenerator;
+	}
 
 	/*
 	 * Current simulation step the AgentController is in.
@@ -206,24 +259,13 @@ public abstract class AgentController implements IMessageProcessor {
 		}
 	}
 
-	// TODO: Remove the KML outputs Write the output to java LiveGraph here.
-	// protected void writeKMLFile(String ctaName) {
-	// String stamp = new
-	// SimpleDateFormat("hh-mm-ss-aaa_dd-MMMMM-yyyy").format(new
-	// Date()).toString();
-	// //kmlUtility.writeFile();
-	// //kmlUtility.writeFile("kml/" + ctaName + "_" + stamp + "_" +
-	// currentTickNumber + ".kml");
-	//
-	// }
-
 	/**
 	 * This is the part of the boot process where each agent controller reads
 	 * how the simulation is set up across the machines.
 	 */
 	protected void readConfigurations() {
 		try {
-			Boot.loadMachineConfigurations("config/agentControllerConfig");
+			Boot.readMachineConfigurations();
 		} catch (FileNotFoundException ex) {
 			Log.logger.info("Did not find the configuration file.");
 			ex.printStackTrace();
