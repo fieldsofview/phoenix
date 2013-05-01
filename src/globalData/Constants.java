@@ -13,7 +13,7 @@ public interface Constants {
      * TODO: Replace this with a function to find the local system IP using a
      * function.
      */
-    public final String localHost = "192.168.18.165";
+    public final String localHost = "127.0.0.1";
     /**
      * The file name for communication settings
      */

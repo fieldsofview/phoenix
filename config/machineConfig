@@ -2,8 +2,8 @@
 AgentControllerName=myController
 hostIP=127.0.0.1
 queueName=queue
-username=rabbitmq
-password=anarki123
+username=guest
+password=guest
 virtualHost=vhost
 port=5672
 exchangeName=AgentControllerExchange
