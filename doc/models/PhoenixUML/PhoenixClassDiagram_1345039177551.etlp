@@ -1835,7 +1835,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.DCC6D564-0A9A-2769-3F8A-26BFDF04C9E0" value="{ From Agents }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0" isAbstract="1">
+        <compartment name="3" MEID="DCE.DCC6D564-0A9A-2769-3F8A-26BFDF04C9E0" value="{ From agents }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0" isAbstract="1">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -1934,7 +1934,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.BF8D793B-95D4-280F-F230-536DD0E20FE4" value="{ From Agents }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0" isAbstract="1">
+        <compartment name="3" MEID="DCE.BF8D793B-95D4-280F-F230-536DD0E20FE4" value="{ From agents }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0" isAbstract="1">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -2488,7 +2488,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.FF74F517-1A54-B530-B630-9909753E669B" value="{ From Database }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.FF74F517-1A54-B530-B630-9909753E669B" value="{ From database }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -2530,7 +2530,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.281F6F77-5E13-9BD6-7B9F-8A1CA59501B5" value="{ From Database }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.281F6F77-5E13-9BD6-7B9F-8A1CA59501B5" value="{ From database }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -2692,7 +2692,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.F95C22EF-5DD3-B789-8B4A-66F652101018" value="{ From Communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.F95C22EF-5DD3-B789-8B4A-66F652101018" value="{ From communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -2814,7 +2814,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.299A8C8D-1260-1C44-2443-44C4278FDC58" value="{ From Communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.299A8C8D-1260-1C44-2443-44C4278FDC58" value="{ From communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -2884,7 +2884,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.65C4DFF3-86C9-5EA0-96D8-DE2435F31160" value="{ From Communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.65C4DFF3-86C9-5EA0-96D8-DE2435F31160" value="{ From communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -2982,7 +2982,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.B5156783-EE16-A82D-20C3-AF9C66C689EE" value="{ From Communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.B5156783-EE16-A82D-20C3-AF9C66C689EE" value="{ From communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -3086,7 +3086,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.CBBF638B-9919-8C46-A138-BFE0E41637A2" value="{ From Communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0" isAbstract="1">
+        <compartment name="3" MEID="DCE.CBBF638B-9919-8C46-A138-BFE0E41637A2" value="{ From communication }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0" isAbstract="1">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -3136,7 +3136,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.63506DD6-A490-738D-F0D5-B191AA496CEB" value="{ From GlobalData }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0" isAbstract="1">
+        <compartment name="3" MEID="DCE.63506DD6-A490-738D-F0D5-B191AA496CEB" value="{ From globalData }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0" isAbstract="1">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -3450,7 +3450,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.E2DE8B35-C145-0577-07B4-28E3F06E2D6D" value="{ From System }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.E2DE8B35-C145-0577-07B4-28E3F06E2D6D" value="{ From system }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -3506,7 +3506,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.F6728FFD-2D50-1491-B0BD-E0438F8A1F58" value="{ From System }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.F6728FFD-2D50-1491-B0BD-E0438F8A1F58" value="{ From system }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
@@ -3552,7 +3552,7 @@
             <resource type="color" resourceStringID="6" colorID="254"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.15D5D558-A244-686F-A982-E523032170B6" value="{ From System }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.15D5D558-A244-686F-A982-E523032170B6" value="{ From system }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="137"/>
             <resource type="color" resourceStringID="9" colorID="257"/>
@@ -3582,7 +3582,7 @@
             <resource type="color" resourceStringID="6" colorID="5"/>
           </resources>
         </compartment>
-        <compartment name="3" MEID="DCE.2BEDC09C-1C6B-6F52-0E7D-4D6BE929FB28" value="{ From System }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
+        <compartment name="3" MEID="DCE.2BEDC09C-1C6B-6F52-0E7D-4D6BE929FB28" value="{ From system }" textStyles="VCENTER|HCENTER|SINGLELINE" nameCompartmentBorderKind="0">
           <resources>
             <resource type="font" resourceStringID="9" fontID="5"/>
             <resource type="color" resourceStringID="9" colorID="8"/>
