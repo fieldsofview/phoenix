@@ -13,4 +13,6 @@ public interface DatabasePooler {
 	public DatabasePooler initialise(Properties p);
 
 	public Connection getConnection() throws SQLException;
+	
+	public String toString();
 }
