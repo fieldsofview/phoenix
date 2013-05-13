@@ -3,16 +3,22 @@ package Communication;
 import java.io.Serializable;
 
 /**
- * This class contains the paraments required to set up a RabbitMQ message queue
- * for a CTA.
+ * This class contains the parameters required to set up a RabbitMQ message
+ * queue for a CTA.
  */
-public class QueueParameters implements Serializable{
+public class QueueParameters implements Serializable {
+
+	//TODO: Check if serialisation is required. If not required remove serialisation.
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * The name of the queue for messaging.
      */
     public String queueName;
     /**
-     * The username required to access the rabbitMQ server
+     * The user name required to access the rabbitMQ server
      */
     public String username;
     /**
@@ -42,15 +48,22 @@ public class QueueParameters implements Serializable{
     public QueueParameters() {
     }
 
-    /** Constructor for the queue parameters
-     * Create a QueueParameter with the given parameters.
+    /**
+     * Constructor for the queue parameters Create a queue with the
+     * given parameters.
+     *
      * @param queueName the name of the queue
-     * @param username the username for the rabbitMQ server with access to the given queue name
-     * @param password the password for the rabbitMQ server with access to the given queue name
-     * @param virtualHost the virtual host on the rabbitMQ server where new message queues can be created by the given user
+     * @param username the username for the rabbitMQ server with access to the
+     * given queue name
+     * @param password the password for the rabbitMQ server with access to the
+     * given queue name
+     * @param virtualHost the virtual host on the rabbitMQ server where new
+     * message queues can be created by the given user
      * @param port the port on which to communicate with a rabbitMQ server
-     * @param exchange the message exchange on the virtual host responsible for transfer of messages
-     * @param routingKey the routing key / token that is exchanged when message is transfered
+     * @param exchange the message exchange on the virtual host responsible for
+     * transfer of messages
+     * @param routingKey the routing key / token that is exchanged when message
+     * is transfered
      */
     public QueueParameters(String queueName, String username, String password, String virtualHost, String port, String exchange, String routingKey) {
         this.queueName = queueName;
@@ -64,12 +77,13 @@ public class QueueParameters implements Serializable{
 
     /**
      * String representation of QueueParameters
+     *
      * @return string representation of the queue parameters
      */
     @Override
     public String toString() {
-        return "queueName:" + this.queueName + " username:" + this.username + " password:" + this.password +
-                " virtualHost:" + this.virtualHost + " port" + this.port + " exchange" + this.exchange +
-                " routingKey:" + this.routingKey;
+        return "queueName:" + this.queueName + " username:" + this.username + " password:" + this.password
+                + " virtualHost:" + this.virtualHost + " port" + this.port + " exchange" + this.exchange
+                + " routingKey:" + this.routingKey;
     }
 }

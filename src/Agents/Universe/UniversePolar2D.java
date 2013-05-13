@@ -5,5 +5,19 @@ package Agents.Universe;
  *
  */
 public class UniversePolar2D extends Universe{
+	private float universeRadius;
 
+	/**
+	 * @return the universeRadius
+	 */
+	public float getUniverseRadius() {
+		return universeRadius;
+	}
+
+	/**
+	 * @param universeRadius the universeRadius to set
+	 */
+	public void setUniverseRadius(float universeRadius) {
+		this.universeRadius = universeRadius;
+	}
 }

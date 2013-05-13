@@ -1,36 +1,30 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * This is the Logging System Class that generates a logger instance for anything
+ * that requires to be logged in the system. The Logger used if Apache's log4j 1.2.17
  */
 package System;
 
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 import org.apache.log4j.PropertyConfigurator;
 
-
 /**
- *
- * @author jayanth
+ * 
+ * @author Murali
  */
 public class Log {
 
-    /**
-     * Logger, level set at info
-     */
-    public static Logger logger = Logger.getRootLogger();
+	public static Logger logger = Logger.getRootLogger();
 
+	/*
+	 * TODO:// Write a on the fly log files generator.
+	 */
 
-    /**
-     * Configure the logger. To be called before anything else
-     */
-    public static void ConfigureLogger() {
-        
-        PropertyConfigurator.configure("src/Utilities/logger.properties");     
-        logger.setLevel(Level.INFO);
-        logger.info("logging initialized");
-    }
-
+	/**
+	 * Configure the logger based on the configuration file provided in the
+	 * "config" directory.
+	 */
+	public static void ConfigureLogger() {
+		PropertyConfigurator.configure("config/logger.properties");
+		// TimeZone tz = TimeZone.getTimeZone("IST");
+	}
 }
