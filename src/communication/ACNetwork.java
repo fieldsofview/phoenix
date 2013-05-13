@@ -15,24 +15,32 @@ import java.util.Map;
 public class ACNetwork {
 
 	/**
-	 * The list of hosts that contain a Agent Controller
+	 * The list of hosts that contain a Agent Controller. The list will contain
+	 * IP addresses for the hosts.
 	 */
 	public static List<String> agentControllerhostList = Collections
 			.synchronizedList(new ArrayList<String>());
 	/**
-	 * The map of the hosts for look-up of their respective queue parameters for
-	 * messaging.
+	 * The map of the queue for look-up of their respective queue parameters for
+	 * messaging. Note that the queue name is used and NOT the IP address
+	 * allowing for multiple AC to exist with the same IP but different Queue
+	 * names.
 	 */
 	public static Map<String, QueueParameters> hostMessageQueueLookup = Collections
-			.synchronizedMap(new HashMap<String, QueueParameters>());// new
-																		// HashMap<String,
-																		// QueueParameters>();
+			.synchronizedMap(new HashMap<String, QueueParameters>());
 
-	/*
+	/**
 	 * TODO: New Code to store the queue parameters for AgentControllers. This
-	 * will be the only queue hence stored
+	 * will be the only queue hence stored in a single variable. (Unlike the old
+	 * hash-map).
 	 */
 	public static QueueParameters ACMessageQueueParameters = new QueueParameters();
+
+	/**
+	 * TODO: A new configuration file or MachineConfig file needs to be
+	 * modified. The Boot process also needs to be modified. This is the second
+	 * queue dedicated for agent to agent communication.
+	 */
 	public static QueueParameters agentMessageQueueParameters = new QueueParameters();
 
 	/*

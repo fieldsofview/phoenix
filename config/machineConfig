@@ -1,1 +1,10 @@
-myController:0.0.0.0:queue:username:password:vhost:5687:exchange:routing_key
+#Machine Configuration for the Agent Controllers to connect to RabbitMQ
+AgentControllerName=myController
+hostIP=127.0.0.1
+queueName=queue
+username=guest
+password=guest
+virtualHost=vhost
+port=5672
+exchangeName=AgentControllerExchange
+routingKey=AC

@@ -4,10 +4,10 @@
  */
 package system;
 
-import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.util.Properties;
 
 import communication.ACNetwork;
 import communication.QueueParameters;
@@ -18,14 +18,15 @@ import communication.QueueParameters;
 public class Boot {
 
 	public Boot() {
-		// TODO: Write the Log system initialization here.
 		Log.ConfigureLogger();
 	}
 
+	// TODO: Modify this function to include code for reading the queue
+	// parameters for the agent to agent communication as well.
 	/**
-	 * Loads the configurations for the machine. Each machine runs a
+	 * Read the configurations for the machine. Each machine runs a
 	 * AgentController. AgentControllerhandles communication and agent
-	 * behaviour.
+	 * behaviour. The file is a standard java properties file. The file
 	 * 
 	 * @param name
 	 *            File name containing the care taker agent configuration.
@@ -33,29 +34,42 @@ public class Boot {
 	 * @throws FileNotFoundException
 	 * @throws NumberFormatException
 	 */
-	public static void loadMachineConfigurations(String name)
-			throws IOException, FileNotFoundException, NumberFormatException {
+	public static void readMachineConfigurations() throws IOException,
+			FileNotFoundException, NumberFormatException {
 
-		BufferedReader inputFile;
-		inputFile = new BufferedReader(new FileReader(name));
-		String inputLine;
+		Properties queueProperties = new Properties();
 
-		while ((inputLine = inputFile.readLine()) != null) {
-			String[] param = inputLine.split(":");
-			// int type = Integer.parseInt(param[0]);
-			ACNetwork.agentControllerhostList.add(param[1]);
-			QueueParameters queueParameters = new QueueParameters(param[2],
-					param[3], param[4], param[5], param[6], param[7], param[8]);
+		queueProperties.load(new FileInputStream(
+				globalData.Constants.machineFile));
 
-			ACNetwork.hostMessageQueueLookup.put(param[1], queueParameters);
+		Log.logger.debug("Queue Name:"
+				+ queueProperties.getProperty("queueName"));
+		Log.logger
+				.debug("Username: " + queueProperties.getProperty("username"));
+		Log.logger
+				.debug("Password: " + queueProperties.getProperty("password"));
+		Log.logger.debug("Virtual Host: "
+				+ queueProperties.getProperty("virtualHost"));
+		Log.logger.debug("Port: " + queueProperties.getProperty("port"));
+		Log.logger.debug("Exchange Name: "
+				+ queueProperties.getProperty("exchangeName"));
+		Log.logger.debug("Routing Key: "
+				+ queueProperties.getProperty("routingKey"));
+		Log.logger.debug("Host IP: " + queueProperties.getProperty("hostIP"));
 
-			// TODO: This is the new code. Only queue parameters need to be
-			// stored.
-			ACNetwork.ACMessageQueueParameters = queueParameters;
-			//TODO: Write the code for the agent queue message.
+		ACNetwork.agentControllerhostList.add(queueProperties
+				.getProperty("hostIP"));
+		QueueParameters queueParameters = new QueueParameters(
+				queueProperties.getProperty("queueName"),
+				queueProperties.getProperty("username"),
+				queueProperties.getProperty("password"),
+				queueProperties.getProperty("virtualHost"),
+				queueProperties.getProperty("port"),
+				queueProperties.getProperty("exchangeName"),
+				queueProperties.getProperty("routingKey"));
 
-		}
-		// Close the file
-		inputFile.close();
+		ACNetwork.hostMessageQueueLookup.put(
+				queueProperties.getProperty("queueName"), queueParameters);
+		ACNetwork.ACMessageQueueParameters = queueParameters;
 	}
 }
