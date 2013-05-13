@@ -3,7 +3,6 @@
  */
 package communication.messageProcessor;
 
-
 import java.util.List;
 
 import system.Log;

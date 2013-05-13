@@ -5,11 +5,9 @@ package module;
 
 /**
  * @author onkar
- * @version 0.1
- *Date of creation: 1 April 2013
- *This is the module interface. All Phoenix modules must implement this
- *interface. Custom methods for each module must be provided by the
- *module.
+ * @version 0.1 Date of creation: 1 April 2013 This is the module interface. All
+ *          Phoenix modules must implement this interface. Custom methods for
+ *          each module must be provided by the module.
  */
 public interface Module {
 	/**
