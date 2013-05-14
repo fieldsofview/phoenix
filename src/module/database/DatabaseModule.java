@@ -9,15 +9,14 @@ import module.Module;
 import module.database.pooler.DatabasePoolFactory;
 import module.database.pooler.DatabasePooler;
 
+public class DatabaseModule implements Module {
 
-public class DatabaseModule implements Module{
+	DatabasePooler pooler = null;
+	Properties p = null;
 
-	DatabasePooler pooler=null;
-	Properties p=null;
-	
 	public DatabaseModule() {
-		//First read properties file
-		Properties p=new Properties();
+		// First read properties file
+		Properties p = new Properties();
 		try {
 			p.load(new FileInputStream("database.properties"));
 		} catch (FileNotFoundException e) {
@@ -25,7 +24,7 @@ public class DatabaseModule implements Module{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//Next call boot
+		// Next call boot
 		boot();
 	}
 
@@ -34,24 +33,25 @@ public class DatabaseModule implements Module{
 	 */
 	@Override
 	public void boot() {
-		//Dependency check
+		// Dependency check
 		try {
-			ClassLoader l=ClassLoader.getSystemClassLoader();
-			Class.forName("com.jdbc.mysql.Driver",false,l);
-			Class.forName("com.jolbox.bonecp.BoneCP",false,l);
-			Class.forName("org.slf4j.Logger",false,l);
+			ClassLoader l = ClassLoader.getSystemClassLoader();
+			Class.forName("com.jdbc.mysql.Driver", false, l);
+			Class.forName("com.jolbox.bonecp.BoneCP", false, l);
+			Class.forName("org.slf4j.Logger", false, l);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			//TODO add error log
-			//TODO system.exit
+			// TODO add error log
+			// TODO system.exit
 		}
-		//After successful boot call initialise
+		// After successful boot call initialise
 		initialise();
 	}
 
 	@Override
 	public void initialise() {
-		pooler=DatabasePoolFactory.getPooler(p.getProperty("pooler").toString(),p);
+		pooler = DatabasePoolFactory.getPooler(p.getProperty("pooler")
+				.toString(), p);
 	}
 
 }

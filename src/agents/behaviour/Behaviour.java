@@ -9,13 +9,14 @@ import agents.attributes.AgentAttributes;
  * Serialisable to allow for running multiple behaviours as a group of java
  * threads.
  */
-public interface Behaviour extends Serializable{
+public interface Behaviour extends Serializable {
 
-    /**
-     * Each behaviour is run as a single thread.
-     * 
-     * @param agentAttributes the attribute values required to execute the behaviour.
-     */
-    public void run(AgentAttributes agentAttributes);
+	/**
+	 * Each behaviour is run as a single thread.
+	 * 
+	 * @param agentAttributes
+	 *            the attribute values required to execute the behaviour.
+	 */
+	public void run(AgentAttributes agentAttributes);
 
 }
