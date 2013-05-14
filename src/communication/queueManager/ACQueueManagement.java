@@ -106,6 +106,7 @@ public class ACQueueManagement extends QueueManager {
 			channel.exchangeDeclare(hostQueueParameters.exchange, "fanout");
 			channel.queueDeclare(hostQueueParameters.queueName, false, false,
 					true, null);
+			//TODO: Test exchange code here
 			channel.queueBind(hostQueueParameters.queueName,
 					hostQueueParameters.exchange,
 					hostQueueParameters.routingKey);
