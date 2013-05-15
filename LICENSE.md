@@ -2,7 +2,7 @@
 ---
 
 The project is released under Mozilla Public License 2.0. A copy of the license 
-is available [here](FOV-MPL2). See this links for  further information: 
+is available [here](http://code.fieldsofview.in/phoenix/wiki/FOV-MPL2). See this links for  further information: 
 [http://www.mozilla.org/MPL/2.0/FAQ.html](http://www.mozilla.org/MPL /2.0/FAQ. 
 html). A slightly modified copy of the license file is included in `licenses` 
 folder as `MPL-2.txt`.
