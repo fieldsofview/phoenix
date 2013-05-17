@@ -2,10 +2,11 @@
 ---
 
 The project is released under Mozilla Public License 2.0. A copy of the license 
-is available [here](http://code.fieldsofview.in/phoenix/wiki/FOV-MPL2). See this links for  further information: 
+is available [here](http://code.fieldsofview.in/phoenix/wiki/FOV-MPL2). A copy 
+of the license file is also included in `licenses` folder as `MPL-2.txt`. See 
+this links for  further information: 
 [http://www.mozilla.org/MPL/2.0/FAQ.html](http://www.mozilla.org/MPL /2.0/FAQ. 
-html). A slightly modified copy of the license file is included in `licenses` 
-folder as `MPL-2.txt`.
+html).
 
 The project uses OpenJDK. [OpenJDK](http://openjdk.java.net/) is released under 
 GNU General Public License, version 2, with the Classpath Exception. A copy of 
