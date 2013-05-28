@@ -1,8 +1,6 @@
 package examples.helloworldSimulation;
 
 import system.Log;
-import communication.messages.Message;
-
 import agents.AgentController;
 
 public class MySimulation extends AgentController {
@@ -43,23 +41,6 @@ public class MySimulation extends AgentController {
 		}
 	}
 
-	@Override
-	public boolean checkIfAllAgentsReadyForNextTick() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void activateAgentBehaviour() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void processMessage(Message receivedMessage) {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * Create the different agents here. One can create a mix of agents if
 	 * required.
@@ -78,5 +59,12 @@ public class MySimulation extends AgentController {
 			Log.logger.info("Created a Test Agent " + temp.getId() + ".");
 		}
 		Log.logger.info("Completed creating agents");
+	}
+
+	@Override
+	protected void cleanUp() {
+		/* Perform any clean-up operations */
+		sendDoneWithWork();
+		System.exit(0);
 	}
 }
