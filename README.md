@@ -1,8 +1,15 @@
-11 May, 2012
+28 May, 2013
+-----------
+The platform is ready to be released as an alpha. It still requires testing 
+which will be done as we develop our projects around it. Please refer to the 
+Wiki for detailed explanation of the design, installation, license, etc,.
+
+11 May, 2013
 ------------
-* This platform for agent-based model has been designed for speed and 
-extensibility.
-* This was initially a fork from "Gestalt" on SourceForge.
+* This is a platform for agent-based modelling and has been designed for speed, 
+scalability and extensibility.
+* This project was initially a fork from "Gestalt" on SourceForge, but has 
+replaced almost all of the code.
 * Experience in developing "Gestalt" has helped define the specifications for 
 this platform.
 

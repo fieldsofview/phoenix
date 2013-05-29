@@ -1,4 +1,4 @@
-15 May, 2013
+29 May, 2013
 
 Modules
 -------
@@ -19,7 +19,6 @@ Communications
 
 General
 -------
-* Write a hello world simulation for testing.
 * Test the `AgentController`
 * Include example code with agents.
 * Implement agent-to-agent configuration.
