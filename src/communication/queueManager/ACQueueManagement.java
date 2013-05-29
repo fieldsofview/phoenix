@@ -1,12 +1,13 @@
 package communication.queueManager;
 
+import agents.AgentController;
+
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
 import communication.ACNetwork;
 import communication.QueueParameters;
-import communication.messageProcessor.IMessageProcessor;
 import communication.messages.ACStatusMessage;
 import communication.messages.Message;
 
@@ -25,7 +26,7 @@ import system.Log;
  * loop. This class handles the rabbitMQ for a given AgentController
  * 
  * Each AgentController creates a queue for itself where it receives messages
- * for running the step simulation and synchronization. The various states it
+ * for running the step simulation and synchronisation. The various states it
  * can be in is listed in ACNetwork. Each queue thus created are bound to the
  * same exchange which behaves as a fan out exchange. Any message sent is
  * broadcast to all listening queues.
@@ -54,8 +55,7 @@ public class ACQueueManagement extends QueueManager {
 	 */
 	private ACQueueManagement(QueueParameters queueParameters) {
 		this.queueParameters = queueParameters;
-		// TODO: Write the Log system initialization here.
-		Log.ConfigureLogger();
+		system.Log.ConfigureLogger();
 	}
 
 	/**
@@ -68,8 +68,7 @@ public class ACQueueManagement extends QueueManager {
 	 * @return returns an instance of QueueManagement
 	 * @see ACQueueManagement
 	 */
-	public static ACQueueManagement getInstance(
-			QueueParameters queueParameters, IMessageProcessor queueUser) {
+	public static ACQueueManagement getInstance(QueueParameters queueParameters) {
 		if (queueManager == null) {
 			queueManager = new ACQueueManagement(queueParameters);
 		}
@@ -82,8 +81,7 @@ public class ACQueueManagement extends QueueManager {
 	 */
 	@Override
 	public void run() {
-		// super.run();
-		addQueueListener(queueParameters);
+		this.addQueueListener(queueParameters);
 	}
 
 	@Override
@@ -106,6 +104,7 @@ public class ACQueueManagement extends QueueManager {
 			channel.exchangeDeclare(hostQueueParameters.exchange, "fanout");
 			channel.queueDeclare(hostQueueParameters.queueName, false, false,
 					true, null);
+			// TODO: Test exchange code here
 			channel.queueBind(hostQueueParameters.queueName,
 					hostQueueParameters.exchange,
 					hostQueueParameters.routingKey);
@@ -165,11 +164,13 @@ public class ACQueueManagement extends QueueManager {
 				inputStream.close();
 				input.close();
 				Log.logger.info("Received Message");
-				// messageProcessor.processMessage(message);
+
+				/* Process the received message */
+				processMessage(message);
 				// messageProcessor.processMessage.run();
-				// Utilities.Log.logger.info("QM: I am listening for messages in the while loop 10");
+				// Log.logger.info("QM: I am listening for messages in the while loop 10");
 				channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-				// Utilities.Log.logger.info("QM: I am listening for messages in the while loop 11");
+				// Log.logger.info("QM: I am listening for messages in the while loop 11");
 			}
 			Log.logger.error("Finished Adding queue listener");
 
@@ -190,25 +191,36 @@ public class ACQueueManagement extends QueueManager {
 	}
 
 	/**
-	 * This method is called when a message has to broadcast to all
-	 * AgentControllers The method makes use of the exchange to which all the
-	 * AgentControllers have subscribed. Only the status is used in the Message
-	 * object to send the values.
+	 * This method is called when a message has to be sent form one
+	 * AgentController to another. The method makes use of the already open
+	 * channels between the ACs to send its messages. THe destination is not
+	 * used for ACQueueManagemnt as the ACs use a fan-out exchange to exchange
+	 * information.
+	 * 
+	 * @param host
+	 *            defaults to Null in ACQueueMangement
 	 * 
 	 * @param message
 	 *            the message that has to be sent
 	 * @return true if the message was successfully sent
-	 * @see ACStatusMessage
+	 * @see Message
 	 */
-	public boolean send(ACStatusMessage message) {
-		// Utilities.Log.logger.info("RabbitMQ Send Method");
+	@Override
+	public boolean send(String destination, Message receivedMessage) {
+
+		/*
+		 * The receivedMessage is the generic message object that is cast into
+		 * the ACStatusMessage type
+		 */
+		ACStatusMessage message = (ACStatusMessage) receivedMessage;
+
 		while (setupQueueListener == false) {
 			Log.logger.info("Waiting to send");
 		}
+
 		ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
 		try {
-			// Utilities.Log.logger.info("Contents of Host Channel Map: " +
-			// hostChannelMap.toString());
+
 			ObjectOutputStream outputWriter = new ObjectOutputStream(
 					outputBuffer);
 			outputWriter.writeObject(message);
@@ -250,30 +262,28 @@ public class ACQueueManagement extends QueueManager {
 		return true;
 	}
 
-	/**
-	 * Returns the hash code of the QueueManagement object
-	 * 
-	 * @return the hash code of the QueueManagement object
-	 */
 	@Override
-	public int hashCode() {
-		int hash = 5;
-		hash = 79
-				* hash
-				+ (this.queueParameters != null ? this.queueParameters
-						.hashCode() : 0);
-		return hash;
-	}
+	public void processMessage(Message receivedMessage) {
+		// update status of the host from which message was received
+		Log.logger.info("AC: ReceivedMessage");
+		// Find out what type of status update it is
+		ACStatusMessage statusType = (ACStatusMessage) receivedMessage.messageObject;
 
-	@Override
-	public boolean send(String host, Message message) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		switch (statusType.AC_STATUS) {
 
-	@Override
-	public void processMessage(communication.messages.Message receivedMessage) {
-		// TODO Auto-generated method stub
+		case ACNetwork.AC_READY_FOR_NEXT_TICK:
+			AgentController.changeACStatus(statusType.hostName,
+					statusType.AC_STATUS);
+			Log.logger.info("Received Next Tick from : " + statusType.hostName
+					+ ":" + statusType.AC_STATUS);
+			break;
+		case ACNetwork.AC_DONE_WITH_WORK:
+			AgentController.changeACStatus(statusType.hostName,
+					statusType.AC_STATUS);
+			Log.logger.info("Received Done with work from : "
+					+ statusType.hostName + ":" + statusType.AC_STATUS);
+			break;
+		}
 
 	}
 }

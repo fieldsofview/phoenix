@@ -16,7 +16,6 @@ import system.Log;
 
 import communication.ACNetwork;
 import communication.QueueParameters;
-import communication.messageProcessor.IMessageProcessor;
 import communication.messages.ACStatusMessage;
 import communication.queueManager.ACQueueManagement;
 
@@ -24,10 +23,10 @@ import communication.queueManager.ACQueueManagement;
  * The Default Agent Controller. All types of Agent Controllers extend this
  * class. The properties and methods of this class is shared among all Agent
  * controllers within the simulation. This class is responsible for
- * synchronization communication and progress of the simulation. This is first
+ * synchronisation communication and progress of the simulation. This is first
  * class that establishes contact and proceeds with the simulation.
  */
-public abstract class AgentController implements IMessageProcessor {
+public abstract class AgentController {
 
 	/*
 	 * The current name of the agent controller which has to be set. This name
@@ -37,7 +36,7 @@ public abstract class AgentController implements IMessageProcessor {
 
 	/**
 	 * The current TICK number. TICK number indicates the steps of simulation
-	 * and is used for synchronization of various CTAs.
+	 * and is used for synchronisation of various CTAs.
 	 */
 	public static int currentTickNumber;
 
@@ -58,7 +57,7 @@ public abstract class AgentController implements IMessageProcessor {
 	public static Map<String, Integer> ACStatus;
 
 	/**
-	 * This generator is initialized by the implementing AgentController. This
+	 * This generator is initialised by the implementing AgentController. This
 	 * instance will be used by the AgentContoller to generate all the agents
 	 * under it.
 	 */
@@ -71,6 +70,7 @@ public abstract class AgentController implements IMessageProcessor {
 	// Default Constructor
 	public AgentController() {
 		this.agentIDGenerator = new AIDGenerator();
+		system.Log.ConfigureLogger();
 		createListObjects();
 		currentTickNumber = 0;
 	}
@@ -91,7 +91,64 @@ public abstract class AgentController implements IMessageProcessor {
 	 */
 	protected void runAC() {
 		setUp();
+
+		// Runs until objectives for all agents is fulfilled
+		while (!objectiveSatisfiedForAllAgents()) {
+
+			// Time out for waiting for other agents
+			long timeBeforewaiting = System.currentTimeMillis();
+
+			while (!checkIfAllACsReadyForNextTick()) {
+				try {
+					long timeNow = System.currentTimeMillis();
+					if (timeNow - timeBeforewaiting >= ACNetwork.MAXIMUM_TIME_OUT_FOR_AC) {
+						updateTimeOutList();
+						Log.logger.info("Continuing with run after timeout");
+						break;
+					} else {
+						// wait until all ACs are ready
+						Thread.sleep(500);
+					}
+
+				} catch (InterruptedException ex) {
+					Log.logger.info(ex.getMessage());
+				}
+			}
+
+			/* INCREMENT TICK NUMBER */
+			currentTickNumber++;
+			Log.logger.info("TICK NUMBER: " + currentTickNumber);
+			activateAgentBehaviour();
+		}
+
+		cleanUp();
 	}
+
+	/**
+	 * Checks and returns if all agents have satisfied their objectives and
+	 * hence the simulation can cease to run.
+	 * 
+	 * @return
+	 */
+	protected boolean objectiveSatisfiedForAllAgents() {
+		int count = 0;
+		for (Agent p : agents) {
+			if (p.getObjectiveFlag()) {
+				count++;
+			}
+		}
+
+		if (count == agents.size()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Perform any user defined clean-up operations
+	 */
+	protected abstract void cleanUp();
 
 	/**
 	 * Create the different agents here. One can create a mix of agents if
@@ -122,12 +179,32 @@ public abstract class AgentController implements IMessageProcessor {
 	 * 
 	 * @return
 	 */
-	public abstract boolean checkIfAllAgentsReadyForNextTick();
+	public boolean checkIfAllAgentsReadyForNextTick() {
+		int count = 0;
+		for (Agent p : agents) {
+			if (p.getStatusFlag()) {
+				count++;
+			}
+		}
+		if (count == agents.size()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * Call the individual agents behaviour from its list of behaviour
 	 */
-	public abstract void activateAgentBehaviour();
+	public void activateAgentBehaviour() {
+		/*
+		 * run every agent's behaviour in a chosen order. A scheduling polict
+		 * can be implemented by the user here.
+		 */
+		for (Agent p : agents) {
+			p.run();
+		}
+	}
 
 	/**
 	 * Check if all the AgentControllers are ready for the next step of the
@@ -135,12 +212,12 @@ public abstract class AgentController implements IMessageProcessor {
 	 * 
 	 * @return
 	 */
-	public boolean checkIfAllACsReadyForNextTick(boolean flag) {
+	public boolean checkIfAllACsReadyForNextTick() {
 		if (ACStatus.size() == 0) {
 			Log.logger.info("I am the only host");
 			return true;
 		}
-		Log.logger.info("Holdmessages status:" + flag);
+
 		if (ACStatus.containsValue(ACNetwork.AC_COMPUTING)) {
 			Log.logger.info("Some hosts are busy");
 			return false;
@@ -158,7 +235,7 @@ public abstract class AgentController implements IMessageProcessor {
 		// TODO: There is only one queue for ACs and those parameters are being
 		// used.
 		QueueParameters queueParameters = ACNetwork.ACMessageQueueParameters;
-		queueManager = ACQueueManagement.getInstance(queueParameters, this);
+		queueManager = ACQueueManagement.getInstance(queueParameters);
 		queueManager.start();
 
 		// processMessage = new ACProcessMessage(agents);
