@@ -68,6 +68,14 @@ abstract public class Agent extends Thread {
 		return objectiveFlag;
 	}
 
+	/*
+	 * Set the objective flag for the agent. Once the objective flag is set the
+	 * agent is expected to complete its objective and terminate permanently.
+	 */
+	public void setObjectiveFlag(boolean status) {
+		this.objectiveFlag = status;
+	}
+
 	/* Return the status of the agent */
 	public boolean getStatusFlag() {
 		return statusFlag;

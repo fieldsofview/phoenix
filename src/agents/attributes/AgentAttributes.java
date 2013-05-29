@@ -8,21 +8,21 @@ import java.util.HashMap;
  */
 abstract public class AgentAttributes implements Serializable {
 
-    /*
-	 * Current version for serialisation of the class. 
+	/*
+	 * Current version for serialisation of the class.
 	 */
 	private static final long serialVersionUID = 1L;
 	private final HashMap<Object, Object> attributes;
 
-    private AgentAttributes() {
-        attributes = new HashMap<Object, Object>();
-    }
+	private AgentAttributes() {
+		attributes = new HashMap<Object, Object>();
+	}
 
-    public void addAttribute(Object attributeName, Object attributeValue) {
-        attributes.put(attributeName, attributeValue);
-    }
-    
-    public Object getAttribute(Object attributeName){
-        return attributes.get(attributeName);
-    }
+	public void addAttribute(Object attributeName, Object attributeValue) {
+		attributes.put(attributeName, attributeValue);
+	}
+
+	public Object getAttribute(Object attributeName) {
+		return attributes.get(attributeName);
+	}
 }

@@ -1,10 +1,11 @@
 package agents.universe;
 
-/** An example of other types of universes for the agents.
+/**
+ * An example of other types of universes for the agents.
  * 
- *
+ * 
  */
-public class UniversePolar2D extends Universe{
+public class UniversePolar2D extends Universe {
 	private float universeRadius;
 
 	/**
@@ -15,7 +16,8 @@ public class UniversePolar2D extends Universe{
 	}
 
 	/**
-	 * @param universeRadius the universeRadius to set
+	 * @param universeRadius
+	 *            the universeRadius to set
 	 */
 	public void setUniverseRadius(float universeRadius) {
 		this.universeRadius = universeRadius;
