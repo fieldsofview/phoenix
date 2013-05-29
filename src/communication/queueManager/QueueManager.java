@@ -3,7 +3,6 @@ package communication.queueManager;
 import java.io.IOException;
 
 import communication.QueueParameters;
-import communication.messageProcessor.IMessageProcessor;
 import communication.messages.Message;
 
 //TODO: Abstract out all the functions of the Queue manager to this class.
@@ -19,7 +18,7 @@ import communication.messages.Message;
  * @author bubby
  * 
  */
-public abstract class QueueManager extends Thread implements IMessageProcessor {
+public abstract class QueueManager extends Thread {
 
 	// private static QueueManager queueManager = null;
 
@@ -81,9 +80,9 @@ public abstract class QueueManager extends Thread implements IMessageProcessor {
 	protected abstract Message addQueueListener(QueueParameters queueParameters);
 
 	/**
-	 * This method is called when a message has to be sent form one CTA to
+	 * This method is called when a message has to be sent form one location to
 	 * another. The method makes use of the already open channels between the
-	 * CTAs to send its messages.
+	 * nodes to send its messages.
 	 * 
 	 * @param host
 	 *            the destination host name
@@ -92,7 +91,9 @@ public abstract class QueueManager extends Thread implements IMessageProcessor {
 	 * @return true if the message was successfully sent
 	 * @see Message
 	 */
-	abstract public boolean send(String host, Message message);
+	abstract public boolean send(String destination, Message message);
+
+	protected abstract void processMessage(Message receivedMessage);
 
 	public void run() {
 		addQueueListener(queueParameters);

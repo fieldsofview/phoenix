@@ -11,6 +11,3 @@ manifest.mf
 /lib/*
 /lib
 logs/*
-src/HelloWorldSimulation
-src/tests
-src/config

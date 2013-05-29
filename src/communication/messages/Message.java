@@ -24,7 +24,7 @@ public class Message {
 	public Message() {
 		createMessage();
 	}
-	
+
 	private void createMessage() {
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();

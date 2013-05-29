@@ -4,6 +4,9 @@ import globalData.Constants;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,19 +16,17 @@ import system.Log;
 
 import communication.ACNetwork;
 import communication.QueueParameters;
-import communication.messageProcessor.IMessageProcessor;
 import communication.messages.ACStatusMessage;
 import communication.queueManager.ACQueueManagement;
-
 
 /**
  * The Default Agent Controller. All types of Agent Controllers extend this
  * class. The properties and methods of this class is shared among all Agent
  * controllers within the simulation. This class is responsible for
- * synchronization communication and progress of the simulation. This is first
+ * synchronisation communication and progress of the simulation. This is first
  * class that establishes contact and proceeds with the simulation.
  */
-public abstract class AgentController implements IMessageProcessor {
+public abstract class AgentController {
 
 	/*
 	 * The current name of the agent controller which has to be set. This name
@@ -35,7 +36,7 @@ public abstract class AgentController implements IMessageProcessor {
 
 	/**
 	 * The current TICK number. TICK number indicates the steps of simulation
-	 * and is used for synchronization of various CTAs.
+	 * and is used for synchronisation of various CTAs.
 	 */
 	public static int currentTickNumber;
 
@@ -55,6 +56,115 @@ public abstract class AgentController implements IMessageProcessor {
 	 */
 	public static Map<String, Integer> ACStatus;
 
+	/**
+	 * This generator is initialised by the implementing AgentController. This
+	 * instance will be used by the AgentContoller to generate all the agents
+	 * under it.
+	 */
+	private AIDGenerator agentIDGenerator;
+
+	/*
+	 * TODO: Modify this to include default values and initial settings for a
+	 * general AgentController
+	 */
+	// Default Constructor
+	public AgentController() {
+		this.agentIDGenerator = new AIDGenerator();
+		system.Log.ConfigureLogger();
+		createListObjects();
+		currentTickNumber = 0;
+	}
+
+	/**
+	 * This function is called to create instances for the list of agents
+	 * variable and the current status list for all the AgentControllers.
+	 */
+	private void createListObjects() {
+		ACStatus = Collections.synchronizedMap(new HashMap<String, Integer>());
+		agents = Collections.synchronizedList(new ArrayList<Agent>());
+	}
+
+	/**
+	 * This is the first method called by a new AgentController. By default it
+	 * does a agent setup-up which creates various agents as defined in the
+	 * class. But it can be overridden to perform other tasks.
+	 */
+	protected void runAC() {
+		setUp();
+
+		// Runs until objectives for all agents is fulfilled
+		while (!objectiveSatisfiedForAllAgents()) {
+
+			// Time out for waiting for other agents
+			long timeBeforewaiting = System.currentTimeMillis();
+
+			while (!checkIfAllACsReadyForNextTick()) {
+				try {
+					long timeNow = System.currentTimeMillis();
+					if (timeNow - timeBeforewaiting >= ACNetwork.MAXIMUM_TIME_OUT_FOR_AC) {
+						updateTimeOutList();
+						Log.logger.info("Continuing with run after timeout");
+						break;
+					} else {
+						// wait until all ACs are ready
+						Thread.sleep(500);
+					}
+
+				} catch (InterruptedException ex) {
+					Log.logger.info(ex.getMessage());
+				}
+			}
+
+			/* INCREMENT TICK NUMBER */
+			currentTickNumber++;
+			Log.logger.info("TICK NUMBER: " + currentTickNumber);
+			activateAgentBehaviour();
+		}
+
+		cleanUp();
+	}
+
+	/**
+	 * Checks and returns if all agents have satisfied their objectives and
+	 * hence the simulation can cease to run.
+	 * 
+	 * @return
+	 */
+	protected boolean objectiveSatisfiedForAllAgents() {
+		int count = 0;
+		for (Agent p : agents) {
+			if (p.getObjectiveFlag()) {
+				count++;
+			}
+		}
+
+		if (count == agents.size()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Perform any user defined clean-up operations
+	 */
+	protected abstract void cleanUp();
+
+	/**
+	 * Create the different agents here. One can create a mix of agents if
+	 * required.
+	 */
+	protected abstract void setUp();
+
+	/**
+	 * Returns the Agent Controllers current instance of the ID Generator.
+	 * 
+	 * @return the agent ID generator for the AgentController.
+	 */
+	public AIDGenerator getAgentIDGenerator() {
+		return this.agentIDGenerator;
+	}
+
 	/*
 	 * Current simulation step the AgentController is in.
 	 */
@@ -69,12 +179,32 @@ public abstract class AgentController implements IMessageProcessor {
 	 * 
 	 * @return
 	 */
-	public abstract boolean checkIfAllAgentsReadyForNextTick();
+	public boolean checkIfAllAgentsReadyForNextTick() {
+		int count = 0;
+		for (Agent p : agents) {
+			if (p.getStatusFlag()) {
+				count++;
+			}
+		}
+		if (count == agents.size()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * Call the individual agents behaviour from its list of behaviour
 	 */
-	public abstract void activateAgentBehaviour();
+	public void activateAgentBehaviour() {
+		/*
+		 * run every agent's behaviour in a chosen order. A scheduling polict
+		 * can be implemented by the user here.
+		 */
+		for (Agent p : agents) {
+			p.run();
+		}
+	}
 
 	/**
 	 * Check if all the AgentControllers are ready for the next step of the
@@ -82,12 +212,12 @@ public abstract class AgentController implements IMessageProcessor {
 	 * 
 	 * @return
 	 */
-	public boolean checkIfAllACsReadyForNextTick(boolean flag) {
+	public boolean checkIfAllACsReadyForNextTick() {
 		if (ACStatus.size() == 0) {
 			Log.logger.info("I am the only host");
 			return true;
 		}
-		Log.logger.info("Holdmessages status:" + flag);
+
 		if (ACStatus.containsValue(ACNetwork.AC_COMPUTING)) {
 			Log.logger.info("Some hosts are busy");
 			return false;
@@ -105,7 +235,7 @@ public abstract class AgentController implements IMessageProcessor {
 		// TODO: There is only one queue for ACs and those parameters are being
 		// used.
 		QueueParameters queueParameters = ACNetwork.ACMessageQueueParameters;
-		queueManager = ACQueueManagement.getInstance(queueParameters, this);
+		queueManager = ACQueueManagement.getInstance(queueParameters);
 		queueManager.start();
 
 		// processMessage = new ACProcessMessage(agents);
@@ -206,24 +336,13 @@ public abstract class AgentController implements IMessageProcessor {
 		}
 	}
 
-	// TODO: Remove the KML outputs Write the output to java LiveGraph here.
-	// protected void writeKMLFile(String ctaName) {
-	// String stamp = new
-	// SimpleDateFormat("hh-mm-ss-aaa_dd-MMMMM-yyyy").format(new
-	// Date()).toString();
-	// //kmlUtility.writeFile();
-	// //kmlUtility.writeFile("kml/" + ctaName + "_" + stamp + "_" +
-	// currentTickNumber + ".kml");
-	//
-	// }
-
 	/**
 	 * This is the part of the boot process where each agent controller reads
 	 * how the simulation is set up across the machines.
 	 */
 	protected void readConfigurations() {
 		try {
-			Boot.loadMachineConfigurations("config/agentControllerConfig");
+			Boot.readMachineConfigurations();
 		} catch (FileNotFoundException ex) {
 			Log.logger.info("Did not find the configuration file.");
 			ex.printStackTrace();
