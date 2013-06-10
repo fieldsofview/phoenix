@@ -1,7 +1,8 @@
-/**
- * The Boot Class sets up the start of a simulation process. This class contains
- * methods to perform checks for modules.
- */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. and 
+ * at http://code.fieldsofview.in/phoenix/wiki/FOV-MPL2 */
+
 package system;
 
 import java.io.FileInputStream;
@@ -11,6 +12,11 @@ import java.util.Properties;
 
 import communication.ACNetwork;
 import communication.QueueParameters;
+
+/**
+ * The Boot Class sets up the start of a simulation process. This class contains
+ * methods to perform checks for modules.
+ */
 
 /**
  * This class loads the configurations for a given agent controller.
@@ -40,7 +46,7 @@ public class Boot {
 		Properties queueProperties = new Properties();
 
 		queueProperties.load(new FileInputStream(
-				globalData.Constants.machineFile));
+				system.Constants.machineFile));
 
 		Log.logger.debug("Queue Name:"
 				+ queueProperties.getProperty("queueName"));

@@ -1,3 +1,8 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. and 
+ * at http://code.fieldsofview.in/phoenix/wiki/FOV-MPL2 */
+
 package communication.queueManager;
 
 import agents.AgentController;
@@ -89,7 +94,7 @@ public class ACQueueManagement extends QueueManager {
 		Log.logger.info("Creating a connection and channel");
 		QueueParameters hostQueueParameters = ACNetwork.ACMessageQueueParameters;
 		factory = new ConnectionFactory();
-		factory.setHost(globalData.Constants.localHost);
+		factory.setHost(system.Constants.localHost);
 		factory.setPort(Integer.parseInt(hostQueueParameters.port));
 		factory.setUsername(hostQueueParameters.username);
 		factory.setPassword(hostQueueParameters.password);
