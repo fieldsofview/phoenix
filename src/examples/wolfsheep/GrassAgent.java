@@ -5,25 +5,25 @@
 package examples.wolfsheep;
 
 import agents.AIDGenerator;
+import agents.Agent;
 import system.Log;
 
-public class WolfAgent extends agents.Agent {
-
+/**
+ *
+ * @author onkar
+ */
+public class GrassAgent extends Agent{
     private int xcor;
     private int ycor;
-    
-    public WolfAgent(AIDGenerator aidGenerator) {
+    public GrassAgent(AIDGenerator aidGenerator){
         super(aidGenerator);
         Log.ConfigureLogger();
     }
-
     @Override
     public void run() {
-        Log.logger.info("Running " + this.getClass().getCanonicalName() +": "+ this.getAID());
         this.setStatusFlag(true);
         this.setObjectiveFlag(true);
     }
-    
     public void setCoordinates(int xcor,int ycor){
         this.xcor=xcor;
         this.ycor=ycor;
