@@ -72,10 +72,16 @@ public class BoneCPPooler implements DatabasePooler {
 
 	public static DatabasePooler getInstance(Properties p) {
 		if (null == boneCPPooling) {
+			System.out.println("Instantiating pooler singleton.");
 			boneCPPooling = new BoneCPPooler(p);
 			return boneCPPooling;
 		}
+		System.out.println("Pooler present; returning pooler.");
 		return boneCPPooling;
+	}
+	
+	public String toString(){
+		return "Bone CP Pooler for Phoenix.";
 	}
 
 }
