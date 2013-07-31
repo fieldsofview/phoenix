@@ -7,11 +7,10 @@ package agents.universe;
 /**
  * The GIS universe can map each point in the universe to a real GIS location.
  */
-public class UniverseGIS extends Universe{
-	
+public class UniverseGIS extends Universe {
+
 	private double minLatitude, minLongitude, maxLatitude, maxLongitude;
 
-	
 	/**
 	 * @return the maxLatitude
 	 */
@@ -20,7 +19,8 @@ public class UniverseGIS extends Universe{
 	}
 
 	/**
-	 * @param maxLatitude the maxLatitude to set
+	 * @param maxLatitude
+	 *            the maxLatitude to set
 	 */
 	public void setMaxLatitude(double maxLatitude) {
 		this.maxLatitude = maxLatitude;
@@ -34,7 +34,8 @@ public class UniverseGIS extends Universe{
 	}
 
 	/**
-	 * @param minLatitude the minLatitude to set
+	 * @param minLatitude
+	 *            the minLatitude to set
 	 */
 	public void setMinLatitude(double minLatitude) {
 		this.minLatitude = minLatitude;
@@ -48,7 +49,8 @@ public class UniverseGIS extends Universe{
 	}
 
 	/**
-	 * @param maxLongitude the maxLongitude to set
+	 * @param maxLongitude
+	 *            the maxLongitude to set
 	 */
 	public void setMaxLongitude(double maxLongitude) {
 		this.maxLongitude = maxLongitude;
@@ -62,7 +64,8 @@ public class UniverseGIS extends Universe{
 	}
 
 	/**
-	 * @param minLongitude the minLongitude to set
+	 * @param minLongitude
+	 *            the minLongitude to set
 	 */
 	public void setMinLongitude(double minLongitude) {
 		this.minLongitude = minLongitude;

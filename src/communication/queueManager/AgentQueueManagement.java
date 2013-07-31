@@ -9,19 +9,19 @@ public class AgentQueueManagement extends QueueManager {
 	protected Message addQueueListener(QueueParameters queueParameters) {
 		return null;
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void createConnectionAndChannel() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void exitMessaging() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class AgentQueueManagement extends QueueManager {
 	@Override
 	public void processMessage(Message receivedMessage) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
