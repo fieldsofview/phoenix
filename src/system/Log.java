@@ -4,6 +4,7 @@
  */
 package system;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -25,6 +26,7 @@ public class Log {
 	 */
 	public static void ConfigureLogger() {
 		PropertyConfigurator.configure("config/logger.properties");
+                logger.setLevel(Level.INFO);
 		// TimeZone tz = TimeZone.getTimeZone("IST");
 	}
 }
