@@ -175,16 +175,16 @@ public class ACQueueManagement extends QueueManager {
 			Log.logger.error("Finished Adding queue listener");
 
 		} catch (ClassNotFoundException ex) {
-			Log.logger.error("" + ACQueueManagement.class.getName());
-			ex.printStackTrace();
+			Log.logger.error("" + ACQueueManagement.class.getName()+" "+ex.getMessage());
+			
 			System.exit(0);
 		} catch (IOException ex) {
-			Log.logger.error("" + ACQueueManagement.class.getName());
-			ex.printStackTrace();
+			Log.logger.error("" + ACQueueManagement.class.getName()+" "+ex.getMessage());
+			ex.getMessage();
 			System.exit(0);
 		} catch (Exception ex) {
-			Log.logger.error(ACQueueManagement.class.getName());
-			ex.printStackTrace();
+			Log.logger.error(ACQueueManagement.class.getName()+" "+ex.getMessage());
+			ex.getMessage();
 			System.exit(0);
 		}
 		return message;
@@ -224,16 +224,18 @@ public class ACQueueManagement extends QueueManager {
 			ObjectOutputStream outputWriter = new ObjectOutputStream(
 					outputBuffer);
 			outputWriter.writeObject(message);
-			outputWriter.close(); // write to buffer and flush;
+			//outputWriter.close(); // write to buffer and flush;
 			byte[] messageBodyBytes = outputBuffer.toByteArray();
+                        
 			channel.basicPublish(ACNetwork.ACMessageQueueParameters.exchange,
 					"", null, messageBodyBytes);
 			outputBuffer.close();
 			return true;
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			Log.logger.info(ACQueueManagement.class.getName());
 			Log.logger.info("Error Sending Message" + ex.getMessage());
 			ex.printStackTrace();
+                        ex.getMessage();
 			return false;
 		}
 	}
@@ -267,7 +269,7 @@ public class ACQueueManagement extends QueueManager {
 		// update status of the host from which message was received
 		Log.logger.info("AC: ReceivedMessage");
 		// Find out what type of status update it is
-		ACStatusMessage statusType = (ACStatusMessage) receivedMessage.messageObject;
+		ACStatusMessage statusType = (ACStatusMessage) receivedMessage;
 
 		switch (statusType.AC_STATUS) {
 

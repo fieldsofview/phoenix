@@ -31,7 +31,7 @@ public class WolfSheepPredationSimulation extends AgentController {
     public class WolfSheepUniverse extends Universe2D {
         WolfSheepUniverse(Integer maxx, Integer maxy) {
             super(maxx, maxy, 0, 0);
-            Log.logger.info("Universe Setup");
+            Log.logger.info("Universe is setup.");
         }
         @Override
         public void worldView(){
@@ -46,6 +46,10 @@ public class WolfSheepPredationSimulation extends AgentController {
                 }
                 System.out.println("\n");
             }
+        }
+        public void agentDie(int xcor, int ycor, UUID uuid){
+            //agentMap.put(uuid, null);
+            this.remove(xcor, ycor, uuid);
         }
     }
 
@@ -74,6 +78,7 @@ public class WolfSheepPredationSimulation extends AgentController {
             setupGrass();
             setupWolfAgents();
             setupSheepAgents();
+            sendReadyForTick();
             universe.worldView();
             Log.logger.info("Simulation is setup.");
         } catch (IOException ex) {
@@ -103,10 +108,13 @@ public class WolfSheepPredationSimulation extends AgentController {
         for (int i = 0; i < universe.maxX; i++) {
             for (int j = 0; j < universe.maxY; j++) {
                 if (new Random().nextInt(100) <= grassPercent) {
-                    GrassAgent grass = new GrassAgent(this.getAgentIDGenerator());
+                    GrassAgent grass = new GrassAgent(this.getAgentIDGenerator(),universe);
                     xcor = i;
                     ycor = j;
                     grass.setCoordinates(xcor, ycor);
+                    grass.agentAttributes.addAttribute("Health",new Long(simulationProperties.getProperty("currentgrowth")));
+                    grass.agentAttributes.addAttribute("EatRate", new Long(simulationProperties.getProperty("eatrate")));
+                    grass.agentAttributes.addAttribute("GrowthRate", new Long(simulationProperties.getProperty("growthrate")));
                     agents.add(grass);
                     agentMap.put(grass.getAID(), grass);
                     universe.place(i, j, grass.getAID());
@@ -119,11 +127,12 @@ public class WolfSheepPredationSimulation extends AgentController {
         int xcor;
         int ycor;
         for (int i = 0; i < new Integer(simulationProperties.getProperty("wolf")); i++) {
-            WolfAgent wolf = new WolfAgent(this.getAgentIDGenerator());
+            WolfAgent wolf = new WolfAgent(this.getAgentIDGenerator(),universe);
             xcor = new Random().nextInt(universe.maxX);
             ycor = new Random().nextInt(universe.maxY);
             wolf.setCoordinates(xcor, ycor);
             agents.add(wolf);
+            wolf.agentAttributes.addAttribute("Health", new Random().nextInt(100));
             agentMap.put(wolf.getAID(), wolf);
             universe.place(xcor, ycor, wolf.getAID());
         }
@@ -133,10 +142,11 @@ public class WolfSheepPredationSimulation extends AgentController {
         int xcor;
         int ycor;
         for (int i = 0; i < new Integer(simulationProperties.getProperty("sheep")); i++) {
-            SheepAgent sheep = new SheepAgent(this.getAgentIDGenerator());
+            SheepAgent sheep = new SheepAgent(this.getAgentIDGenerator(),universe);
             xcor = new Random().nextInt(universe.maxX);
             ycor = new Random().nextInt(universe.maxY);
             sheep.setCoordinates(xcor, ycor);
+            sheep.agentAttributes.addAttribute("Health", new Random().nextInt(100));
             agents.add(sheep);
             agentMap.put(sheep.getAID(), sheep);
             universe.place(xcor, ycor, sheep.getAID());
@@ -145,7 +155,8 @@ public class WolfSheepPredationSimulation extends AgentController {
 
     public String getAgentType(UUID uuid) {
         String canonicalName= agentMap.get(uuid).getClass().getCanonicalName().toString();
-        String shortName=canonicalName.split("examples.wolfsheep.")[1].charAt(0)+"";
+        String shortName;
+        shortName = canonicalName.split("examples.wolfsheep.")[1].charAt(0)+""+agentMap.get(uuid).agentAttributes.getAttribute("Health");
         return shortName;
     }
 }

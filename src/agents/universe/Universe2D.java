@@ -1,6 +1,7 @@
 package agents.universe;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -59,6 +60,12 @@ public class Universe2D extends Universe {
         synchronized public void place(int x, int y, UUID uuid){
             ArrayList temp=(ArrayList) world[x][y];
             temp.add(uuid);
+            world[x][y]=temp;
+        }
+        
+        synchronized public void remove(int x, int y, UUID uuid){
+            ArrayList temp=(ArrayList) world[x][y];
+            temp.remove(uuid);
             world[x][y]=temp;
         }
 }

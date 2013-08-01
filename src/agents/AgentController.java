@@ -301,9 +301,9 @@ public abstract class AgentController {
 		Iterator<String> hosts = ACNetwork.agentControllerhostList.iterator();
 		while (hosts.hasNext()) {
 			String host = hosts.next();
-			if (!host.equalsIgnoreCase(Constants.localHost)) {
+			//if (!host.equalsIgnoreCase(Constants.localHost)) {
 				ACStatus.put(host, ACNetwork.AC_COMPUTING);
-			}
+			//}
 		}
 	}
 
