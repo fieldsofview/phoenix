@@ -202,7 +202,9 @@ public abstract class AgentController {
 		 * can be implemented by the user here.
 		 */
 		for (Agent p : agents) {
+                    if(!p.getObjectiveFlag()){
 			p.run();
+                    }
 		}
 	}
 
