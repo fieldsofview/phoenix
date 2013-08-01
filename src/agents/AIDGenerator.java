@@ -1,7 +1,7 @@
-/**
- * A unique identification generator for every agent in the system.
- * Currently implements a straightforward java UUID generator.
- */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. and 
+ * at http://code.fieldsofview.in/phoenix/wiki/FOV-MPL2 */
 
 package agents;
 
@@ -10,9 +10,10 @@ import java.util.UUID;
 import system.Log;
 
 /**
- * Assigns Unique Agent identifiers using the built-in java UUID generator.
+ * A unique identification generator for every agent in the system. Currently
+ * implements a straightforward java UUID generator. Assigns Unique Agent
+ * identifiers using the built-in java UUID generator.
  */
-
 public class AIDGenerator {
 
 	public AIDGenerator() {
