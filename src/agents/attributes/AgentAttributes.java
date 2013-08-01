@@ -11,15 +11,14 @@ import java.util.HashMap;
 /**
  * This is a class that defines all the attributes of the agent.
  */
-abstract public class AgentAttributes implements Serializable {
+abstract public class AgentAttributes {
 
 	/*
 	 * Current version for serialisation of the class.
 	 */
-	private static final long serialVersionUID = 1L;
-	private final HashMap<Object, Object> attributes;
+	private HashMap<Object, Object> attributes;
 
-	private AgentAttributes() {
+	protected AgentAttributes() {
 		attributes = new HashMap<Object, Object>();
 	}
 
