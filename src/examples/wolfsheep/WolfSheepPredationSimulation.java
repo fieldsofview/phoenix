@@ -4,6 +4,7 @@
  */
 package examples.wolfsheep;
 
+import agents.AIDGenerator;
 import agents.Agent;
 import agents.AgentController;
 import agents.universe.Universe2D;
@@ -68,6 +69,15 @@ public class WolfSheepPredationSimulation extends AgentController {
             String shortName;
             shortName = canonicalName.split("examples.wolfsheep.")[1].charAt(0) + "" + agentMap.get(uuid).agentAttributes.getAttribute("Health");
             return shortName;
+        }
+        public AIDGenerator accessAidGenerator(){
+            return getAgentIDGenerator();
+        }
+        public List<Agent> accessAgentList(){
+            return agents;
+        }
+        public Map<UUID,Agent> accessAgentMap(){
+            return agentMap;
         }
     }
 
@@ -152,6 +162,7 @@ public class WolfSheepPredationSimulation extends AgentController {
             agents.add(wolf);
             wolf.agentAttributes.addAttribute("Health", new Random().nextInt(100));
             wolf.agentAttributes.addAttribute("WolfGain", new Integer(simulationProperties.getProperty("wolfgain")));
+            wolf.agentAttributes.addAttribute("WolfReproduce", new Integer(simulationProperties.getProperty("wolfreproduce")));
             agentMap.put(wolf.getAID(), wolf);
             universe.place(xcor, ycor, wolf.getAID());
         }
@@ -167,6 +178,7 @@ public class WolfSheepPredationSimulation extends AgentController {
             sheep.setCoordinates(xcor, ycor);
             sheep.agentAttributes.addAttribute("Health", new Random().nextInt(100));
             sheep.agentAttributes.addAttribute("SheepGain", new Integer(simulationProperties.getProperty("sheepgain")));
+            sheep.agentAttributes.addAttribute("SheepReproduce", new Integer(simulationProperties.getProperty("sheepreproduce")));
             agents.add(sheep);
             agentMap.put(sheep.getAID(), sheep);
             universe.place(xcor, ycor, sheep.getAID());

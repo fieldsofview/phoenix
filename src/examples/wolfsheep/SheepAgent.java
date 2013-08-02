@@ -78,6 +78,28 @@ public class SheepAgent extends Agent {
         }
     }
 
+    public class ReproduceBehaviour implements Behaviour {
+
+        @Override
+        public void run(AgentAttributes agentAttributes) {
+            int repRate = new Integer((int) agentAttributes.getAttribute("SheepReproduce"));
+            int health = new Integer((int) agentAttributes.getAttribute("Health"));
+            if (new Random().nextInt(100) < repRate) {
+                SheepAgent sheep = new SheepAgent(universe.accessAidGenerator(), universe);
+                sheep.setCoordinates(xcor+1,ycor);
+                sheep.agentAttributes.addAttribute("Health", health/2);
+                sheep.agentAttributes.addAttribute("SheepGain", agentAttributes.getAttribute("sheepgain"));
+                sheep.agentAttributes.addAttribute("SheepReproduce", agentAttributes.getAttribute("sheepreproduce"));
+                universe.accessAgentList().add(sheep);
+                universe.accessAgentMap().put(sheep.getAID(), sheep);
+                universe.place(xcor, ycor, sheep.getAID());
+                //Set current sheep's health to half its original
+                agentAttributes.addAttribute("Health", health/2);
+                Log.logger.info("Sheep "+getAID()+" reproduced sheep "+sheep.getAID());
+            }
+        }
+    }
+
     public class SheepAgentAttributes extends AgentAttributes {
 
         public SheepAgentAttributes() {
@@ -91,9 +113,12 @@ public class SheepAgent extends Agent {
         agentAttributes = new SheepAgentAttributes();
         MoveBehaviour move = new MoveBehaviour();
         EatBehaviour eat = new EatBehaviour();
+        //TODO: Add mechanism to add new agents safely
+        //ReproduceBehaviour rep=new ReproduceBehaviour();
         beh = new CompositeBehaviour();
         beh.add(move);
         beh.add(eat);
+        //beh.add(rep);
         Log.ConfigureLogger();
     }
 
