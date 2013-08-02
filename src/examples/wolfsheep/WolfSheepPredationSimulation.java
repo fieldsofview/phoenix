@@ -101,7 +101,7 @@ public class WolfSheepPredationSimulation extends AgentController {
     protected void setUp() {
         try {
             simulationProperties = new Properties();
-            simulationProperties.load(new FileInputStream("config/examples/wolfsheep.properties"));
+            simulationProperties.load(new FileInputStream("config/examples_properties/wolfsheep.properties"));
             setupUniverse();
             setupGrass();
             setupWolfAgents();
