@@ -19,5 +19,10 @@ public interface DatabasePooler {
 
 	public Connection getConnection() throws SQLException;
 	
+        public void shutdown();
+        
+        public void printStatistics();
+        
+        @Override
 	public String toString();
 }
