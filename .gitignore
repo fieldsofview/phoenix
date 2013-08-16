@@ -11,3 +11,5 @@ manifest.mf
 /lib/*
 /lib
 logs/*
+*~
+*.~
