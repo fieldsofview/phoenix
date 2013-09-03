@@ -128,6 +128,7 @@ public class UrbanSprawlSimulation extends AgentController {
         int xcor;
         int ycor;
         int noOfUrbanAgents = new Integer(simulationProperties.getProperty("population"));
+        boolean patienceFlag=false;
         for (int i = 0; i < noOfUrbanAgents; i++) {
             UrbanAgent urbanAgent = new UrbanAgent(this.getAgentIDGenerator(), universe);
             xcor = universe.maxX / 2;
@@ -140,6 +141,7 @@ public class UrbanSprawlSimulation extends AgentController {
             urbanAgent.agentAttributes.addAttribute("waittime", new Integer(simulationProperties.getProperty("waittime")));
             urbanAgent.agentAttributes.addAttribute("agentState", new Integer(1));
             urbanAgent.agentAttributes.addAttribute("patienceCounter", new Integer(simulationProperties.getProperty("patience")));
+            urbanAgent.agentAttributes.addAttribute("patienceFlag", patienceFlag);
             agentMap.put(urbanAgent.getAID(), urbanAgent);
             universe.place(xcor, ycor, urbanAgent.getAID());
         }
