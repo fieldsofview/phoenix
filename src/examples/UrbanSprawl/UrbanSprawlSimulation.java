@@ -43,6 +43,11 @@ public class UrbanSprawlSimulation extends AgentController {
     Map<UUID, Agent> agentMap;
     Properties simulationProperties;
 
+    @Override
+    protected void cleanupBeforeNextTick() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public class UrbanSprawlUniverse extends Universe2D {
 
         private UrbanSprawlUniverse(Integer maxX, Integer maxY) {
