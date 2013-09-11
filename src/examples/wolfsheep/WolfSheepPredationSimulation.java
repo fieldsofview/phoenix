@@ -29,6 +29,11 @@ public class WolfSheepPredationSimulation extends AgentController {
     WolfSheepUniverse universe;
     Map<UUID, Agent> agentMap;
 
+    @Override
+    protected void cleanupBeforeNextTick() {
+        universe.worldView();
+    }
+
     public class WolfSheepUniverse extends Universe2D {
 
         WolfSheepUniverse(Integer maxx, Integer maxy) {

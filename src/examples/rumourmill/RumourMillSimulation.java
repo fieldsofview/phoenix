@@ -28,6 +28,11 @@ public class RumourMillSimulation extends AgentController{
     Properties simulationProperties;
     RumourMillUniverse universe;
     Map<UUID,Agent> agentMap;
+
+    @Override
+    protected void cleanupBeforeNextTick() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public class RumourMillUniverse extends Universe2D{
 
