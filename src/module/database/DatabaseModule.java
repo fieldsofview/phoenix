@@ -84,10 +84,11 @@ public class DatabaseModule implements Module {
             try (Connection c = this.pooler.getConnection()) {
                 Statement s = c.prepareStatement(query);
                 rs = s.executeQuery(query);
+                c.close();
             }
             return rs;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -95,9 +96,11 @@ public class DatabaseModule implements Module {
     public Integer executeUpdate() {
         try {
             Connection c = this.pooler.getConnection();
-            return c.prepareStatement(updateQuery).executeUpdate();
+            Integer returnVal= c.prepareStatement(updateQuery).executeUpdate();
+            c.close();
+            return returnVal;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return null;
     }
