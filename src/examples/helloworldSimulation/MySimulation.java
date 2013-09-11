@@ -60,7 +60,7 @@ public class MySimulation extends AgentController {
 		TestAgent temp;
 		for (int i = 0; i < NUMBER_OF_AGENTS; i++) {
 			temp = new TestAgent(this.getAgentIDGenerator());
-			agents.add(temp);
+			agents.put(temp.getAID(),temp);
 			Log.logger.info("Created a Test Agent " + temp.getId() + ".");
 		}
 		Log.logger.info("Completed creating agents");

@@ -6,11 +6,9 @@ package agents;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import system.Boot;
@@ -21,6 +19,7 @@ import communication.ACNetwork;
 import communication.QueueParameters;
 import communication.messages.ACStatusMessage;
 import communication.queueManager.ACQueueManagement;
+import java.util.UUID;
 
 /**
  * The Default Agent Controller. All types of Agent Controllers extend this
@@ -42,9 +41,10 @@ public abstract class AgentController {
      */
     public static int currentTickNumber;
     /**
-     * A list of all agents handled by the Agent Controller
+     * A Map of all agents handled by the Agent Controller.
+     * This has been changed to a Map from a List.
      */
-    public List<Agent> agents;
+    public Map<UUID,Agent> agents;
     /**
      * The AgentController's communication queue.
      */
@@ -79,7 +79,7 @@ public abstract class AgentController {
      */
     private void createListObjects() {
         ACStatus = Collections.synchronizedMap(new HashMap<String, Integer>());
-        agents = Collections.synchronizedList(new ArrayList<Agent>());
+        agents = Collections.synchronizedMap(new HashMap<UUID,Agent>());
     }
 
     /**
@@ -133,7 +133,7 @@ public abstract class AgentController {
      */
     protected boolean objectiveSatisfiedForAllAgents() {
         int count = 0;
-        for (Agent p : agents) {
+        for (Agent p : agents.values()) {
             if (p.getObjectiveFlag()) {
                 count++;
             }
@@ -182,7 +182,7 @@ public abstract class AgentController {
      */
     public boolean checkIfAllAgentsReadyForNextTick() {
         int count = 0;
-        for (Agent p : agents) {
+        for (Agent p : agents.values()) {
             if (p.getStatusFlag()) {
                 count++;
             }
@@ -202,7 +202,7 @@ public abstract class AgentController {
          * run every agent's behaviour in a chosen order. A scheduling polict
          * can be implemented by the user here.
          */
-        for (Agent p : agents) {
+        for (Agent p : agents.values()) {
             if (!p.getObjectiveFlag()) {
                 p.run();
             }
