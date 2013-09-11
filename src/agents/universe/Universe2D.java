@@ -53,6 +53,10 @@ public class Universe2D extends Universe {
             }
 	}
         
+        /**
+         * The method worldView outputs onto the console
+         * the current locations of all the agents within the world
+         */
         public void worldView(){
             for(int i=0;i<maxX;i++){
                 for(int j=0;j<maxY;j++){
@@ -62,12 +66,32 @@ public class Universe2D extends Universe {
             }
         }
         
+        /**
+         * This method places the agent with UUID uuid
+         * at the coordinates x and y
+         * @param x
+         * The x-coordinate for placing
+         * @param y
+         * The y-coordinate for placing
+         * @param uuid 
+         * The uuid of the agent to be placed
+         */
         synchronized public void place(int x, int y, UUID uuid){
             ArrayList temp=(ArrayList) world[x][y];
             temp.add(uuid);
             world[x][y]=temp;
         }
         
+        /**
+         * This method removed the agent with UUID uuid
+         * from the coordinates x and y
+         * @param x
+         * The x-coordinate
+         * @param y
+         * The y-coordinate
+         * @param uuid 
+         * The uuid of the agent to be removed
+         */
         synchronized public void remove(int x, int y, UUID uuid){
             ArrayList temp=(ArrayList) world[x][y];
             temp.remove(uuid);
