@@ -72,4 +72,9 @@ public class MySimulation extends AgentController {
 		sendDoneWithWork();
 		System.exit(0);
 	}
+
+    @Override
+    protected void cleanupBeforeNextTick() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
