@@ -27,7 +27,6 @@ public class WolfSheepPredationSimulation extends AgentController {
 
     Properties simulationProperties;
     WolfSheepUniverse universe;
-    Map<UUID, Agent> agentMap;
 
     @Override
     protected void cleanupBeforeNextTick() {
@@ -62,7 +61,7 @@ public class WolfSheepPredationSimulation extends AgentController {
         }
 
         public Agent getAgent(UUID uuid) {
-            return agentMap.get(uuid);
+            return agents.get(uuid);
         }
 
         public ArrayList<UUID> getAgentsOnLocation(int x, int y) {
@@ -70,25 +69,21 @@ public class WolfSheepPredationSimulation extends AgentController {
         }
 
         public String getAgentType(UUID uuid) {
-            String canonicalName = agentMap.get(uuid).getClass().getCanonicalName().toString();
+            String canonicalName = agents.get(uuid).getClass().getCanonicalName().toString();
             String shortName;
-            shortName = canonicalName.split("examples.wolfsheep.")[1].charAt(0) + "" + agentMap.get(uuid).agentAttributes.getAttribute("Health");
+            shortName = canonicalName.split("examples.wolfsheep.")[1].charAt(0) + "" + agents.get(uuid).agentAttributes.getAttribute("Health");
             return shortName;
         }
         public AIDGenerator accessAidGenerator(){
             return getAgentIDGenerator();
         }
-        public List<Agent> accessAgentList(){
+        public Map<UUID,Agent> accessAgentList(){
             return agents;
-        }
-        public Map<UUID,Agent> accessAgentMap(){
-            return agentMap;
         }
     }
 
     public WolfSheepPredationSimulation() {
         super();
-        agentMap = Collections.synchronizedMap(new HashMap<UUID, Agent>());
         this.setAgentControllerName(this.getClass().getCanonicalName());
         readConfigurations();
         addQueueListener();
@@ -148,8 +143,7 @@ public class WolfSheepPredationSimulation extends AgentController {
                     grass.agentAttributes.addAttribute("Health", new Integer(simulationProperties.getProperty("currentgrowth")));
                     grass.agentAttributes.addAttribute("EatRate", new Integer(simulationProperties.getProperty("eatrate")));
                     grass.agentAttributes.addAttribute("GrowthRate", new Integer(simulationProperties.getProperty("growthrate")));
-                    agents.add(grass);
-                    agentMap.put(grass.getAID(), grass);
+                    agents.put(grass.getAID(),grass);
                     universe.place(i, j, grass.getAID());
                 }
             }
@@ -164,11 +158,10 @@ public class WolfSheepPredationSimulation extends AgentController {
             xcor = new Random().nextInt(universe.maxX);
             ycor = new Random().nextInt(universe.maxY);
             wolf.setCoordinates(xcor, ycor);
-            agents.add(wolf);
             wolf.agentAttributes.addAttribute("Health", new Random().nextInt(100));
             wolf.agentAttributes.addAttribute("WolfGain", new Integer(simulationProperties.getProperty("wolfgain")));
             wolf.agentAttributes.addAttribute("WolfReproduce", new Integer(simulationProperties.getProperty("wolfreproduce")));
-            agentMap.put(wolf.getAID(), wolf);
+            agents.put(wolf.getAID(),wolf);
             universe.place(xcor, ycor, wolf.getAID());
         }
     }
@@ -184,8 +177,7 @@ public class WolfSheepPredationSimulation extends AgentController {
             sheep.agentAttributes.addAttribute("Health", new Random().nextInt(100));
             sheep.agentAttributes.addAttribute("SheepGain", new Integer(simulationProperties.getProperty("sheepgain")));
             sheep.agentAttributes.addAttribute("SheepReproduce", new Integer(simulationProperties.getProperty("sheepreproduce")));
-            agents.add(sheep);
-            agentMap.put(sheep.getAID(), sheep);
+            agents.put(sheep.getAID(),sheep);
             universe.place(xcor, ycor, sheep.getAID());
         }
     }

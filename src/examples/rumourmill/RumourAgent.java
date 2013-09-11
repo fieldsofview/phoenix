@@ -71,7 +71,7 @@ public class RumourAgent extends Agent {
                         rms.tell();
                     }
                 }
-                universe.worldView();
+                //universe.worldView();
             }
         }
     }
