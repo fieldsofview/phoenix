@@ -12,6 +12,7 @@ import agents.behaviour.CompositeBehaviour;
 import agents.universe.Universe;
 import java.util.Random;
 import java.util.UUID;
+import module.database.DatabaseModule;
 import system.Log;
 
 /**
@@ -24,8 +25,7 @@ public class UrbanAgent extends Agent {
     int xcor;
     int ycor;
     boolean patienceFlag;
-    UrbanSprawlSimulation.UrbanSprawlUniverse universe;
-
+    UrbanSprawlSimulation.UrbanSprawlUniverse universe;   
     public class UrbanAgentAttributes extends AgentAttributes {
 
         public UrbanAgentAttributes() {
@@ -77,6 +77,7 @@ public class UrbanAgent extends Agent {
                         xcor = new Random().nextInt(right);
                         universe.place(xcor, ahead, getAID());
                         Log.logger.info("Agent moved towards right " + getAID() + "from [" + oldx + "," + oldy + "]" + "to [" + xcor + "," + ycor + "]");
+                        writeToDatabase(getAID(), xcor, ycor, attractionAhead, "agent movied from old positions to new");
                     } else {
                         if (leftAttraction > attractionAhead) {
                             // move the urban agent
@@ -209,5 +210,10 @@ public class UrbanAgent extends Agent {
         } else {
             return false;
         }
+    }
+    
+    public int writeToDatabase(UUID agentId,int xCor,int Ycor, double simulationTick,String data){
+        
+        return 1;
     }
 }

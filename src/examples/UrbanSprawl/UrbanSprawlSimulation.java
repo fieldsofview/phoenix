@@ -42,7 +42,7 @@ public class UrbanSprawlSimulation extends AgentController {
     UrbanSprawlUniverse universe;
     Map<UUID, Agent> agentMap;
     Properties simulationProperties;
-
+    
     public class UrbanSprawlUniverse extends Universe2D {
 
         private UrbanSprawlUniverse(Integer maxX, Integer maxY) {
