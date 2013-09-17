@@ -8,14 +8,12 @@ import agents.AIDGenerator;
 import agents.Agent;
 import agents.AgentController;
 import agents.universe.Universe2D;
-import examples.wolfsheep.WolfSheepPredationSimulation;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Properties;
@@ -32,7 +30,6 @@ public class UrbanSprawlSimulation extends AgentController {
 
     public UrbanSprawlSimulation() {
         super();
-        agentMap = Collections.synchronizedMap(new HashMap<UUID, Agent>());
         this.setAgentControllerName(this.getClass().getCanonicalName());
         readConfigurations();
         addQueueListener();
@@ -40,7 +37,6 @@ public class UrbanSprawlSimulation extends AgentController {
         buildACStatus();
     }
     UrbanSprawlUniverse universe;
-    Map<UUID, Agent> agentMap;
     Properties simulationProperties;
 
     @Override
@@ -76,7 +72,7 @@ public class UrbanSprawlSimulation extends AgentController {
         }
 
         public Agent getAgent(UUID uuid) {
-            return agentMap.get(uuid);
+            return agents.get(uuid);
         }
 
         public ArrayList<UUID> getAgentsOnLocation(int x, int y) {
@@ -84,10 +80,10 @@ public class UrbanSprawlSimulation extends AgentController {
         }
 
         public String getAgentType(UUID uuid) {
-            String canonicalName = agentMap.get(uuid).getClass().getCanonicalName().toString();
+            String canonicalName = agents.get(uuid).getClass().getCanonicalName().toString();
             //System.out.println("canonical Name :"+canonicalName);
             String shortName;
-            shortName = canonicalName.split("examples.UrbanSprawl.")[1].charAt(0) + "" + agentMap.get(uuid);
+            shortName = canonicalName.split("examples.UrbanSprawl.")[1].charAt(0) + "" + agents.get(uuid);
             //System.out.println("short name of agent :"+uuid+" is "+shortName);
             return shortName;
         }
@@ -96,12 +92,8 @@ public class UrbanSprawlSimulation extends AgentController {
             return getAgentIDGenerator();
         }
 
-        public List<Agent> accessAgentList() {
+        public Map<UUID,Agent> accessAgentList() {
             return agents;
-        }
-
-        public Map<UUID, Agent> accessAgentMap() {
-            return agentMap;
         }
     }
 
@@ -139,13 +131,12 @@ public class UrbanSprawlSimulation extends AgentController {
             ycor = universe.maxY / 2;
             //xcor=0;ycor=0;
             urbanAgent.setCoordinates(xcor, ycor);
-            agents.add(urbanAgent);
             urbanAgent.agentAttributes.addAttribute("searchangle", new Integer(simulationProperties.getProperty("searchangle")));
             urbanAgent.agentAttributes.addAttribute("patience", new Integer(simulationProperties.getProperty("patience")));
             urbanAgent.agentAttributes.addAttribute("waittime", new Integer(simulationProperties.getProperty("waittime")));
             urbanAgent.agentAttributes.addAttribute("agentState", new Integer(1));
             urbanAgent.agentAttributes.addAttribute("patienceCounter", new Integer(simulationProperties.getProperty("patience")));
-            agentMap.put(urbanAgent.getAID(), urbanAgent);
+            agents.put(urbanAgent.getAID(),urbanAgent);
             universe.place(xcor, ycor, urbanAgent.getAID());
         }
         Log.logger.info("urban agents are setup.");
@@ -168,8 +159,8 @@ public class UrbanSprawlSimulation extends AgentController {
                 locationAgent.agentAttributes.addAttribute("maxattraction", maxAttraction);
                 //decide if this parameter should be set here or add a new method for spreading smoothness
                 locationAgent.agentAttributes.addAttribute("smoothness", attraction * 0.4);
-                agents.add(locationAgent);
-                agentMap.put(locationAgent.getAID(), locationAgent);
+                agents.put(locationAgent.getAID(),locationAgent);
+                agents.put(locationAgent.getAID(), locationAgent);
                 universe.place(xcor, ycor, locationAgent.getAID());
             }
         }

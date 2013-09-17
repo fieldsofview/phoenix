@@ -10,9 +10,6 @@ import agents.universe.Universe2D;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
@@ -27,11 +24,10 @@ import system.Log;
 public class RumourMillSimulation extends AgentController{
     Properties simulationProperties;
     RumourMillUniverse universe;
-    Map<UUID,Agent> agentMap;
 
     @Override
     protected void cleanupBeforeNextTick() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        universe.worldView();
     }
     
     public class RumourMillUniverse extends Universe2D{
@@ -48,8 +44,8 @@ public class RumourMillSimulation extends AgentController{
                     System.out.print("[");
                     ArrayList<UUID> agentSet=(ArrayList<UUID>) world[i][j];
                     for(UUID u:agentSet){
-                        System.out.print(agentMap.get(u).agentAttributes.getAttribute("TimesHeard")+":"+
-                                agentMap.get(u).agentAttributes.getAttribute("FirstHeard"));
+                        System.out.print(agents.get(u).agentAttributes.getAttribute("TimesHeard")+":"+
+                                agents.get(u).agentAttributes.getAttribute("FirstHeard"));
                     }
                     System.out.print("]");
                 }
@@ -59,7 +55,7 @@ public class RumourMillSimulation extends AgentController{
         }
         
         public Agent getAgent(UUID uuid) {
-            return agentMap.get(uuid);
+            return agents.get(uuid);
         }
         
         public int getTickNumber(){
@@ -70,7 +66,6 @@ public class RumourMillSimulation extends AgentController{
     
     public RumourMillSimulation(){
         super();
-        agentMap=Collections.synchronizedMap(new HashMap<UUID,Agent>());
         this.setAgentControllerName(this.getClass().getCanonicalName());
         readConfigurations();
         addQueueListener();
@@ -111,8 +106,7 @@ public class RumourMillSimulation extends AgentController{
                 temp.agentAttributes.addAttribute("FirstHeard", new Integer(-1));
                 temp.agentAttributes.addAttribute("xcor", new Integer(i));
                 temp.agentAttributes.addAttribute("ycor", new Integer(j));
-                agents.add(temp);
-                agentMap.put(temp.getAID(), temp);
+                agents.put(temp.getAID(),temp);
                 universe.place(i, j, temp.getAID());
             }
         }
@@ -122,8 +116,8 @@ public class RumourMillSimulation extends AgentController{
         int ycor=new Random().nextInt(universe.maxY);
         ArrayList<UUID> agentList=(ArrayList<UUID>) universe.world[xcor][ycor];
         for(UUID u:agentList){
-            agentMap.get(u).agentAttributes.addAttribute("TimesHeard", new Integer(1));
-            agentMap.get(u).agentAttributes.addAttribute("FirstHeard", new Integer(0));
+            agents.get(u).agentAttributes.addAttribute("TimesHeard", new Integer(1));
+            agents.get(u).agentAttributes.addAttribute("FirstHeard", new Integer(0));
         }
     }
     
