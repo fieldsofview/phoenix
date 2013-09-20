@@ -90,8 +90,7 @@ public class SheepAgent extends Agent {
                 sheep.agentAttributes.addAttribute("Health", health/2);
                 sheep.agentAttributes.addAttribute("SheepGain", agentAttributes.getAttribute("sheepgain"));
                 sheep.agentAttributes.addAttribute("SheepReproduce", agentAttributes.getAttribute("sheepreproduce"));
-                universe.accessAgentList().add(sheep);
-                universe.accessAgentMap().put(sheep.getAID(), sheep);
+                universe.accessAgentList().put(sheep.getAID(),sheep);
                 universe.place(xcor, ycor, sheep.getAID());
                 //Set current sheep's health to half its original
                 agentAttributes.addAttribute("Health", health/2);
