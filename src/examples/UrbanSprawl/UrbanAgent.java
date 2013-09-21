@@ -25,7 +25,8 @@ public class UrbanAgent extends Agent {
     int xcor;
     int ycor;
     boolean patienceFlag;
-    UrbanSprawlSimulation.UrbanSprawlUniverse universe;   
+    UrbanSprawlSimulation.UrbanSprawlUniverse universe;
+
     public class UrbanAgentAttributes extends AgentAttributes {
 
         public UrbanAgentAttributes() {
@@ -78,6 +79,10 @@ public class UrbanAgent extends Agent {
                         universe.place(xcor, ahead, getAID());
                         Log.logger.info("Agent moved towards right " + getAID() + "from [" + oldx + "," + oldy + "]" + "to [" + xcor + "," + ycor + "]");
                         writeToDatabase(getAID(), xcor, ycor, attractionAhead, "agent movied from old positions to new");
+                        agentAttributes.addAttribute("oldx", oldx);
+                        agentAttributes.addAttribute("oldy", oldy);
+                        agentAttributes.addAttribute("xcor", xcor);
+                        agentAttributes.addAttribute("ycor", ycor);
                     } else {
                         if (leftAttraction > attractionAhead) {
                             // move the urban agent
@@ -85,6 +90,10 @@ public class UrbanAgent extends Agent {
                             xcor = new Random().nextInt(left);
                             universe.place(xcor, ahead, getAID());
                             Log.logger.info("Agent moved towards left" + getAID() + "from [" + oldx + "," + oldy + "]" + "to [" + xcor + "," + ycor + "]");
+                            agentAttributes.addAttribute("oldx", oldx);
+                            agentAttributes.addAttribute("oldy", oldy);
+                            agentAttributes.addAttribute("xcor", xcor);
+                            agentAttributes.addAttribute("ycor", ycor);
                         }
                     }
 
@@ -211,9 +220,9 @@ public class UrbanAgent extends Agent {
             return false;
         }
     }
-    
-    public int writeToDatabase(UUID agentId,int xCor,int Ycor, double simulationTick,String data){
-        
+
+    public int writeToDatabase(UUID agentId, int xCor, int Ycor, double simulationTick, String data) {
+
         return 1;
     }
 }
