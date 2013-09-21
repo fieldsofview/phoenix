@@ -42,6 +42,7 @@ public class UrbanSprawlSimulation extends AgentController {
     @Override
     protected void cleanupBeforeNextTick() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        universe.worldView();
     }
 
     public class UrbanSprawlUniverse extends Universe2D {
@@ -53,14 +54,20 @@ public class UrbanSprawlSimulation extends AgentController {
 
         @Override
         public void worldView() {
+            String opData="";
             for (int i = 0; i < maxX; i++) {
                 for (int j = 0; j < maxY; j++) {
-                    System.out.print("[");
                     ArrayList<UUID> setOfAgents = (ArrayList<UUID>) world[i][j];
-                    for (UUID uuid : setOfAgents) {
-                        System.out.print(getAgentType(uuid) + ",");
+                    if (!setOfAgents.isEmpty()&& setOfAgents.size()!=0) {
+                        System.out.print("[");
+                        for (UUID uuid : setOfAgents) {
+                            //System.out.print(getAgentType(uuid) + ",");
+                            if (agents.get(uuid).agentAttributes.getAttribute("oldx") != null) {
+                                System.out.print("[" + agents.get(uuid).agentAttributes.getAttribute("oldx") + "," + agents.get(uuid).agentAttributes.getAttribute("oldy") + "]:[" + agents.get(uuid).agentAttributes.getAttribute("xcor") + "," + agents.get(uuid).agentAttributes.getAttribute("ycor") + "]");
+                            }
+                        }
+                        System.out.print("]");
                     }
-                    System.out.print("]");
                 }
                 System.out.println("\n");
             }
@@ -92,7 +99,7 @@ public class UrbanSprawlSimulation extends AgentController {
             return getAgentIDGenerator();
         }
 
-        public Map<UUID,Agent> accessAgentList() {
+        public Map<UUID, Agent> accessAgentList() {
             return agents;
         }
     }
@@ -135,8 +142,12 @@ public class UrbanSprawlSimulation extends AgentController {
             urbanAgent.agentAttributes.addAttribute("patience", new Integer(simulationProperties.getProperty("patience")));
             urbanAgent.agentAttributes.addAttribute("waittime", new Integer(simulationProperties.getProperty("waittime")));
             urbanAgent.agentAttributes.addAttribute("agentState", new Integer(1));
+            urbanAgent.agentAttributes.addAttribute("xcor", new Integer(xcor));
+            urbanAgent.agentAttributes.addAttribute("ycor", new Integer(ycor));
+            urbanAgent.agentAttributes.addAttribute("oldx", new Integer(xcor));
+            urbanAgent.agentAttributes.addAttribute("oldy", new Integer(ycor));
             urbanAgent.agentAttributes.addAttribute("patienceCounter", new Integer(simulationProperties.getProperty("patience")));
-            agents.put(urbanAgent.getAID(),urbanAgent);
+            agents.put(urbanAgent.getAID(), urbanAgent);
             universe.place(xcor, ycor, urbanAgent.getAID());
         }
         Log.logger.info("urban agents are setup.");
@@ -146,7 +157,7 @@ public class UrbanSprawlSimulation extends AgentController {
         int xcor;
         int ycor;
         int smoothNess = new Integer(simulationProperties.getProperty("smoothness"));
-        int maxAttraction = new Integer(simulationProperties.getProperty("maxattraction"));        
+        int maxAttraction = new Integer(simulationProperties.getProperty("maxattraction"));
         for (int i = 0; i < universe.maxX; i++) {
             for (int j = 0; j < universe.maxY; j++) {
                 double attraction = new Random().nextInt(maxAttraction);
@@ -159,7 +170,7 @@ public class UrbanSprawlSimulation extends AgentController {
                 locationAgent.agentAttributes.addAttribute("maxattraction", maxAttraction);
                 //decide if this parameter should be set here or add a new method for spreading smoothness
                 locationAgent.agentAttributes.addAttribute("smoothness", attraction * 0.4);
-                agents.put(locationAgent.getAID(),locationAgent);
+                agents.put(locationAgent.getAID(), locationAgent);
                 agents.put(locationAgent.getAID(), locationAgent);
                 universe.place(xcor, ycor, locationAgent.getAID());
             }
