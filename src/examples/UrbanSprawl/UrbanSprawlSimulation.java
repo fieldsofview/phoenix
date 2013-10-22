@@ -20,6 +20,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import module.database.DatabaseModule;
 import system.Log;
 
 /**
@@ -38,7 +39,7 @@ public class UrbanSprawlSimulation extends AgentController {
     }
     UrbanSprawlUniverse universe;
     Properties simulationProperties;
-
+    DatabaseModule databaseModule;
     @Override
     protected void cleanupBeforeNextTick() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -114,6 +115,7 @@ public class UrbanSprawlSimulation extends AgentController {
         try {
             simulationProperties = new Properties();
             simulationProperties.load(new FileInputStream("config/examples_properties/urbansprawl.properties"));
+     //       databaseModule=new DatabaseModule();
             setupUniverse();
             setUpLocation();
             setUpUrbanAgents();
