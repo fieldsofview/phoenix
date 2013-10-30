@@ -76,6 +76,7 @@ public class UrbanAgent extends Agent {
                         //move the urban agent 
                         // universe.remove(xcor, ycor, getAID());
                         xcor = new Random().nextInt(right);
+                        ycor = new Random().nextInt(right);
                         universe.place(xcor, ahead, getAID());
                         Log.logger.info("Agent moved towards right " + getAID() + "from [" + oldx + "," + oldy + "]" + "to [" + xcor + "," + ycor + "]");
                         writeToDatabase(getAID(), xcor, ycor, attractionAhead, "agent movied from old positions to new");
@@ -88,6 +89,7 @@ public class UrbanAgent extends Agent {
                             // move the urban agent
                             //universe.remove(xcor, ycor, getAID());
                             xcor = new Random().nextInt(left);
+                            ycor = new Random().nextInt(left);
                             universe.place(xcor, ahead, getAID());
                             Log.logger.info("Agent moved towards left" + getAID() + "from [" + oldx + "," + oldy + "]" + "to [" + xcor + "," + ycor + "]");
                             agentAttributes.addAttribute("oldx", oldx);
