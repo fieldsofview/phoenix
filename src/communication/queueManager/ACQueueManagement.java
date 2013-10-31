@@ -131,6 +131,10 @@ public class ACQueueManagement extends QueueManager {
 		try {
 			channel.close();
 			conn.close();
+                        this.queueManager=null;
+                        Log.logger.info("Thread interrupted");
+                        return;
+                        //Log.logger.info("Status of thread "+threadClosed);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -182,15 +186,15 @@ public class ACQueueManagement extends QueueManager {
 		} catch (ClassNotFoundException ex) {
 			Log.logger.error("" + ACQueueManagement.class.getName()+" "+ex.getMessage());
 			
-			System.exit(0);
+			//System.exit(0);
 		} catch (IOException ex) {
 			Log.logger.error("" + ACQueueManagement.class.getName()+" "+ex.getMessage());
 			ex.getMessage();
-			System.exit(0);
+			//System.exit(0);
 		} catch (Exception ex) {
 			Log.logger.error(ACQueueManagement.class.getName()+" "+ex.getMessage());
 			ex.getMessage();
-			System.exit(0);
+			//System.exit(0);
 		}
 		return message;
 	}
