@@ -1,6 +1,7 @@
 #Machine Configuration for the Agent Controllers to connect to RabbitMQ
 AgentControllerName=myController
-hostIP=127.0.0.1
+hostIP=192.168.18.162
+queueHostIP=192.168.18.176
 queueName=queue
 username=guest
 password=guest

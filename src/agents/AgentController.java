@@ -19,6 +19,7 @@ import communication.ACNetwork;
 import communication.QueueParameters;
 import communication.messages.ACStatusMessage;
 import communication.queueManager.ACQueueManagement;
+
 import java.util.UUID;
 
 /**
@@ -44,7 +45,7 @@ public abstract class AgentController {
      * A Map of all agents handled by the Agent Controller.
      * This has been changed to a Map from a List.
      */
-    public Map<UUID,Agent> agents;
+    public Map<UUID, Agent> agents;
     /**
      * The AgentController's communication queue.
      */
@@ -79,7 +80,7 @@ public abstract class AgentController {
      */
     private void createListObjects() {
         ACStatus = Collections.synchronizedMap(new HashMap<String, Integer>());
-        agents = Collections.synchronizedMap(new HashMap<UUID,Agent>());
+        agents = Collections.synchronizedMap(new HashMap<UUID, Agent>());
     }
 
     /**
@@ -258,8 +259,8 @@ public abstract class AgentController {
 
                 ACStatusMessage statusMessage = new ACStatusMessage();
                 statusMessage.AC_STATUS = ACNetwork.AC_READY_FOR_NEXT_TICK;
-                statusMessage.messageObject = Constants.localHost;
-                statusMessage.hostName = Constants.localHost;
+                statusMessage.messageObject = ACNetwork.localhost;
+                statusMessage.hostName = ACNetwork.localhost;
 
                 queueManager.send(host, statusMessage);
             }
@@ -278,8 +279,8 @@ public abstract class AgentController {
 
                 ACStatusMessage statusMessage = new ACStatusMessage();
                 statusMessage.AC_STATUS = ACNetwork.AC_DONE_WITH_WORK;
-                statusMessage.hostName = Constants.localHost;
-                statusMessage.messageObject = Constants.localHost;
+                statusMessage.hostName = ACNetwork.localhost;
+                statusMessage.messageObject = ACNetwork.localhost;
 
                 queueManager.send(host, statusMessage);
             }
@@ -371,14 +372,14 @@ public abstract class AgentController {
 
     /**
      * @deprecated This method is DEPRECATED. This is to be used only for test
-     * purposes to output results for every tick. This role will be later taken
-     * on by the output system. Since this method is called before the beginning
-     * of every tick, it reduces the performance of Phoenix. This function is
-     * currently empty. The simulation author can choose to override it to
-     * perform necessary actions before the beginning of a new tick.
-     *
-     * However, usage of this method is strongly discouraged. This method MAY BE
-     * removed after the output system is defined.
+     *             purposes to output results for every tick. This role will be later taken
+     *             on by the output system. Since this method is called before the beginning
+     *             of every tick, it reduces the performance of Phoenix. This function is
+     *             currently empty. The simulation author can choose to override it to
+     *             perform necessary actions before the beginning of a new tick.
+     *             <p/>
+     *             However, usage of this method is strongly discouraged. This method MAY BE
+     *             removed after the output system is defined.
      */
     protected void cleanupBeforeNextTick() {
     }

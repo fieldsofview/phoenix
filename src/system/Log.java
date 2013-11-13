@@ -30,7 +30,7 @@ public class Log {
 	 */
 	public static void ConfigureLogger() {
 		PropertyConfigurator.configure("config/logger.properties");
-                logger.setLevel(Level.INFO);
+                logger.setLevel(Level.DEBUG);
 		// TimeZone tz = TimeZone.getTimeZone("IST");
 	}
 }
