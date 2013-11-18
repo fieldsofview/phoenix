@@ -19,6 +19,11 @@ public class QueueParameters implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
+
+    /**
+     * A comma separated list of all the queues/corresponding hosts required for communication.
+     */
+    public String AChostQueues;
     /**
      * The HostName/IP address of the RabbitMQ message server. This is usually a local IP in case the server is
      * running on the same machine as the simulation.
@@ -63,6 +68,7 @@ public class QueueParameters implements Serializable {
      * Constructor for the queue parameters Create a queue with the given
      * parameters.
      *
+     * @param ACHostQueues
      * @param queueHostIP the IP address or host name of the RabbitMQ server.
      * @param queueName   the name of the queue
      * @param username    the username for the rabbitMQ server with access to the given

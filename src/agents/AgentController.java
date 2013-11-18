@@ -301,7 +301,7 @@ public abstract class AgentController {
      * Build the local list of AgentControllers and their current status.
      */
     public void buildACStatus() {
-        Log.logger.info("Building list");
+        Log.logger.debug("Building list");
         Iterator<String> hosts = ACNetwork.agentControllerhostList.iterator();
         while (hosts.hasNext()) {
             String host = hosts.next();
