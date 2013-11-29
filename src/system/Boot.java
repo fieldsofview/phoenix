@@ -47,6 +47,10 @@ public class Boot {
         queueProperties.load(new FileInputStream(
                 system.Constants.machineFile));
 
+        Log.logger.debug("Agent Controller Name:"+ queueProperties.getProperty("AgentControllerName"));
+
+        Log.logger.debug("List of AC Queues:"+ queueProperties.getProperty("ACHostQueues"));
+
         Log.logger.debug("HostIP:"+ queueProperties.getProperty("hostIP"));
 
         Log.logger.debug("Queue Host IP:"+ queueProperties.getProperty("queueHostIP"));
@@ -66,8 +70,7 @@ public class Boot {
                 + queueProperties.getProperty("routingKey"));
         Log.logger.debug("Host IP: " + queueProperties.getProperty("hostIP"));
 
-        ACNetwork.agentControllerhostList.add(queueProperties
-                .getProperty("hostIP"));
+        //ACNetwork.agentControllerHostList.add(queueProperties.getProperty("hostIP"));
         QueueParameters queueParameters = new QueueParameters(
                 queueProperties.getProperty("queueHostIP"),
                 queueProperties.getProperty("queueName"),
@@ -79,6 +82,19 @@ public class Boot {
                 queueProperties.getProperty("routingKey"));
 
         ACNetwork.localhost = queueProperties.getProperty("hostIP");
+
+        ACNetwork.ACName = queueProperties.getProperty("AgentControllerName");
+
+        String listOfACs[] = (queueProperties.getProperty("AgentControllerName")).split(",");
+
+        /*Add all the ACs to the list*/
+        Log.logger.debug("Adding the AC List");
+        for(String givenAC: listOfACs){
+            Log.logger.debug(givenAC + "\n");
+            ACNetwork.agentControllerHostList.add(givenAC);
+        }
+        //Add myself to this list.
+        ACNetwork.agentControllerHostList.add(ACNetwork.ACName);
 
         ACNetwork.hostMessageQueueLookup.put(
                 queueProperties.getProperty("queueName"), queueParameters);

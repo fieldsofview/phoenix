@@ -6,7 +6,6 @@
 package communication.queueManager;
 
 import agents.AgentController;
-
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -15,15 +14,9 @@ import communication.ACNetwork;
 import communication.QueueParameters;
 import communication.messages.ACStatusMessage;
 import communication.messages.Message;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import system.Log;
+
+import java.io.*;
 
 /**
  * This class helps creation, send and receive from the queue using RabbitMQ or
@@ -66,7 +59,6 @@ public class ACQueueManagement extends QueueManager {
      * Get an instance of the QueueManagement
      *
      * @param queueParameters the parameters for the QueueManagement
-     * @param queueUser       the QueueUser for the QueueManagement
      * @return returns an instance of QueueManagement
      * @see ACQueueManagement
      */
@@ -79,7 +71,8 @@ public class ACQueueManagement extends QueueManager {
 
     /**
      * The run method adds a listener which listens to received messages in a
-     * separate thread
+     * separate thread.
+     * TODO: Check if this thread keeps running after servicing one message.
      */
     @Override
     public void run() {
@@ -91,7 +84,7 @@ public class ACQueueManagement extends QueueManager {
         Log.logger.info("Creating a connection and channel");
         QueueParameters hostQueueParameters = ACNetwork.ACMessageQueueParameters;
         factory = new ConnectionFactory();
-        factory.setHost(queueParameters.queueHostIP);//Add the queue host here
+        factory.setHost(queueParameters.queueHostIP);//Add the RabbiMQ host here
         factory.setPort(Integer.parseInt(hostQueueParameters.port));
         factory.setUsername(hostQueueParameters.username);
         factory.setPassword(hostQueueParameters.password);
@@ -197,7 +190,7 @@ public class ACQueueManagement extends QueueManager {
      * channels between the ACs to send its messages. THe destination is not
      * used for ACQueueManagement as the ACs use a fan-out exchange to exchange
      * information.
-     *
+     * TODO: Remove the destination as a parameter as it will not be used anymore.
      * @param destination    defaults to Null in ACQueueManagement
      * @param receivedMessage the message that has to be sent
      * @return true if the message was successfully sent
@@ -225,6 +218,7 @@ public class ACQueueManagement extends QueueManager {
             //outputWriter.close(); // write to buffer and flush;
             byte[] messageBodyBytes = outputBuffer.toByteArray();
 
+            /*NOTE: Boradcasting to all the hosts at the same time using exchange and not queue*/
             channel.basicPublish(ACNetwork.ACMessageQueueParameters.exchange,
                     "", null, messageBodyBytes);
             outputBuffer.close();

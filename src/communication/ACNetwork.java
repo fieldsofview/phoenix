@@ -23,7 +23,7 @@ public class ACNetwork {
      * The list of hosts that contain a Agent Controller. The list will contain
      * IP addresses for the hosts.
      */
-    public static List<String> agentControllerhostList = Collections
+    public static List<String> agentControllerHostList = Collections
             .synchronizedList(new ArrayList<String>());
     /**
      * The map of the queue for look-up of their respective queue parameters for
@@ -48,7 +48,16 @@ public class ACNetwork {
      */
     public static QueueParameters agentMessageQueueParameters = new QueueParameters();
 
+    /**
+     * IP Address of the machine running this Agent Controller
+     */
     public static String localhost = new String();
+
+    /**
+     * A user provided readable name for this Agent Controller Instance. Note that this
+     * will be unique while the IP address for multiple AgentController can be same.
+     */
+    public static String ACName = new String();
 
     /*
      * Values representing work done status for CTA

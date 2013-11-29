@@ -1,9 +1,9 @@
 myController:0.0.0.0:0.0.0.0:queue:username:password:vhost:port:exchange:routing_key
 
-myController = AgentController name
+AgentControllerName = AgentController name
 0.0.0.0 	 = AgentController host machine IP
 ACCount      = Number of AgentControllers or hosts participating in this simulation.
-AChostQueues = The list of other host queue names represented as comma separated list.
+ACHostQueues = The list of other host queue names represented as comma separated list.
 queueHostIP  = The hostname/ip of the machine with the RabbitMQ server. This is usually run locally.
 queue		 = AgentController's queue name usually set to controller name. Note change this value carefully if multiple
                AgentControllers are running on the same host. It needs to use a different queue name.

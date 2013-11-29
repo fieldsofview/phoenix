@@ -28,6 +28,10 @@ public abstract class QueueManager extends Thread {
     // private static QueueManager queueManager = null;
 
     protected QueueParameters queueParameters;
+
+    /**
+     * A flag to check if a listener has completed its setup.
+     */
     public boolean setupQueueListener = false;
 
     /**
