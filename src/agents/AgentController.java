@@ -217,7 +217,7 @@ public abstract class AgentController {
      * @return
      */
     public boolean checkIfAllACsReadyForNextTick() {
-        if (ACStatus.size() == 0) {
+        if (ACStatus.size() == 1) {
             Log.logger.info("I am the only host");
             return true;
         }

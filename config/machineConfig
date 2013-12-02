@@ -2,7 +2,7 @@
 AgentControllerName=myController
 hostIP=192.168.18.168
 hostCount=1
-ACHostQueues=192.168.18.168
+ACHostQueues=192.168.18.165
 queueHostIP=192.168.18.176
 queueName=myController
 username=guest
