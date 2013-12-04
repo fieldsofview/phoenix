@@ -47,13 +47,13 @@ public class Boot {
         queueProperties.load(new FileInputStream(
                 system.Constants.machineFile));
 
-        Log.logger.debug("Agent Controller Name:"+ queueProperties.getProperty("AgentControllerName"));
+        Log.logger.debug("Agent Controller Name:" + queueProperties.getProperty("AgentControllerName"));
 
-        Log.logger.debug("List of AC Queues:"+ queueProperties.getProperty("ACHostQueues"));
+        Log.logger.debug("List of AC Queues:" + queueProperties.getProperty("ACHostQueues"));
 
-        Log.logger.debug("HostIP:"+ queueProperties.getProperty("hostIP"));
+        Log.logger.debug("HostIP:" + queueProperties.getProperty("hostIP"));
 
-        Log.logger.debug("Queue Host IP:"+ queueProperties.getProperty("queueHostIP"));
+        Log.logger.debug("Queue Host IP:" + queueProperties.getProperty("queueHostIP"));
 
         Log.logger.debug("Queue Name:"
                 + queueProperties.getProperty("queueName"));
@@ -68,7 +68,6 @@ public class Boot {
                 + queueProperties.getProperty("exchangeName"));
         Log.logger.debug("Routing Key: "
                 + queueProperties.getProperty("routingKey"));
-        Log.logger.debug("Host IP: " + queueProperties.getProperty("hostIP"));
 
         //ACNetwork.agentControllerHostList.add(queueProperties.getProperty("hostIP"));
         QueueParameters queueParameters = new QueueParameters(
@@ -81,15 +80,20 @@ public class Boot {
                 queueProperties.getProperty("exchangeName"),
                 queueProperties.getProperty("routingKey"));
 
-        ACNetwork.localhost = queueProperties.getProperty("hostIP");
+        /* Note that as there is a dedicated RabbitMQ server present, the lcoalhost will
+        point to the queue represented by the current instance of the AgentController. The old assumption
+        of one AC per machine is no longer valid and routing is happening based on queue names and not
+        IP Addresses or hostnames.
+         */
+        ACNetwork.localhost = queueProperties.getProperty("queueName");
 
         ACNetwork.ACName = queueProperties.getProperty("AgentControllerName");
 
-        String listOfACs[] = (queueProperties.getProperty("AgentControllerName")).split(",");
+        String listOfACs[] = (queueProperties.getProperty("ACHostQueues")).split(",");
 
         /*Add all the ACs to the list*/
         Log.logger.debug("Adding the AC List");
-        for(String givenAC: listOfACs){
+        for (String givenAC : listOfACs) {
             Log.logger.debug(givenAC + "\n");
             ACNetwork.agentControllerHostList.add(givenAC);
         }
