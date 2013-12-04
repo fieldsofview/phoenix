@@ -12,6 +12,7 @@ import agents.behaviour.CompositeBehaviour;
 import agents.universe.Universe;
 import java.util.Random;
 import java.util.UUID;
+import module.database.DatabaseModule;
 import system.Log;
 
 /**
@@ -23,6 +24,7 @@ public class UrbanAgent extends Agent {
     CompositeBehaviour compositeBehaviour;
     int xcor;
     int ycor;
+    boolean patienceFlag;
     UrbanSprawlSimulation.UrbanSprawlUniverse universe;
 
     public class UrbanAgentAttributes extends AgentAttributes {
@@ -37,56 +39,70 @@ public class UrbanAgent extends Agent {
         @Override
         public void run(AgentAttributes agentAttributes) {
             System.out.println("in sprawl behavior");
-            int searchangle = new Integer((int) agentAttributes.getAttribute("searchangle"));
-            //int random = (new Random().nextInt(searchangle));
-            //this needs to be checked with Onkar
-            int random = (new Random().nextInt(10));
-            int oldx = xcor;
-            int oldy = ycor;
-            int ahead = ycor + 1;
-            int right = (random + xcor) + 1;
-            int left = (random + xcor )- 1;
-            double rightAttraction = 0;
-            double leftAttraction = 0;
-            double attractionAhead = 0;
-            System.out.println("xcor "+xcor+" ycor "+ycor+" right "+right+" left"+left);
-            if(left>0 && right < universe.maxX && left < universe.maxY){
-            for (UUID uuid : universe.getAgentsOnLocation(xcor, ahead)) {
-                if (universe.getAgentType(uuid).startsWith("L")) {
-                    attractionAhead = (double) ((LocationAgent) universe.getAgent(uuid)).agentAttributes.getAttribute("attraction");
-                }
-            }
-            for (UUID uuid : universe.getAgentsOnLocation(right, ahead)) {
-                if (universe.getAgentType(uuid).startsWith("L")) {
-                    rightAttraction = (double) ((LocationAgent) universe.getAgent(uuid)).agentAttributes.getAttribute("attraction");
-                }
-            }
-            for (UUID uuid : universe.getAgentsOnLocation(left, ahead)) {
-                if (universe.getAgentType(uuid).startsWith("L")) {
-                    leftAttraction = (double) ((LocationAgent) universe.getAgent(uuid)).agentAttributes.getAttribute("attraction");
-                }
-            }
-            
-            Log.logger.info("attraction ahead "+attractionAhead +" right attraction "+rightAttraction+ " left attraction "+leftAttraction);
-            if (rightAttraction > attractionAhead && rightAttraction > leftAttraction) {
-                //move the urban agent 
-               // universe.remove(xcor, ycor, getAID());
-                xcor = new Random().nextInt(right);
-                universe.place(xcor, ahead, getAID());
-                Log.logger.info("Agent moved towards right " + getAID() + "from [" + oldx + "," + oldy + "]" + "to [" + xcor + "," + ycor + "]");
-            } else {
-                if (leftAttraction > attractionAhead) {
-                    // move the urban agent
-                    //universe.remove(xcor, ycor, getAID());
-                    xcor = new Random().nextInt(left);
-                    universe.place(xcor, ahead, getAID());
-                    Log.logger.info("Agent moved towards left" + getAID() + "from [" + oldx + "," + oldy + "]" + "to [" + xcor + "," + ycor + "]");
-                }
-            }
+            boolean patienceFlag = (boolean) agentAttributes.getAttribute("patienceFlag");
+            if (patienceFlag == true) {
+                int searchangle = new Integer((int) agentAttributes.getAttribute("searchangle"));
+                //int random = (new Random().nextInt(searchangle));
+                //this needs to be checked with Onkar
+                int random = (new Random().nextInt(10));
+                int oldx = xcor;
+                int oldy = ycor;
+                int ahead = ycor + 1;
+                int right = (random + xcor) + 1;
+                int left = (random + xcor) - 1;
+                double rightAttraction = 0;
+                double leftAttraction = 0;
+                double attractionAhead = 0;
+                System.out.println("xcor " + xcor + " ycor " + ycor + " right " + right + " left" + left);
+                if (left > 0 && right < universe.maxX && left < universe.maxY) {
+                    for (UUID uuid : universe.getAgentsOnLocation(xcor, ahead)) {
+                        if (universe.getAgentType(uuid).startsWith("L")) {
+                            attractionAhead = (double) ((LocationAgent) universe.getAgent(uuid)).agentAttributes.getAttribute("attraction");
+                        }
+                    }
+                    for (UUID uuid : universe.getAgentsOnLocation(right, ahead)) {
+                        if (universe.getAgentType(uuid).startsWith("L")) {
+                            rightAttraction = (double) ((LocationAgent) universe.getAgent(uuid)).agentAttributes.getAttribute("attraction");
+                        }
+                    }
+                    for (UUID uuid : universe.getAgentsOnLocation(left, ahead)) {
+                        if (universe.getAgentType(uuid).startsWith("L")) {
+                            leftAttraction = (double) ((LocationAgent) universe.getAgent(uuid)).agentAttributes.getAttribute("attraction");
+                        }
+                    }
 
+                    Log.logger.info("attraction ahead " + attractionAhead + " right attraction " + rightAttraction + " left attraction " + leftAttraction);
+                    if (rightAttraction > attractionAhead && rightAttraction > leftAttraction) {
+                        //move the urban agent 
+                        // universe.remove(xcor, ycor, getAID());
+                        xcor = new Random().nextInt(right);
+                        ycor = new Random().nextInt(right);
+                        universe.place(xcor, ahead, getAID());
+                        Log.logger.info("Agent moved towards right " + getAID() + "from [" + oldx + "," + oldy + "]" + "to [" + xcor + "," + ycor + "]");
+                        writeToDatabase(getAID(), xcor, ycor, attractionAhead, "agent movied from old positions to new");
+                        agentAttributes.addAttribute("oldx", oldx);
+                        agentAttributes.addAttribute("oldy", oldy);
+                        agentAttributes.addAttribute("xcor", xcor);
+                        agentAttributes.addAttribute("ycor", ycor);
+                    } else {
+                        if (leftAttraction > attractionAhead) {
+                            // move the urban agent
+                            //universe.remove(xcor, ycor, getAID());
+                            xcor = new Random().nextInt(left);
+                            ycor = new Random().nextInt(left);
+                            universe.place(xcor, ahead, getAID());
+                            Log.logger.info("Agent moved towards left" + getAID() + "from [" + oldx + "," + oldy + "]" + "to [" + xcor + "," + ycor + "]");
+                            agentAttributes.addAttribute("oldx", oldx);
+                            agentAttributes.addAttribute("oldy", oldy);
+                            agentAttributes.addAttribute("xcor", xcor);
+                            agentAttributes.addAttribute("ycor", ycor);
+                        }
+                    }
+
+                }
+                agentAttributes.addAttribute("patienceFlag", true);
+            }
         }
-        
-        }      
     }
 
     public class SeekingBehavior implements Behaviour {
@@ -98,7 +114,7 @@ public class UrbanAgent extends Agent {
             int stayCounter = 0;
             int searchangle = new Integer((int) agentAttributes.getAttribute("searchangle"));
             int agentState = (int) agentAttributes.getAttribute("agentState");
-            System.out.println("xcor "+xcor+" ycor "+ycor);
+            System.out.println("xcor " + xcor + " ycor " + ycor);
             universe.remove(xcor, ycor, getAID());
             if (agentState == 1) {
                 for (UUID uuid : universe.getAgentsOnLocation(xcor, ycor)) {
@@ -117,7 +133,8 @@ public class UrbanAgent extends Agent {
                     } else {
                         int patienceCounter = (int) agentAttributes.getAttribute("patienceCounter");
                         if (patienceCounter > 0) {
-                            new SprawlBehaior().run(agentAttributes);
+                            agentAttributes.addAttribute("patienceFlag", true);
+
                         }
                         //decrement patience counter
                         patienceCounter--;
@@ -125,9 +142,9 @@ public class UrbanAgent extends Agent {
                         attraction = attraction + 0.1;
                         universe.getAgent(uuid).agentAttributes.addAttribute("attraction", attraction);
                     }
-                    }
-                }//end of agent state==1
-             else if (agentState == 2) {
+                }
+            }//end of agent state==1
+            else if (agentState == 2) {
                 for (UUID uuid : universe.getAgentsOnLocation(xcor, ycor)) {
 
                     if (universe.getAgentType(uuid).startsWith("L")) {
@@ -154,9 +171,10 @@ public class UrbanAgent extends Agent {
                 }//end of agent state 2
 
             }
-        
+
         }
     }
+
     @Override
     public void run() {
         this.setStatusFlag(Boolean.TRUE);
@@ -165,26 +183,16 @@ public class UrbanAgent extends Agent {
 
     }
 
-    public UrbanAgent(AIDGenerator aIDGenerator, CompositeBehaviour compositeBehaviour, UrbanSprawlSimulation.UrbanSprawlUniverse universe) {
-        super(aIDGenerator);
-        this.compositeBehaviour = compositeBehaviour;
-        this.universe = universe;
-        SeekingBehavior seekingBehavior = new SeekingBehavior();
-        //SprawlBehaior sb=new SprawlBehaior();
-        this.compositeBehaviour.add(seekingBehavior);
-        //this.compositeBehaviour.add(sb);
-        Log.ConfigureLogger();
-    }
-
     public UrbanAgent(AIDGenerator agentIDGenerator, UrbanSprawlSimulation.UrbanSprawlUniverse universe) {
         super(agentIDGenerator);
         this.universe = universe;
         this.compositeBehaviour = new CompositeBehaviour();
         agentAttributes = new UrbanAgentAttributes();
+
         SeekingBehavior seekingBehavior = new SeekingBehavior();
-        // SprawlBehaior sb=new SprawlBehaior();        
+        SprawlBehaior sb = new SprawlBehaior();
         this.compositeBehaviour.add(seekingBehavior);
-        //this.compositeBehaviour.add(sb);        
+        this.compositeBehaviour.add(sb);
         Log.ConfigureLogger();
     }
 
@@ -213,5 +221,10 @@ public class UrbanAgent extends Agent {
         } else {
             return false;
         }
+    }
+
+    public int writeToDatabase(UUID agentId, int xCor, int Ycor, double simulationTick, String data) {
+
+        return 1;
     }
 }
