@@ -92,7 +92,7 @@ public abstract class AgentController {
     protected void runAC() {
         setUp();
 
-        // Runs until objectives for all agents is fulfilled
+        // Runs until objectives for all agents is fulfilled       
         while (!objectiveSatisfiedForAllAgents()) {
 
             // Time out for waiting for other agents
