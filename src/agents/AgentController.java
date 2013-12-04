@@ -318,9 +318,11 @@ public abstract class AgentController {
     public void buildACStatus() {
         Log.logger.debug("Building ACs status list");
         Iterator<String> hosts = ACNetwork.agentControllerHostList.iterator();
+        Log.logger.debug("Size of ACStatus = "+ ACStatus.size());
         while (hosts.hasNext()) {
             String host = hosts.next();
             //if (!host.equalsIgnoreCase(Constants.localHost)) {
+            Log.logger.debug("ACStatus = "+ host);
             ACStatus.put(host, ACNetwork.AC_COMPUTING);
             //}
         }
