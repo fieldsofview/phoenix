@@ -1,11 +1,15 @@
-myController:0.0.0.0:queue:username:password:vhost:port:exchange:routing_key
+myController:0.0.0.0:0.0.0.0:queue:username:password:vhost:port:exchange:routing_key
 
-myController = AgentController name
+AgentControllerName = AgentController name
 0.0.0.0 	 = AgentController host machine IP
-queue		 = AgentController's queue name usually set to controller name
-username	 = username to access the rabbitmq node
-password	 = password to access the rabbitmq node
+ACCount      = Number of AgentControllers or hosts participating in this simulation.
+ACHostQueues = The list of other host queue names represented as comma separated list.
+queueHostIP  = The hostname/ip of the machine with the RabbitMQ server. This is usually run locally.
+queue		 = AgentController's queue name usually set to controller name. Note change this value carefully if multiple
+               AgentControllers are running on the same host. It needs to use a different queue name.
+username	 = username to access the RabbitMQ node
+password	 = password to access the RabbitMQ node
 vhost		 = virtual host on which the queue will reside
-port		 = the port number on which the rabbitmq is running on the host
+port		 = the port number on which the RabbitMQ is running on the host
 exchange	 = the subscription to a particular exchange for the queue
 routing_key	 = the routing key used for message passing.

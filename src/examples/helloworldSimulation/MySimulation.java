@@ -28,6 +28,7 @@ public class MySimulation extends AgentController {
 		addQueueListener();
 		system.Log.ConfigureLogger();
 		buildACStatus();
+        sendReadyForTick();
 	}
 
 	/**

@@ -1,3 +1,6 @@
+.idea/*
+.idea
+phoenix.iml
 .classpath
 .project
 .settings

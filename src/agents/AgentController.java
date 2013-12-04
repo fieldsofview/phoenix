@@ -12,13 +12,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 import system.Boot;
-import system.Constants;
 import system.Log;
 
 import communication.ACNetwork;
 import communication.QueueParameters;
 import communication.messages.ACStatusMessage;
 import communication.queueManager.ACQueueManagement;
+
 import java.util.UUID;
 
 /**
@@ -30,21 +30,22 @@ import java.util.UUID;
  */
 public abstract class AgentController {
 
-    /*
+    /**
      * The current name of the agent controller which has to be set. This name
-     * will be used for routing messages to this agent controller.
+     * will be used for routing messages to this agent controller. This name is originally
+     * set in ACNetwork class during the boot process when it is read from machine config.
      */
     private String agentControllerName;
     /**
      * The current TICK number. TICK number indicates the steps of simulation
      * and is used for synchronisation of various CTAs.
      */
-    public static int currentTickNumber;
+    protected static int currentTickNumber;
     /**
      * A Map of all agents handled by the Agent Controller.
      * This has been changed to a Map from a List.
      */
-    public Map<UUID,Agent> agents;
+    public Map<UUID, Agent> agents;
     /**
      * The AgentController's communication queue.
      */
@@ -56,7 +57,7 @@ public abstract class AgentController {
     public static Map<String, Integer> ACStatus;
     /**
      * This generator is initialised by the implementing AgentController. This
-     * instance will be used by the AgentContoller to generate all the agents
+     * instance will be used by the AgentController to generate all the agents
      * under it.
      */
     private AIDGenerator agentIDGenerator;
@@ -71,6 +72,7 @@ public abstract class AgentController {
         system.Log.ConfigureLogger();
         createListObjects();
         currentTickNumber = 0;
+        agentControllerName = ACNetwork.ACName;
     }
 
     /**
@@ -79,7 +81,7 @@ public abstract class AgentController {
      */
     private void createListObjects() {
         ACStatus = Collections.synchronizedMap(new HashMap<String, Integer>());
-        agents = Collections.synchronizedMap(new HashMap<UUID,Agent>());
+        agents = Collections.synchronizedMap(new HashMap<UUID, Agent>());
     }
 
     /**
@@ -94,12 +96,12 @@ public abstract class AgentController {
         while (!objectiveSatisfiedForAllAgents()) {
 
             // Time out for waiting for other agents
-            long timeBeforewaiting = System.currentTimeMillis();
+            long timeBeforeWaiting = System.currentTimeMillis();
 
             while (!checkIfAllACsReadyForNextTick()) {
                 try {
                     long timeNow = System.currentTimeMillis();
-                    if (timeNow - timeBeforewaiting >= ACNetwork.MAXIMUM_TIME_OUT_FOR_AC) {
+                    if (timeNow - timeBeforeWaiting >= ACNetwork.MAXIMUM_TIME_OUT_FOR_AC) {
                         updateTimeOutList();
                         Log.logger.info("Continuing with run after timeout");
                         break;
@@ -109,7 +111,7 @@ public abstract class AgentController {
                     }
 
                 } catch (InterruptedException ex) {
-                    Log.logger.info(ex.getMessage());
+                    Log.logger.error(ex.getMessage());
                 }
             }
             /*
@@ -118,7 +120,7 @@ public abstract class AgentController {
             cleanupBeforeNextTick();
             /* INCREMENT TICK NUMBER */
             currentTickNumber++;
-            Log.logger.info("TICK NUMBER: " + currentTickNumber);
+            Log.logger.info("TICK NUMBER: " + getCurrentTickNumber());
             activateAgentBehaviour();
         }
         cleanUp();
@@ -128,7 +130,7 @@ public abstract class AgentController {
      * Checks and returns if all agents have satisfied their objectives and
      * hence the simulation can cease to run.
      *
-     * @return
+     * @return true if all agents' objectives are satisfied and the simulation is ready to end.
      */
     protected boolean objectiveSatisfiedForAllAgents() {
         int count = 0;
@@ -177,7 +179,7 @@ public abstract class AgentController {
      * contain the logic for checking if every agent has completed its task for
      * the current tick.
      *
-     * @return
+     * @return true if all agents in this AC have completed their operations for this TICK.
      */
     public boolean checkIfAllAgentsReadyForNextTick() {
         int count = 0;
@@ -198,7 +200,7 @@ public abstract class AgentController {
      */
     public void activateAgentBehaviour() {
         /*
-         * run every agent's behaviour in a chosen order. A scheduling polict
+         * run every agent's behaviour in a chosen order. A scheduling policy
          * can be implemented by the user here.
          */
         for (Agent p : agents.values()) {
@@ -215,7 +217,7 @@ public abstract class AgentController {
      * @return
      */
     public boolean checkIfAllACsReadyForNextTick() {
-        if (ACStatus.size() == 0) {
+        if (ACStatus.size() == 1) {
             Log.logger.info("I am the only host");
             return true;
         }
@@ -234,7 +236,7 @@ public abstract class AgentController {
     public void addQueueListener() {
         // QueueParameters queueParameters = ACNetwork.hostMessageQueueLookup
         // .get(Constants.localHost);
-        // TODO: There is only one queue for ACs and those parameters are being
+        // TODO: There is a single queue for ACs and those parameters are being
         // used.
         QueueParameters queueParameters = ACNetwork.ACMessageQueueParameters;
         queueManager = ACQueueManagement.getInstance(queueParameters);
@@ -250,19 +252,27 @@ public abstract class AgentController {
      * AgentController is ready to proceed to the next step of the simulation.
      */
     public void sendReadyForTick() {
-        for (String host : ACStatus.keySet()) {
+
+                ACStatusMessage statusMessage = new ACStatusMessage();
+                statusMessage.AC_STATUS = ACNetwork.AC_READY_FOR_NEXT_TICK;
+                statusMessage.messageObject = ACNetwork.localhost;
+                statusMessage.hostName = ACNetwork.localhost;
+
+                queueManager.send(null, statusMessage);
+       /* for (String host : ACStatus.keySet()) {
             Integer status = ACStatus.get(host);
             if (status == ACNetwork.AC_COMPUTING
                     || status == ACNetwork.AC_READY_FOR_NEXT_TICK) {
 
                 ACStatusMessage statusMessage = new ACStatusMessage();
                 statusMessage.AC_STATUS = ACNetwork.AC_READY_FOR_NEXT_TICK;
-                statusMessage.messageObject = Constants.localHost;
-                statusMessage.hostName = Constants.localHost;
+                statusMessage.messageObject = ACNetwork.localhost;
+                statusMessage.hostName = ACNetwork.localhost;
 
                 queueManager.send(host, statusMessage);
             }
         }
+        */
     }
 
     /**
@@ -271,18 +281,25 @@ public abstract class AgentController {
      * with the simulation.
      */
     public void sendDoneWithWork() {
-        for (String host : ACStatus.keySet()) {
+
+                ACStatusMessage statusMessage = new ACStatusMessage();
+                statusMessage.AC_STATUS = ACNetwork.AC_DONE_WITH_WORK;
+                statusMessage.hostName = ACNetwork.localhost;
+                statusMessage.messageObject = ACNetwork.localhost;
+                queueManager.send(null, statusMessage);
+
+        /*for (String host : ACStatus.keySet()) {
             if (ACStatus.get(host) == ACNetwork.AC_COMPUTING
                     || ACStatus.get(host) == ACNetwork.AC_READY_FOR_NEXT_TICK) {
 
                 ACStatusMessage statusMessage = new ACStatusMessage();
                 statusMessage.AC_STATUS = ACNetwork.AC_DONE_WITH_WORK;
-                statusMessage.hostName = Constants.localHost;
-                statusMessage.messageObject = Constants.localHost;
+                statusMessage.hostName = ACNetwork.localhost;
+                statusMessage.messageObject = ACNetwork.localhost;
 
                 queueManager.send(host, statusMessage);
             }
-        }
+        }*/
     }
 
     /**
@@ -299,8 +316,8 @@ public abstract class AgentController {
      * Build the local list of AgentControllers and their current status.
      */
     public void buildACStatus() {
-        Log.logger.info("Building list");
-        Iterator<String> hosts = ACNetwork.agentControllerhostList.iterator();
+        Log.logger.debug("Building ACs status list");
+        Iterator<String> hosts = ACNetwork.agentControllerHostList.iterator();
         while (hosts.hasNext()) {
             String host = hosts.next();
             //if (!host.equalsIgnoreCase(Constants.localHost)) {
@@ -346,10 +363,10 @@ public abstract class AgentController {
         try {
             Boot.readMachineConfigurations();
         } catch (FileNotFoundException ex) {
-            Log.logger.info("Did not find the configuration file.");
+            Log.logger.error("Did not find the configuration file.");
             ex.printStackTrace();
         } catch (IOException ex) {
-            Log.logger.info("IO error in configuration file.");
+            Log.logger.error("IO error in configuration file.");
             ex.printStackTrace();
         }
     }
@@ -370,14 +387,14 @@ public abstract class AgentController {
 
     /**
      * @deprecated This method is DEPRECATED. This is to be used only for test
-     * purposes to output results for every tick. This role will be later taken
-     * on by the output system. Since this method is called before the beginning
-     * of every tick, it reduces the performance of Phoenix. This function is
-     * currently empty. The simulation author can choose to override it to
-     * perform necessary actions before the beginning of a new tick.
-     *
-     * However, usage of this method is strongly discouraged. This method MAY BE
-     * removed after the output system is defined.
+     *             purposes to output results for every tick. This role will be later taken
+     *             on by the output system. Since this method is called before the beginning
+     *             of every tick, it reduces the performance of Phoenix. This function is
+     *             currently empty. The simulation author can choose to override it to
+     *             perform necessary actions before the beginning of a new tick.
+     *             <p/>
+     *             However, usage of this method is strongly discouraged. This method MAY BE
+     *             removed after the output system is defined.
      */
     protected void cleanupBeforeNextTick() {
     }

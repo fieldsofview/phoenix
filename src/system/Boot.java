@@ -23,59 +23,81 @@ import communication.QueueParameters;
  */
 public class Boot {
 
-	public Boot() {
-		Log.ConfigureLogger();
-	}
+    public Boot() {
+        Log.ConfigureLogger();
+    }
 
-	// TODO: Modify this function to include code for reading the queue
-	// parameters for the agent to agent communication as well.
-	/**
-	 * Read the configurations for the machine. Each machine runs a
-	 * AgentController. AgentControllerhandles communication and agent
-	 * behaviour. The file is a standard java properties file. The file
-	 * 
-	 * @param name
-	 *            File name containing the care taker agent configuration.
-	 * @throws IOException
-	 * @throws FileNotFoundException
-	 * @throws NumberFormatException
-	 */
-	public static void readMachineConfigurations() throws IOException,
-			FileNotFoundException, NumberFormatException {
+    // TODO: Modify this function to include code for reading the queue
+    // parameters for the agent to agent communication as well.
 
-		Properties queueProperties = new Properties();
+    /**
+     * Read the configurations for the machine. Each machine runs a
+     * AgentController. AgentController handles communication and agent
+     * behaviour. The file is a standard java properties file. The file
+     *
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws NumberFormatException
+     */
+    public static void readMachineConfigurations() throws IOException,
+            FileNotFoundException, NumberFormatException {
 
-		queueProperties.load(new FileInputStream(
-				system.Constants.machineFile));
+        Properties queueProperties = new Properties();
 
-		Log.logger.debug("Queue Name:"
-				+ queueProperties.getProperty("queueName"));
-		Log.logger
-				.debug("Username: " + queueProperties.getProperty("username"));
-		Log.logger
-				.debug("Password: " + queueProperties.getProperty("password"));
-		Log.logger.debug("Virtual Host: "
-				+ queueProperties.getProperty("virtualHost"));
-		Log.logger.debug("Port: " + queueProperties.getProperty("port"));
-		Log.logger.debug("Exchange Name: "
-				+ queueProperties.getProperty("exchangeName"));
-		Log.logger.debug("Routing Key: "
-				+ queueProperties.getProperty("routingKey"));
-		Log.logger.debug("Host IP: " + queueProperties.getProperty("hostIP"));
+        queueProperties.load(new FileInputStream(
+                system.Constants.machineFile));
 
-		ACNetwork.agentControllerhostList.add(queueProperties
-				.getProperty("hostIP"));
-		QueueParameters queueParameters = new QueueParameters(
-				queueProperties.getProperty("queueName"),
-				queueProperties.getProperty("username"),
-				queueProperties.getProperty("password"),
-				queueProperties.getProperty("virtualHost"),
-				queueProperties.getProperty("port"),
-				queueProperties.getProperty("exchangeName"),
-				queueProperties.getProperty("routingKey"));
+        Log.logger.debug("Agent Controller Name:"+ queueProperties.getProperty("AgentControllerName"));
 
-		ACNetwork.hostMessageQueueLookup.put(
-				queueProperties.getProperty("queueName"), queueParameters);
-		ACNetwork.ACMessageQueueParameters = queueParameters;
-	}
+        Log.logger.debug("List of AC Queues:"+ queueProperties.getProperty("ACHostQueues"));
+
+        Log.logger.debug("HostIP:"+ queueProperties.getProperty("hostIP"));
+
+        Log.logger.debug("Queue Host IP:"+ queueProperties.getProperty("queueHostIP"));
+
+        Log.logger.debug("Queue Name:"
+                + queueProperties.getProperty("queueName"));
+        Log.logger
+                .debug("Username: " + queueProperties.getProperty("username"));
+        Log.logger
+                .debug("Password: " + queueProperties.getProperty("password"));
+        Log.logger.debug("Virtual Host: "
+                + queueProperties.getProperty("virtualHost"));
+        Log.logger.debug("Port: " + queueProperties.getProperty("port"));
+        Log.logger.debug("Exchange Name: "
+                + queueProperties.getProperty("exchangeName"));
+        Log.logger.debug("Routing Key: "
+                + queueProperties.getProperty("routingKey"));
+        Log.logger.debug("Host IP: " + queueProperties.getProperty("hostIP"));
+
+        //ACNetwork.agentControllerHostList.add(queueProperties.getProperty("hostIP"));
+        QueueParameters queueParameters = new QueueParameters(
+                queueProperties.getProperty("queueHostIP"),
+                queueProperties.getProperty("queueName"),
+                queueProperties.getProperty("username"),
+                queueProperties.getProperty("password"),
+                queueProperties.getProperty("virtualHost"),
+                queueProperties.getProperty("port"),
+                queueProperties.getProperty("exchangeName"),
+                queueProperties.getProperty("routingKey"));
+
+        ACNetwork.localhost = queueProperties.getProperty("hostIP");
+
+        ACNetwork.ACName = queueProperties.getProperty("AgentControllerName");
+
+        String listOfACs[] = (queueProperties.getProperty("AgentControllerName")).split(",");
+
+        /*Add all the ACs to the list*/
+        Log.logger.debug("Adding the AC List");
+        for(String givenAC: listOfACs){
+            Log.logger.debug(givenAC + "\n");
+            ACNetwork.agentControllerHostList.add(givenAC);
+        }
+        //Add myself to this list.
+        ACNetwork.agentControllerHostList.add(ACNetwork.ACName);
+
+        ACNetwork.hostMessageQueueLookup.put(
+                queueProperties.getProperty("queueName"), queueParameters);
+        ACNetwork.ACMessageQueueParameters = queueParameters;
+    }
 }
