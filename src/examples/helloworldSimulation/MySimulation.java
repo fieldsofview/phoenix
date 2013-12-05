@@ -7,6 +7,7 @@ package examples.helloworldSimulation;
 
 import system.Log;
 import agents.AgentController;
+import agents.Agent;
 
 public class MySimulation extends AgentController {
 
@@ -27,8 +28,8 @@ public class MySimulation extends AgentController {
 		readConfigurations();
 		addQueueListener();
 		system.Log.ConfigureLogger();
-		buildACStatus();
-        sendReadyForTick();
+		//buildACStatus();
+        //sendReadyForTick();
 	}
 
 	/**
@@ -39,8 +40,8 @@ public class MySimulation extends AgentController {
 		MySimulation mySimulation;
 		try {
 			mySimulation = new MySimulation();
+            Log.logger.info("Starting MySimulation");
 			mySimulation.runAC();
-			Log.logger.info("Started MySimulation");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,7 +58,15 @@ public class MySimulation extends AgentController {
 		sendReadyForTick();
 	}
 
-	private void createTestAgents() {
+    @Override
+    protected void postAgentBehaviour() {
+        for(Agent agent : agents.values()){
+            agent.setStatusFlag(false);
+        }
+        return;
+    }
+
+    private void createTestAgents() {
 		TestAgent temp;
 		for (int i = 0; i < NUMBER_OF_AGENTS; i++) {
 			temp = new TestAgent(this.getAgentIDGenerator());
@@ -67,12 +76,12 @@ public class MySimulation extends AgentController {
 		Log.logger.info("Completed creating agents");
 	}
 
-	@Override
+	/*@Override
 	protected void cleanUp() {
-		/* Perform any clean-up operations */
+		/ Perform any clean-up operations /
 		sendDoneWithWork();
 		System.exit(0);
-	}
+	}*/
 
     @Override
     protected void cleanupBeforeNextTick() {

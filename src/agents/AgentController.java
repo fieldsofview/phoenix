@@ -114,16 +114,21 @@ public abstract class AgentController {
                     Log.logger.error(ex.getMessage());
                 }
             }
+            changeReadyACsToComputing();
+            /* INCREMENT TICK NUMBER */
+            currentTickNumber++;
+            Log.logger.info("TICK NUMBER: " + getCurrentTickNumber());
+            preAgentBehaviour();
+            activateAgentBehaviour();
+            postAgentBehaviour();
+            cleanUpAC(); //Onkar was right
             /*
              * Call the deprecated method for tick-wise outputs
              */
             cleanupBeforeNextTick();
-            /* INCREMENT TICK NUMBER */
-            currentTickNumber++;
-            Log.logger.info("TICK NUMBER: " + getCurrentTickNumber());
-            activateAgentBehaviour();
         }
-        cleanUp();
+        Log.logger.info("All agents have achieved their objectives");
+        shutdown();
     }
 
     /**
@@ -148,9 +153,32 @@ public abstract class AgentController {
     }
 
     /**
-     * Perform any user defined clean-up operations
+     * Perform clean-up operations after every run of an AC before the next tick is called.
+     * This method is for a given AC and does not do simulation specific clean-up.
+     * CAUTION: This method can potentially slow down the application if not implemented to
+     * be run fast and parallel.
+     * Onkar was right!
+     * Refer cleanupBeforeNextTick() for user defined method.
+     *
      */
-    protected abstract void cleanUp();
+    protected void cleanUpAC(){
+        changeACStatus(ACNetwork.localhost, ACNetwork.AC_READY_FOR_NEXT_TICK);
+        sendReadyForTick();
+        Log.logger.info("Sent Ready for next TICK");
+
+        for(String host: ACStatus.keySet()) {
+            Log.logger.debug(host + " : " + ACStatus.get(host));
+        }
+    }
+
+    /**
+     * This is a method that can be used to perform shutdown operation. By default it exits the
+     * simulation.
+     */
+    protected void shutdown(){
+        sendDoneWithWork();
+        System.exit(0);
+    }
 
     /**
      * Create the different agents here. One can create a mix of agents if
@@ -175,9 +203,10 @@ public abstract class AgentController {
     }
 
     /**
-     * Abstract function to be overridden by each AC. This function should
+     * Function to be overridden by each AC if required. This function should
      * contain the logic for checking if every agent has completed its task for
-     * the current tick.
+     * the current tick. By default this is a basic implementation where a status flag defined
+     * in every agent is set to indicate the run of every agent.
      *
      * @return true if all agents in this AC have completed their operations for this TICK.
      */
@@ -211,13 +240,29 @@ public abstract class AgentController {
     }
 
     /**
+     * This is a method is called after one run of all the agent finishing a run and before
+     * the AC checks for agent objectives. It is set to a empty function and overridden if required.
+     */
+    protected void postAgentBehaviour() {
+
+    }
+
+    /**
+     * This an abstract method is called before the run of all the agents, before
+     * the AC calls activate AgentBehaviour(). It is set to a empty function and overridden if required.
+     */
+    protected void preAgentBehaviour(){
+
+    }
+
+    /**
      * Check if all the AgentControllers are ready for the next step of the
      * simulation.
      *
      * @return
      */
     public boolean checkIfAllACsReadyForNextTick() {
-        if (ACStatus.size() == 1) {
+        if (ACStatus.size() == 0) {
             Log.logger.info("I am the only host");
             return true;
         }
@@ -344,8 +389,10 @@ public abstract class AgentController {
     }
 
     /**
-     * Send a message to all the ACs to indicate you are computing for next step
-     * of simulation.
+     * Send a message to all the ACs to indicate change state computing for next step
+     * of simulation. Note that a given AC assumes that all ACs in the simulation,
+     * on receiving a new tick will start computing. Hence all the ACStatus will
+     * indicate this.
      */
     public void changeReadyACsToComputing() {
         for (String host : ACStatus.keySet()) {

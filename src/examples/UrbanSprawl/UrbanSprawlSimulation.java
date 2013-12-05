@@ -160,7 +160,7 @@ public class UrbanSprawlSimulation extends AgentController {
     }
 
     @Override
-    protected void cleanUp() {
+    protected void shutdown() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         sendDoneWithWork();
         queueManager.exitMessaging();

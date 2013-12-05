@@ -42,5 +42,4 @@ public class TestAgent extends Agent {
 		this.setStatusFlag(true);
 		this.setObjectiveFlag(true);
 	}
-
 }

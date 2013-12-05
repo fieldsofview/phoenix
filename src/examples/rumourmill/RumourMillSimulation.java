@@ -73,7 +73,7 @@ public class RumourMillSimulation extends AgentController{
         buildACStatus();
     }
     @Override
-    protected void cleanUp() {
+    protected void shutdown() {
         sendDoneWithWork();
         System.exit(0);
     }
