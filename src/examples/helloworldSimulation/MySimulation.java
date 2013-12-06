@@ -25,10 +25,9 @@ public class MySimulation extends AgentController {
 		 */
 		this.setAgentControllerName(this.getClass().getCanonicalName());
 		// Read the configurations to set up the RabbitMQ communication.
-		readConfigurations();
+		//readConfigurations();
 		addQueueListener();
 		system.Log.ConfigureLogger();
-		//buildACStatus();
         //sendReadyForTick();
 	}
 
@@ -75,13 +74,6 @@ public class MySimulation extends AgentController {
 		}
 		Log.logger.info("Completed creating agents");
 	}
-
-	/*@Override
-	protected void cleanUp() {
-		/ Perform any clean-up operations /
-		sendDoneWithWork();
-		System.exit(0);
-	}*/
 
     @Override
     protected void cleanupBeforeNextTick() {

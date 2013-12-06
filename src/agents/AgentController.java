@@ -73,6 +73,8 @@ public abstract class AgentController {
         createListObjects();
         currentTickNumber = 0;
         agentControllerName = ACNetwork.ACName;
+        readConfigurations(); // NOTE: Call this function before buildACStatus
+        buildACStatus();
     }
 
     /**
@@ -262,7 +264,7 @@ public abstract class AgentController {
      * @return
      */
     public boolean checkIfAllACsReadyForNextTick() {
-        if (ACStatus.size() == 0) {
+        if (ACStatus.size() == 1) {
             Log.logger.info("I am the only host");
             return true;
         }
