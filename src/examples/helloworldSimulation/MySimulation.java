@@ -54,7 +54,7 @@ public class MySimulation extends AgentController {
 	@Override
 	protected void setUp() {
 		createTestAgents();
-		sendReadyForTick();
+    //    sendReadyForTick();
 	}
 
     @Override

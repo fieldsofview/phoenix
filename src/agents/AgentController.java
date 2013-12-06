@@ -93,6 +93,7 @@ public abstract class AgentController {
      */
     protected void runAC() {
         setUp();
+        sendReadyForTick();
 
         // Runs until objectives for all agents is fulfilled       
         while (!objectiveSatisfiedForAllAgents()) {
