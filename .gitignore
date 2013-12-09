@@ -1,3 +1,6 @@
+.idea/*
+.idea
+phoenix.iml
 .classpath
 .project
 .settings
@@ -11,3 +14,5 @@ manifest.mf
 /lib/*
 /lib
 logs/*
+*~
+*.~

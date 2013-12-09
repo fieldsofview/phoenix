@@ -15,22 +15,22 @@ import java.util.Date;
  */
 public class TextMessage extends Message {
 
-	public int AC_STATUS;
+    public int AC_STATUS;
 
-	/**
-	 * Constructor creates an empty message object with current system time as
-	 * time stamp. NOTE: The time stamp is the current system time on which the
-	 * simulation is running.
-	 */
-	// TODO: Check if different time zones will affect message time stamps
-	public TextMessage() {
-		createMessage();
-	}
+    /**
+     * Constructor creates an empty message object with current system time as
+     * time stamp. NOTE: The time stamp is the current system time on which the
+     * simulation is running.
+     */
+    // TODO: Check if different time zones will affect message time stamps
+    public TextMessage() {
+        createMessage();
+    }
 
-	protected void createMessage() {
-		Calendar calendar = Calendar.getInstance();
-		Date now = calendar.getTime();
-		this.timestamp = new Timestamp(now.getTime());
-		this.messageObject = new String();
-	}
+    protected void createMessage() {
+        Calendar calendar = Calendar.getInstance();
+        Date now = calendar.getTime();
+        this.timestamp = new Timestamp(now.getTime());
+        this.messageObject = new String();
+    }
 }

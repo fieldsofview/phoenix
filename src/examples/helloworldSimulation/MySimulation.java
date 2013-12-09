@@ -7,6 +7,7 @@ package examples.helloworldSimulation;
 
 import system.Log;
 import agents.AgentController;
+import agents.Agent;
 
 public class MySimulation extends AgentController {
 
@@ -24,10 +25,10 @@ public class MySimulation extends AgentController {
 		 */
 		this.setAgentControllerName(this.getClass().getCanonicalName());
 		// Read the configurations to set up the RabbitMQ communication.
-		readConfigurations();
+		//readConfigurations();
 		addQueueListener();
 		system.Log.ConfigureLogger();
-		buildACStatus();
+        //sendReadyForTick();
 	}
 
 	/**
@@ -38,8 +39,8 @@ public class MySimulation extends AgentController {
 		MySimulation mySimulation;
 		try {
 			mySimulation = new MySimulation();
+            Log.logger.info("Starting MySimulation");
 			mySimulation.runAC();
-			Log.logger.info("Started MySimulation");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,23 +54,29 @@ public class MySimulation extends AgentController {
 	@Override
 	protected void setUp() {
 		createTestAgents();
-		sendReadyForTick();
+    //    sendReadyForTick();
 	}
 
-	private void createTestAgents() {
+    @Override
+    protected void postAgentBehaviour() {
+        for(Agent agent : agents.values()){
+            agent.setStatusFlag(false);
+        }
+        return;
+    }
+
+    private void createTestAgents() {
 		TestAgent temp;
 		for (int i = 0; i < NUMBER_OF_AGENTS; i++) {
 			temp = new TestAgent(this.getAgentIDGenerator());
-			agents.add(temp);
+			agents.put(temp.getAID(),temp);
 			Log.logger.info("Created a Test Agent " + temp.getId() + ".");
 		}
 		Log.logger.info("Completed creating agents");
 	}
 
-	@Override
-	protected void cleanUp() {
-		/* Perform any clean-up operations */
-		sendDoneWithWork();
-		System.exit(0);
-	}
+    @Override
+    protected void cleanupBeforeNextTick() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

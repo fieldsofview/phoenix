@@ -21,6 +21,7 @@ public class Log {
 
 	/*
 	 * TODO:// Write a on the fly log files generator.
+	 * TODO:// Pass the AgentController Name to the log file generation.
 	 */
 
 	/**
@@ -29,7 +30,7 @@ public class Log {
 	 */
 	public static void ConfigureLogger() {
 		PropertyConfigurator.configure("config/logger.properties");
-                logger.setLevel(Level.INFO);
+                logger.setLevel(Level.DEBUG);
 		// TimeZone tz = TimeZone.getTimeZone("IST");
 	}
 }

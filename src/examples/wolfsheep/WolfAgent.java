@@ -107,7 +107,7 @@ public class WolfAgent extends agents.Agent {
     public void die() {
         universe.agentDie(xcor, ycor, getAID());
         Log.logger.info("Wolf " + getAID() + " has died.");
-        universe.worldView();
+        //universe.worldView();
         this.setObjectiveFlag(true);
     }
 }
