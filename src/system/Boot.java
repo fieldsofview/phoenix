@@ -87,9 +87,10 @@ public class Boot {
          */
         ACNetwork.localhost = queueProperties.getProperty("queueName");
 
-        ACNetwork.ACName = queueProperties.getProperty("AgentControllerName");
+        //ACNetwork.ACName = queueProperties.getProperty("AgentControllerName");
 
         String listOfACs[] = (queueProperties.getProperty("ACHostQueues")).split(",");
+        Log.logger.debug("Number of ACs:"+listOfACs.length);
 
         /*Add all the ACs to the list*/
         Log.logger.debug("Adding the AC List");
@@ -98,7 +99,9 @@ public class Boot {
             ACNetwork.agentControllerHostList.add(givenAC);
         }
         //Add myself to this list.
-        ACNetwork.agentControllerHostList.add(ACNetwork.ACName);
+        //ACNetwork.agentControllerHostList.add(ACNetwork.ACName);
+        //ACNetwork.agentControllerHostList.add(ACNetwork.localhost);
+        Log.logger.debug("Size of agentControllerHostList:" + ACNetwork.agentControllerHostList.size());
 
         ACNetwork.hostMessageQueueLookup.put(
                 queueProperties.getProperty("queueName"), queueParameters);

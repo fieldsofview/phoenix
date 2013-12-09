@@ -92,7 +92,7 @@ public class WolfSheepPredationSimulation extends AgentController {
     }
 
     @Override
-    protected void cleanUp() {
+    protected void shutdown() {
         sendDoneWithWork();
         System.exit(0);
     }
