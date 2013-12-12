@@ -30,3 +30,14 @@ Another major update.NMH is planned to be merged into the master branch. The
 wiki is updated. Phoenix now builds without errors. Please refer to the wiki 
 pages for installation and information on Phoenix architecture. Refer to the 
 TODO file for upcoming changes.
+
+09 December, 2013
+------------
+
+NMH is complete. Phoenix core has been fixed to run individual systems with
+multiple agents. A set of initial tests are successful. After the final pull
+request a new branch is being created called "MTR". MTR will include
+a full agent-to-agent communication system along with minimal capability for 
+recording and displaying statistical output. Updating documentation and 
+additional packages to run automated tests are also planned for release to 
+help adding new features and testing.
