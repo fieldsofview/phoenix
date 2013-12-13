@@ -4,7 +4,7 @@
 We are exicted to release the next stable version of Phoenix.
 
 The current update fixes most of the improtant issues on the NMH branch. The 
-current codebase can run multiple individual machines with their agents. Indial
+current codebase can run multiple individual machines with their agents. Initial
 tests show that this is working. 
 
 A new branch, MTR is created and will contain new features. 
