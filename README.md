@@ -9,12 +9,12 @@ tests show that this is working.
 
 A new branch, MTR is created and will contain new features. 
 Some features to look out for are 
-- Agent-agent communication
-- GIS capabilities
-- some cursory output systems to display statistical information for the agents 
-- Improvements to documentation, javadocs and Wiki with more examples to explain
+* Agent-agent communication
+* GIS capabilities
+* some cursory output systems to display statistical information for the agents 
+* Improvements to documentation, javadocs and Wiki with more examples to explain
   using phoenix is also expected.
-- Finally we will be moving to a unit testing system to help us with adding new
+* Finally we will be moving to a unit testing system to help us with adding new
   features. We will release the test fiels as well.
 
 
