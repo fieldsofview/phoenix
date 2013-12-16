@@ -1,8 +1,30 @@
+07 December, 2013
+-------------
+
+We are exicted to release the next stable version of Phoenix.
+
+The current update fixes most of the improtant issues on the NMH branch. The 
+current codebase can run multiple individual machines with their agents. Initial
+tests show that this is working. 
+
+A new branch, MTR is created and will contain new features. 
+Some features to look out for are:
+
+* Agent-agent communication
+* GIS capabilities
+* Some cursory output systems to display statistical information for the agents.
+* Improvements to documentation, javadocs and Wiki with more examples to explain
+using phoenix is also expected.
+* Finally we will be moving to a unit testing system to help us with adding new features.
+We will release the test files as well.
+
+
 28 May, 2013
 -----------
 The platform is ready to be released as an alpha. It still requires testing 
 which will be done as we develop our projects around it. Please refer to the 
 Wiki for detailed explanation of the design, installation, license, etc,.
+
 
 11 May, 2013
 ------------
@@ -14,6 +36,15 @@ replaced almost all of the code.
 this platform.
 
 
+09 May, 2013
+-----------
+
+Another major update. NMH is planned to be merged into the master branch. The 
+wiki is updated. Phoenix now builds without errors. Please refer to the wiki 
+pages for installation and information on Phoenix architecture. Refer to the 
+TODO file for upcoming changes.
+
+
 03 April, 2013
 -------------
 
@@ -21,23 +52,3 @@ The project has undergone major architectural changes. We will update the wiki
 for the project soon to explain these changes. The changes are big enough for 
 it to have its own branch. Branch NMH(New Modern Hotel) is created as the next 
 branch.
-
-
-09 May, 2013
------------
-
-Another major update.NMH is planned to be merged into the master branch. The 
-wiki is updated. Phoenix now builds without errors. Please refer to the wiki 
-pages for installation and information on Phoenix architecture. Refer to the 
-TODO file for upcoming changes.
-
-09 December, 2013
-------------
-
-NMH is complete. Phoenix core has been fixed to run individual systems with
-multiple agents. A set of initial tests are successful. After the final pull
-request a new branch is being created called "MTR". MTR will include
-a full agent-to-agent communication system along with minimal capability for 
-recording and displaying statistical output. Updating documentation and 
-additional packages to run automated tests are also planned for release to 
-help adding new features and testing.
