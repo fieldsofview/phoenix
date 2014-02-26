@@ -87,7 +87,8 @@ public class WolfSheepPredationSimulation extends AgentController {
         this.setAgentControllerName(this.getClass().getCanonicalName());
         readConfigurations();
         addQueueListener();
-        system.Log.ConfigureLogger();
+        //TODO: Remove the next line as the default Constructor in AgentController already calls this.
+        //system.Log.ConfigureLogger();
         buildACStatus();
     }
 

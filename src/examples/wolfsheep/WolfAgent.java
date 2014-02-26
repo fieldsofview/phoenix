@@ -87,7 +87,8 @@ public class WolfAgent extends agents.Agent {
         beh.add(move);
         beh.add(eat);
         this.universe = universe;
-        Log.ConfigureLogger();
+        //TODO: Remove the next line as the default Constructor in AgentController already calls this.
+        //Log.ConfigureLogger();
     }
 
     @Override

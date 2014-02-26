@@ -24,7 +24,8 @@ import communication.QueueParameters;
 public class Boot {
 
     public Boot() {
-        Log.ConfigureLogger();
+        //TODO: Calling in AC process already. Remove the next line.
+        //Log.ConfigureLogger();
     }
 
     // TODO: Modify this function to include code for reading the queue

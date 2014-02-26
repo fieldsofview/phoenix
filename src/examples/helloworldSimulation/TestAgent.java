@@ -23,7 +23,7 @@ public class TestAgent extends Agent {
 	 */
 	public TestAgent(AIDGenerator agentIDGenerator) {
 		super(agentIDGenerator);
-		Log.ConfigureLogger();
+		//Log.ConfigureLogger();
 		Log.logger.info("Test Agent Created");
 
 		/*

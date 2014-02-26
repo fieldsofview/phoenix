@@ -193,7 +193,8 @@ public class UrbanAgent extends Agent {
         SprawlBehaior sb = new SprawlBehaior();
         this.compositeBehaviour.add(seekingBehavior);
         this.compositeBehaviour.add(sb);
-        Log.ConfigureLogger();
+        //TODO: Remove the next line as the default Constructor in AgentController already calls this.
+        //Log.ConfigureLogger();
     }
 
     public void setCoordinates(int xcor, int ycor) {
