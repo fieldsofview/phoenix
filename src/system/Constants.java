@@ -13,5 +13,5 @@ public interface Constants {
 	/**
 	 * The file name for communication settings
 	 */
-	public final String machineFile = "config/machineConfig";
+	public final String machineFile = "config/machineConfig.properties";
 }
