@@ -32,12 +32,16 @@ public class OntologyModule implements Module {
 
 	}
 
-	public void setupOntology(String filename, String type) throws FileNotFoundException {
+	public void setupOntologyWithFile(String filename, String type) throws FileNotFoundException {
 		InputStream in = FileManager.get().open(filename);
 		if (null == in) {
 			throw new FileNotFoundException(filename + " not found");
 		}
-		model.read(in, type);
+		model.read(in, null, type);
+	}
+
+	public void setupOntologyWithString(String text, String type) {
+		model.read(text, null, type);
 	}
 
 	public Model getModel() {
