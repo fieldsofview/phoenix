@@ -16,3 +16,4 @@ manifest.mf
 logs/*
 *~
 *.~
+*.iml
