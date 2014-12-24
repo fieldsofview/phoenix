@@ -17,16 +17,13 @@ import system.Log;
 public class AIDGenerator {
 
 	public AIDGenerator() {
-		// TODO: Write the Log system initialization here.
-		Log.ConfigureLogger();
+		// TODO: Remove the next piece of code. The ConfigureLogger needs to be called once before in the AC
+		//Log.ConfigureLogger();
 	}
 
 	/**
 	 * This function uses the Java's UUID random generator to generate a unique
 	 * identifier for each agent.
-	 * 
-	 * @param agentType
-	 *            The type or name of agent. This is set per simulation.
 	 * @return the UUID object containing the unique identifier
 	 */
 	public UUID newID() {

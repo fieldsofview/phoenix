@@ -52,7 +52,8 @@ public class ACQueueManagement extends QueueManager {
      */
     private ACQueueManagement(QueueParameters queueParameters) {
         this.queueParameters = queueParameters;
-        system.Log.ConfigureLogger();
+        //TODO: Remove the next line and call configure logger once in AC.
+        //system.Log.ConfigureLogger();
     }
 
     /**

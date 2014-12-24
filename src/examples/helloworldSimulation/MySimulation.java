@@ -27,7 +27,7 @@ public class MySimulation extends AgentController {
 		// Read the configurations to set up the RabbitMQ communication.
 		//readConfigurations();
 		addQueueListener();
-		system.Log.ConfigureLogger();
+		//system.Log.ConfigureLogger();
         //sendReadyForTick();
 	}
 

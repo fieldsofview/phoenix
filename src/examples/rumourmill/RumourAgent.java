@@ -83,7 +83,8 @@ public class RumourAgent extends Agent {
         beh = new CompositeBehaviour();
         SpreadRumourBehaviour spread=new SpreadRumourBehaviour();
         beh.add(spread);
-        Log.ConfigureLogger();
+        //TODO: Remove the next line as the default Constructor in AgentController already calls this.
+        //Log.ConfigureLogger();
     }
 
     @Override

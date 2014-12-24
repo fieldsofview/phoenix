@@ -53,7 +53,8 @@ public class LocationAgent extends Agent {
         this.compositeBehaviour = compositeBehaviour;
         GrowOldBehavior gob = new GrowOldBehavior();
         this.compositeBehaviour.add(gob);
-        Log.ConfigureLogger();
+        //TODO: Remove the next line as the default Constructor in AgentController already calls this.
+        //Log.ConfigureLogger();
     }
 
     public LocationAgent(AIDGenerator aIDGenerator, UrbanSprawlSimulation.UrbanSprawlUniverse universe) {
@@ -63,7 +64,8 @@ public class LocationAgent extends Agent {
         agentAttributes = new LocationAgentAttributes();
         GrowOldBehavior gob = new GrowOldBehavior();
         this.compositeBehaviour.add(gob);
-        Log.ConfigureLogger();
+        //TODO: Remove the next line as the default Constructor in AgentController already calls this.
+        //Log.ConfigureLogger();
     }
 
     public void setCoordinates(int xcor, int ycor) {

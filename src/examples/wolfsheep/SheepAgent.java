@@ -118,7 +118,8 @@ public class SheepAgent extends Agent {
         beh.add(move);
         beh.add(eat);
         //beh.add(rep);
-        Log.ConfigureLogger();
+        //TODO: Remove the next line as the default Constructor in AgentController already calls this.
+        //Log.ConfigureLogger();
     }
 
     @Override

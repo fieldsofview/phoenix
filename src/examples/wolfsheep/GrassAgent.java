@@ -48,7 +48,8 @@ public class GrassAgent extends Agent {
         beh=new CompositeBehaviour();
         GrowBehaviour grow=new GrowBehaviour();
         beh.add(grow);
-        Log.ConfigureLogger();
+        //TODO: Remove the next line as the default Constructor in AgentController already calls this.
+        //Log.ConfigureLogger();
     }
 
     @Override
