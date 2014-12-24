@@ -7,6 +7,7 @@ import module.Module;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.StringReader;
 
 /**
  * Created by onkar on 7/8/14.
@@ -41,7 +42,7 @@ public class OntologyModule implements Module {
 	}
 
 	public void setupOntologyWithString(String text, String type) {
-		model.read(text, null, type);
+		model.read(new StringReader(text), null, type);
 	}
 
 	public Model getModel() {

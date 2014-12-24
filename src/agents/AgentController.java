@@ -230,7 +230,7 @@ public abstract class AgentController {
          */
 		for (Agent p : agents.values()) {
 			if (!p.getObjectiveFlag()) {
-				p.run();
+				p.start();
 			}
 		}
 	}
