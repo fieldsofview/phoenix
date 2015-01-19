@@ -35,10 +35,11 @@ public class MySimulation extends AgentController {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
+		Log.ConfigureLogger();
 		MySimulation mySimulation;
 		try {
 			mySimulation = new MySimulation();
+
             Log.logger.info("Starting MySimulation");
 			mySimulation.runAC();
 		} catch (NumberFormatException e) {

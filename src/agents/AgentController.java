@@ -173,6 +173,8 @@ public abstract class AgentController {
 	 */
 	protected void shutdown() {
 		sendDoneWithWork();
+		queueManager.exitMessaging();
+		System.out.println("Exiting...");
 		System.exit(0);
 	}
 
@@ -230,7 +232,7 @@ public abstract class AgentController {
          */
 		for (Agent p : agents.values()) {
 			if (!p.getObjectiveFlag()) {
-				p.start();
+				p.run();
 			}
 		}
 	}
