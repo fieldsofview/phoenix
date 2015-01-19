@@ -280,7 +280,7 @@ public class ACQueueManagement extends QueueManager {
 						statusType.AC_STATUS);
 				Log.logger.info("Received Done with work from : "
 						+ statusType.hostName + ":" + statusType.AC_STATUS);
-				exitMessaging();
+				//exitMessaging();
 				break;
 		}
 
