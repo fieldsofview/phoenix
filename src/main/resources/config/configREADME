@@ -1,0 +1,10 @@
+AgentControllerName = AgentController name
+ACHostQueues        = The list of other host queue names represented as comma separated list, including the current AC.
+queueHostIP         = The hostname/ip of the machine with the RabbitMQ server. This is usually run locally.
+queueName	        = This is actually the Agent Controller's queue name that will be used to bind all the ACHostQueues.
+username	        = username to access the RabbitMQ node
+password	        = password to access the RabbitMQ node
+vhost		        = virtual host on which the queue will reside
+port		        = the port number on which the RabbitMQ is running on the host
+exchange	        = the subscription to a particular exchange for the queue this is usually not changed.
+routing_key	        = the routing key used for message passing.
