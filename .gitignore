@@ -19,3 +19,5 @@ logs/*
 *.iml
 .gradle/
 gradle/
+gradlew
+gradlew.bat

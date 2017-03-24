@@ -26,7 +26,7 @@ public class Log {
      * "config" directory.
      */
     public static void ConfigureLogger() {
-        PropertyConfigurator.configure("config/logger.properties");
+        PropertyConfigurator.configure("src/main/resources/config/logger.properties");
         logger = Logger.getLogger("phoenixLogger"); //Note Root Logger only set to console
     }
 }

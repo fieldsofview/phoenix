@@ -8,10 +8,11 @@ package system;
 /**
  * This class contains constant values that will be used throughout the
  * simulation and will not change.
+ * NOTE: Marked for deprecation.
  */
 public interface Constants {
 	/**
 	 * The file name for communication settings
 	 */
-	public final String machineFile = "config/machineConfig.properties";
+	String machineFile = "src/main/resources/config/machineConfig.properties";
 }
