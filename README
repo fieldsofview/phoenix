@@ -1,16 +1,14 @@
-README
-=
+# README
 
 Install and usage to be filled.
 
-LICENSE
-=
+# LICENSE
+
 Please check the LICENSE file.
 
-TODO
-=
+# TODO
 
-29 May, 2013
+## 29 May, 2013
 
 Modules
 --
@@ -42,10 +40,9 @@ Pending Integration
 * Java Live Graph integration
 
 
-CHANGELOG
-=
+# CHANGELOG
 
-07 December, 2013
+## 07 December, 2013
 -------------
 
 We are exicted to release the next stable version of Phoenix.
@@ -66,14 +63,14 @@ using phoenix is also expected.
 We will release the test files as well.
 
 
-28 May, 2013
+## 28 May, 2013
 -----------
 The platform is ready to be released as an alpha. It still requires testing 
 which will be done as we develop our projects around it. Please refer to the 
 Wiki for detailed explanation of the design, installation, license, etc,.
 
 
-11 May, 2013
+## 11 May, 2013
 ------------
 * This is a platform for agent-based modelling and has been designed for speed, 
 scalability and extensibility.
@@ -83,7 +80,7 @@ replaced almost all of the code.
 this platform.
 
 
-09 May, 2013
+## 09 May, 2013
 -----------
 
 Another major update. NMH is planned to be merged into the master branch. The 
@@ -92,7 +89,7 @@ pages for installation and information on Phoenix architecture. Refer to the
 TODO file for upcoming changes.
 
 
-03 April, 2013
+## 03 April, 2013
 -------------
 
 The project has undergone major architectural changes. We will update the wiki 
