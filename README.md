@@ -3,4 +3,9 @@
 ## Install
 
 ### Requirements
-Install and usage to be filled.
+* BoneCP
+* Google Guava
+* SLF4J
+* RabbitMQ
+* Java 1.8 or higher
+*
