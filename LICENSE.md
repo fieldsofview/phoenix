@@ -1,5 +1,4 @@
-License
----
+# License
 
 The project is released under Mozilla Public License 2.0. A copy of the license 
 is available [here](http://code.fieldsofview.in/phoenix/wiki/FOV-MPL2). A copy 
