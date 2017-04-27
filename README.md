@@ -1,50 +1,14 @@
-# README
+# Phoenix Agent-Based Simualtion Platform
 
+## Install
+
+### Requirements
 Install and usage to be filled.
 
-# LICENSE
 
-Please check the LICENSE file.
+## CHANGELOG
 
-# TODO
-
-## 29 May, 2013
-
-Modules
---
-* Add globally available list of loaded modules
-
-Database Module
-----------------
-* Remove DBAccess.java and port code into DatabaseModule.java
-
-Communications
---------------
-* Test the dedicated channel on RabbitMQ for Agent Controller communication.
-* Implement the communication code for agent to agent communication.
-	- Modify the ACNetwork.java file.
-	- Modify the Boot.java, readConfigurations() function to read the second queue parameters.
-	- Modify the machineConfig file with details for the new queue for agent communications along with routing key and channels.
-	- Modify the AgentController.java, Agent.java and any additional communication files.
-
-General
--------
-* Test the `AgentController`
-* Include example code with agents.
-* Implement agent-to-agent configuration.
-
-Pending Integration
---------------------
-* JUnit Test Cases
-* Clean-up Javadoc
-* Java Live Graph integration
-
-
-# CHANGELOG
-
-## 07 December, 2013
--------------
-
+### 07 December, 2013
 We are exicted to release the next stable version of Phoenix.
 
 The current update fixes most of the improtant issues on the NMH branch. The 
@@ -62,16 +26,12 @@ using phoenix is also expected.
 * Finally we will be moving to a unit testing system to help us with adding new features.
 We will release the test files as well.
 
-
-## 28 May, 2013
------------
+### 28 May, 2013
 The platform is ready to be released as an alpha. It still requires testing 
 which will be done as we develop our projects around it. Please refer to the 
 Wiki for detailed explanation of the design, installation, license, etc,.
 
-
-## 11 May, 2013
-------------
+### 11 May, 2013
 * This is a platform for agent-based modelling and has been designed for speed, 
 scalability and extensibility.
 * This project was initially a fork from "Gestalt" on SourceForge, but has 
@@ -79,19 +39,13 @@ replaced almost all of the code.
 * Experience in developing "Gestalt" has helped define the specifications for 
 this platform.
 
-
-## 09 May, 2013
------------
-
+### 09 May, 2013
 Another major update. NMH is planned to be merged into the master branch. The 
 wiki is updated. Phoenix now builds without errors. Please refer to the wiki 
 pages for installation and information on Phoenix architecture. Refer to the 
 TODO file for upcoming changes.
 
-
-## 03 April, 2013
--------------
-
+### 03 April, 2013
 The project has undergone major architectural changes. We will update the wiki 
 for the project soon to explain these changes. The changes are big enough for 
 it to have its own branch. Branch NMH(New Modern Hotel) is created as the next 
