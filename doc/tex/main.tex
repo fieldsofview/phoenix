@@ -1,0 +1,134 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in]{geometry}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{PTSans}
+\usepackage{droidserif}
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+% Set sans serif font to PT Sans
+%\setsansfont{\usefont{T1}{PTSans-TLF}{b}{n}PT Sans Bol}
+% Set serifed font to Droid Serif
+%\setmainfont{Droid Serif}
+% Set formats for each heading level
+\titleformat*{\section}{\fontsize{16}{18}\bfseries\sffamily}
+\titleformat*{\subsection}{\fontsize{14}{16}\bfseries\sffamily}
+\titleformat*{\subsubsection}{\fontsize{12}{14}\bfseries\sffamily}
+\begin{document}
+
+\title{Phoenix Documentation}
+
+\include{title}
+ 
+\chapter{Introduction}
+Phoenix is a distributed agent-based simulation platform designed for
+development of agent-based systems and simulations. We use agent based
+models and simulations in our study of complex systems,
+micro-simulations and bottom-up approaches to engineering.
+
+This document explains the motivations, design, architecture of the
+new agent based simulation framework. It will also explain the
+motivations behind some of the design decisions so that we provide the
+right hooks for people looking to extend or modify the platform for
+themselves. 
+
+The platform is released with both the source code and the design
+documents as well as adequate explanations.
+
+This documentation will also guide users to develop simple agent-based
+models and also include some case-studies of some models as well as
+possible ideas for extension of the platform.
+
+\chapter{Motivation}
+In this section we discuss the motivation to create a new agent based
+ platform.
+\section{Modelling Complex Systems}
+There are many approaches to modelling complex systems. We would like
+to classify them broadly into predictive models and generative
+models. (The generative models are similar to the approach to
+modelling as described by Epstine et.al in there book, generative
+social science.) The nature of complex systems do not allow for
+building of predictive models. Complex systems interact in intractable
+ways which are not easily succeptable to data observations. Thus, a
+lot of data and observations will not be avaliable to build and
+compare the built models.
+
+\subsection{An example to expalin complex system behaviour}
+
+Let us take a simple thought experiment to imagine complex
+systems. Imagine looking at a film-reel. A film reel is a series of
+photographs that are taken one after another forming a series of
+photographs. Each photograph forms a frame. By playing the reel at 30
+frames per second gives us the illusion of moving picture, a movie
+(due to persistence of vision).
+
+Linear systems are like a film reel. By following the frames on the
+reel one can deduce the story that the pictures are saying. In case a
+frame or a set of frames are missing in between them you can always
+see the frames at the extremities and \textit{draw} new frames or
+deduce to a good extent, what the pictures in the missing frames would
+look like. This is because the film real follows a linear causality,
+i.e. it is ensured that after one frame with one picture, the next
+frame will hold the next logical frame. Given this guarantee one can
+go back in the reel to deduce lost pictures. One can also draw new
+pictures, at the end of a reel. We will also be able to tell where a
+scene began by tracing our steps back to the using the frames as the
+frames remain static. Thus, a linear, static, tractable system.
+
+Now imagine instead of a single strip of film you are given a fabric
+of such photograph frames (as if on a checker pattern blanket where
+each box has a frame). To begin with how would one start reading such
+a piece? There is no definite start or end as any part of such a
+blanket can become the start or the end. There is another
+complication; imagine if the pictures do not have a causal relation
+ship, i.e. the adjacent pictures have nothing in common. There is no
+define way to establish a story. Given a starting point we have no
+idea as to which picture to jump next. This complicates the matter
+immensely as one cannot justify where the movie would start or
+end. One also fails to fill missing frames as we do not know how the
+frames are related. If a person starts filling frames randomly, there
+is no way for us to say if the scene is correct or, to make it worse,
+how did the scene even come about in the first place. In this blanket
+example, there are only two dimensions of frames, but, what if there
+were more dimensions? Thus, the system becomes intractable and
+non-linear. To add to our woes if the frames also kept shifting their
+places then the system becomes dynamic too!
+
+
+Another reason for non-avaliability of data is that most complex
+system components are themselves areas of active research. For example
+behavioural economics still conducts experiments on how a community
+considers utility of various resources at its disposal.
+
+However, one can still study complex systems using generative
+models. The objective of such models is in their ability in explaining
+the behaviour of the system i.e. it can explain the trajectory of
+certain outcomes of the complex system. This infomration can be used
+to understand or look for failure (or unwanted) states and thus test
+designs for such complex systems.
+\section{Complex Systems and Agent-Based Models}
+\section{Other approaches to studying complex systems}
+\subsection{Systems Dynamics}
+\subsection{Complex Networks}
+
+\chapter{Design and Architecture of Phoenix}
+\include{design}
+
+\chapter{Implementation of Phoenix}
+\include{implementation}
+
+\chapter{Extending Phoenix and Module Architecture}
+\section{Current Modules}
+\section{Future Modules}
+
+\chapter{Using Phoenix}
+\section{Basic Configuration}
+\section{High Avaliability Configuration}
+
+\chapter{Performance of Phoenix}
+
+\chapter{Example Models using Phoenix}
+
+\end{document}

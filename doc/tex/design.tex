@@ -1,0 +1,88 @@
+%\chapter{Design and Architecture}
+The framework provides infrastructure to create agents, agent
+behaviour, messaging, output and logging broadly forming the:
+
+\begin{itemize}
+\item Agent Definition Mechanism
+\item Communication Layer
+\item Visualisation or Output Module
+\end{itemize}
+
+The main components of Phoenix are:
+\begin{itemize}
+\item Agent Controller
+\item Agents
+\item Message Queues
+\item Output Module
+\item Logging
+\end{itemize}
+
+\section{Agent Controller}
+\textit{AgentController}(AC) is a container within which agents live
+and execute their behaviours. ACs communicate using AMQP protocol. An
+AC is responsible for the following:
+
+\begin{itemize}
+\item Agent creation
+\item Inter agent messaging
+\item Inter AC messaging.
+\item Writing simulation output.
+\item Gracefully shutting-down the simulation locally. 
+\end{itemize}
+
+\section{Agents}
+An agent represents a real world or abstract entity which is a vital
+actor in the simulation. Agents have a list of attributes which define
+the agent and their uniqueness with respect to other agents of the
+same type.
+
+\subsection{ Agent Attributes }
+Agent attributes is a abstract class. For a particular type of Agent
+(e.g. Person) the class has to to extended and required set of
+attributes defined. The values of the attributes could be stored in a
+database or in a XML file.
+
+\subsection{ Agent Behaviour }
+Agents have objectives, beliefs and preferences or biases by which
+they exist in the system. To achieve its objective an agent has to
+undertake certain actions to manipulate its data, interact with other
+agents etc, this is done through actions calls behaviours. An agent
+may have one or more behaviours behaviour which are executed in a
+defined order.
+
+\section{ Messaging }
+The messaging subsystem (or communication channel) is a vital
+component in a distributed system which facilitates information
+sharing and synchronisation. In Phoenix the communication is entirely
+confined to ACs. Our messaging system had to satisfy the following
+requirements:
+
+\begin{itemize}
+\item High throughput - A few thousand messages should be delivered,
+  end-to-end, in a second.
+\item High availability - The system should not crash under high load.
+\item Asynchronous messaging - Synchronous messaging will slow down a
+  large system. A asynchronous technique which works like mail boxes
+  is desired.
+\item Platform independence - It should not be tied to a particular
+  programming language or a operating system, this will enable us to
+  build heterogeneous ACs.
+\end{itemize}
+
+\textit{RabbitMQ} is our choice of the message queuing system. It is
+based on the Advanced Message Queuing Messaging Protocol (AMQP)
+standard and is open source under Mozilla Public License. RabbitMQ has
+interfaces in languages such as Java, .Net, Python and others and
+supports multiple schemes of communication including 1-to-1,
+1-to-many, Store-and-forward, file-streaming and others. Messages are
+transmitted in the form of binary data and hence any form of
+encryption/decryption has to be implemented at the client side.
+
+\section{ Output System }
+This is work in progress. Currently only \textit{log4j} logs are
+available for output analysis. We plan to include a graphing system.
+
+\section{ Logging }
+The framework uses \textit{log4j}, a java based logging utility under
+Apache License, Version 2.0 to provide detailed logging of all system
+level actions by the various entities.

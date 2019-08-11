@@ -1,0 +1,104 @@
+%\chapter{Implementation}
+The framework is implemented in Java. Java provides ease of
+programming and has a wide range of helpful libraries. In this section
+the code is explained to some extent.
+
+\section{ AgentController }
+\textit{AgentController} is an abstract class. The
+\textit{AgentController} is responsible for running agents, writing
+the output, communicating with other ACs and so on.  \textit{<NEED TO
+  EXPLAIN FURTHER>}
+
+\subsection{ Agent }
+Agents are implemented as Java threads. Agent is an abstract class
+with at least the following attributes:
+
+\begin{itemize}
+\item \textit{AID} - a unique identifier for the agent.
+\item \textit{objectiveFlag} - indicates whether the agent has
+  achieved its objective.
+\item \textit{statusFlag} - a true value indicates that the agent has
+  finished his task for the current tick, and a false value indicates
+  that the agent hasn't finished execution.
+\item \textit{compositeBehaviour} - one or more behaviours which the
+  agent will run depending on the agents preferences and objectives.
+\end{itemize}
+
+The framework enables the definition of several types of agents, and
+the creation of a large number of agents of each type.
+
+Every agent will have a set of behaviours, and choose to exhibit(run)
+a particular behaviour based on its internal logic. Behaviours are
+implemented using the composite design pattern. Behaviour is an
+abstract class with a method called 'run', which receives all the
+parameters of the agent in an object of type
+\textit{AgentAttributes}. Every agent type will have its specific
+behaviour implementation, for example \textit{PersonMoveBehaviour} (to
+move a person agent), \textit{VehicleMoveBehaviour} etc.
+
+The parameter (\textit{AgentAttributes}) defines the current state of
+the agent.  For example, a person agent will have attributes like
+health, speed, curiosity etc. \textit{AgentAttributes} is itself an
+abstract class, and each agent type will have its own implementation
+of this class. \textit{Person} agent type will have
+\textit{personAttributes}, \textit{Vehicle} will have
+\textit{VehicleAttributes} and so on.
+
+Every agent contains a 'run' method. While the implementation of this
+method, other attributes of the agent, its preferences and behaviours
+depend on the simulation to be run, the logic of the agent will be
+internalised within this method.
+
+\section{ Messaging }
+Each AC runs in its own JVM and inter AC communication is through the
+\textit{RabbitMQ} message queue. Every AC has an input queue, which is
+identified by the host IP address and a queue name. To communicate
+with another AC, a AC has to write the message to the recipients
+message queue. The AC is notified as and when a new message is
+received through a listener implemented in a method called
+\textit{receivedMessage(Message)}.
+
+\subsection{ Message }
+A message is a has the following fields:
+\begin{itemize}
+\item type - is an integer and identifies the type of message
+\item content - is an Integer to indicate the status of the sending AC
+\item sender - is a string and identifies the sender (is the host name
+  of the sender)
+\end{itemize}
+
+\subsection{ QueueManager }
+Manages the delivery of a message to the recipient and listening to
+incoming messages.
+\begin{itemize}
+\item queueUser - the AC using this queue.
+\item queueParameters - parameters of the input queue for the AC
+\end{itemize}
+
+\subsubsection{ QueueUser }
+This is an interface using which any class can receive messages on an
+input queue. Any class which wants to receive and send messages should
+implement this interface. \textit{QueueUser} enforces the 'Observer'
+design pattern on the implementing class. Every AC (which implements
+\textit{QueueUser}) registers with a \textit{QueueManager}, and
+whenever a message is received \textit{QueueManager} notifies the AC
+by calling the \textit{receivedMessage(Message)} method of the AC.
+
+\subsubsection{ QueueParameters }
+This defines the the parameters of the input queue.
+\begin{itemize}
+\item \textit{queueName} - name of the queue.
+\item \textit{username} - username for RabbitMQ 
+\item \textit{password} - password for RabbitMQ
+\end{itemize}
+
+\subsection{ Database Module }
+\textit{<NEED TO COMPLETE THIS>}
+
+\section{ High Level Diagrams}
+%{{agentStructure.png | General Structure of An Agent}}
+%{{typesOfUniverse.png | Types of universes that an agent can occupy}}
+%{{structureOfAC.png | Structure of an Agent Controller}}
+%{{structureOfACNetwork.png | Structure of an Agent Controller Network}}
+%{{flowOfMessages.png | Flow of Messages}}
+%{{highLevelArch.png | High Level Architecture of Phoenix}}
